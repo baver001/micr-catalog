@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ-панель — micr.fun</title>
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .admin-sidebar {
+            width: 260px;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            padding: 20px;
+            flex-shrink: 0;
+        }
+
+        .admin-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 32px;
+            padding: 0 12px;
+        }
+
+        .admin-logo-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #8b5cf6, #d946ef);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .admin-logo-text {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .admin-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .admin-main {
+            flex: 1;
+            padding: 24px 32px;
+            overflow-y: auto;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .admin-header h1 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .stat-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .stat-box-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .stat-box-value {
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .stat-box-change {
+            font-size: 12px;
+            color: #22c55e;
+            margin-top: 4px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .recent-list {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .recent-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .recent-item:last-child {
+            border-bottom: none;
+        }
+
+        .recent-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .recent-info {
+            flex: 1;
+        }
+
+        .recent-name {
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+
+        .recent-meta {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .recent-status {
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background: rgba(234, 179, 8, 0.15);
+            color: #eab308;
+        }
+
+        .status-published {
+            background: rgba(34, 197, 94, 0.15);
+            color: #22c55e;
+        }
+
+        .login-overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .login-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 32px;
+            width: 100%;
+            max-width: 360px;
+            text-align: center;
+        }
+
+        .login-card h2 {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .login-card p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 12px;
+            font-size: 15px;
+            margin-bottom: 16px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .login-error {
+            color: #ef4444;
+            font-size: 13px;
+            margin-top: 12px;
+            display: none;
+        }
+
+        .logout-btn {
+            color: var(--text-muted);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: auto;
+            padding: 12px 16px;
+            border-radius: 12px;
+            transition: all 0.15s;
+            border: none;
+            background: none;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .logout-btn:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            .admin-sidebar {
+                position: fixed;
+                left: -260px;
+                top: 0;
+                bottom: 0;
+                z-index: 50;
+                transition: left 0.3s;
+            }
+
+            .admin-sidebar.open {
+                left: 0;
+            }
+
+            .admin-main {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Login Overlay -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-card">
+            <h2>🔐 Вход в админку</h2>
+            <p>Введите данные для доступа</p>
+            <input type="email" class="form-input login-input" id="emailInput" placeholder="Email"
+                autocomplete="username">
+            <input type="password" class="form-input login-input" id="passwordInput" placeholder="Пароль"
+                autocomplete="current-password">
+            <button class="btn-primary login-btn" id="loginBtn">Войти</button>
+            <p class="login-error" id="loginError">Неверный Email или пароль</p>
+        </div>
+    </div>
+
+    <div class="admin-layout" id="adminLayout" style="display: none;">
+        <aside class="admin-sidebar">
+            <div class="admin-logo">
+                <div class="admin-logo-icon">m</div>
+                <span class="admin-logo-text">Admin</span>
+            </div>
+
+            <nav class="admin-nav">
+                <a href="/admin/" class="admin-nav-item active">
+                    <i data-lucide="layout-grid" style="width: 20px; height: 20px;"></i>
+                    Дашборд
+                </a>
+                <a href="/admin/review.html" class="admin-nav-item">
+                    <i data-lucide="file-check" style="width: 20px; height: 20px;"></i>
+                    Модерация
+                    <span class="pending-badge"
+                        style="margin-left: auto; padding: 2px 8px; border-radius: 10px; font-size: 11px; color: white;"
+                        id="pendingCount">0</span>
+                </a>
+                <a href="/" class="admin-nav-item">
+                    <i data-lucide="external-link" style="width: 20px; height: 20px;"></i>
+                    На сайт
+                </a>
+            </nav>
+
+            <button class="logout-btn" id="logoutBtn">
+                <i data-lucide="log-out" style="width: 18px; height: 18px;"></i>
+                Выйти
+            </button>
+        </aside>
+
+        <main class="admin-main">
+            <div class="admin-header">
+                <h1>Дашборд</h1>
+                <button class="theme-toggle touch-target" id="themeToggle" title="Переключить тему">
+                    <div class="theme-toggle-thumb"
+                        style="display: flex; align-items: center; justify-content: center;">
+                        <i data-lucide="sun" class="sun-icon hidden" style="width: 14px; height: 14px;"></i>
+                        <i data-lucide="moon" class="moon-icon" style="width: 14px; height: 14px;"></i>
+                    </div>
+                </button>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-box-label">Всего приложений</div>
+                    <div class="stat-box-value" id="totalApps">0</div>
+                    <div class="stat-box-change">+2 за неделю</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-box-label">Просмотров</div>
+                    <div class="stat-box-value" id="totalViews">0</div>
+                    <div class="stat-box-change">+15% за неделю</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-box-label">На модерации</div>
+                    <div class="stat-box-value" id="pendingApps">0</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-box-label">Избранных</div>
+                    <div class="stat-box-value" id="totalFavorites">0</div>
+                </div>
+            </div>
+
+            <h2 class="section-title">Последние приложения</h2>
+            <div class="recent-list" id="recentApps">
+                <!-- Populated by JS -->
+            </div>
+        </main>
+    </div>
+
+    <script type="module">
+        import { isAdminAuthenticated, adminLogin, adminLogout, getAppsData, getSubmissions, initTheme, toggleTheme, getFavorites } from '/js/store.js';
+        import { createIcons, icons } from 'lucide';
+
+        const refreshIcons = () => createIcons({ icons });
+        requestAnimationFrame(() => refreshIcons());
+
+        const theme = initTheme();
+        updateThemeIcon(theme);
+
+        const loginOverlay = document.getElementById('loginOverlay');
+        const adminLayout = document.getElementById('adminLayout');
+        const emailInput = document.getElementById('emailInput');
+        const passwordInput = document.getElementById('passwordInput');
+        const loginBtn = document.getElementById('loginBtn');
+        const loginError = document.getElementById('loginError');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const themeToggle = document.getElementById('themeToggle');
+
+        function updateThemeIcon(theme) {
+            const sunIcon = document.querySelector('.sun-icon');
+            const moonIcon = document.querySelector('.moon-icon');
+            if (theme === 'light') {
+                sunIcon.classList.remove('hidden');
+                moonIcon.classList.add('hidden');
+            } else {
+                sunIcon.classList.add('hidden');
+                moonIcon.classList.remove('hidden');
+            }
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const newTheme = toggleTheme();
+            updateThemeIcon(newTheme);
+            refreshIcons();
+        });
+
+        async function checkAuth() {
+            // Optimistic check
+            if (isAdminAuthenticated()) {
+                loginOverlay.style.display = 'none';
+                adminLayout.style.display = 'flex';
+                const valid = isAdminAuthenticated();
+                if (!valid) {
+                    loginOverlay.style.display = 'flex';
+                    adminLayout.style.display = 'none';
+                } else {
+                    loadDashboard();
+                }
+            } else {
+                const valid = isAdminAuthenticated();
+                if (valid) {
+                    loginOverlay.style.display = 'none';
+                    adminLayout.style.display = 'flex';
+                    loadDashboard();
+                } else {
+                    loginOverlay.style.display = 'flex';
+                    adminLayout.style.display = 'none';
+                }
+            }
+        }
+
+        loginBtn.addEventListener('click', async () => {
+            loginBtn.disabled = true;
+            const originalText = loginBtn.textContent;
+            loginBtn.textContent = 'Вход...';
+
+            const success = await adminLogin(emailInput.value, passwordInput.value);
+
+            if (success) {
+                checkAuth();
+            } else {
+                loginError.style.display = 'block';
+                loginError.textContent = 'Ошибка входа в Supabase';
+                passwordInput.classList.add('error');
+                emailInput.classList.add('error');
+            }
+            loginBtn.disabled = false;
+            loginBtn.textContent = originalText;
+        });
+
+        passwordInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') loginBtn.click();
+        });
+
+        logoutBtn.addEventListener('click', async () => {
+            await adminLogout();
+            checkAuth();
+        });
+
+        async function loadDashboard() {
+            const data = await getAppsData();
+            const submissions = getSubmissions();
+            const favorites = getFavorites();
+            const pendingSubmissions = submissions.filter(s => s.status === 'pending');
+
+            // Stats
+            document.getElementById('totalApps').textContent = data.apps.length;
+            document.getElementById('totalViews').textContent = formatNumber(data.apps.reduce((sum, app) => sum + app.views, 0));
+            document.getElementById('pendingApps').textContent = pendingSubmissions.length;
+            document.getElementById('pendingCount').textContent = pendingSubmissions.length;
+            document.getElementById('totalFavorites').textContent = favorites.length;
+
+            // Recent apps
+            const recentApps = [...data.apps].sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).slice(0, 5);
+            const recentList = document.getElementById('recentApps');
+
+            recentList.innerHTML = recentApps.map(app => `
+                <div class="recent-item">
+                    <div class="recent-icon bg-gradient-to-br ${app.color}" style="display: flex; align-items: center; justify-content: center; color: white;">
+                        <i data-lucide="${app.icon}" style="width: 20px; height: 20px;"></i>
+                    </div>
+                    <div class="recent-info">
+                        <div class="recent-name">${app.name}</div>
+                        <div class="recent-meta">${app.views} просмотров · ${formatDate(app.created_at)}</div>
+                    </div>
+                    <span class="recent-status status-published">Опубликовано</span>
+                </div>
+            `).join('');
+            refreshIcons();
+        }
+
+        function formatNumber(num) {
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+            return num.toString();
+        }
+
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
+        }
+
+        checkAuth();
+    </script>
+</body>
+
+</html>

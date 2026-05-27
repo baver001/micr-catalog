@@ -1,0 +1,198 @@
+/* micr.fun — Main Styles */
+
+/* Import Design System */
+@import './design-system/index.css';
+
+:root {
+    --header-height: 64px;
+}
+
+/* Base Container for Desktop Max Width */
+.container {
+    width: 100%;
+    max-width: 1100px; /* Ограничение ширины */
+    margin: 0 auto;
+    padding: 0 var(--space-4);
+}
+
+body {
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
+    transition: background 0.5s ease;
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden;
+    font-family: var(--font-family-primary);
+}
+
+/* Background Particles */
+.particles-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Header */
+.header {
+    position: sticky;
+    top: 0;
+    padding: var(--space-3) 0;
+    background: hsla(var(--background), 0.8);
+    backdrop-filter: var(--blur-md);
+    -webkit-backdrop-filter: var(--blur-md);
+    border-bottom: 1px solid hsl(var(--border));
+    z-index: 100;
+}
+
+.header-content {
+    display: grid;
+    grid-template-columns: 44px 1fr auto;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.header-center {
+    text-align: center;
+}
+
+.header-subtitle {
+    font-size: var(--font-size-xs);
+    color: hsl(var(--muted-foreground));
+    margin: 0;
+    font-weight: var(--font-weight-medium);
+}
+
+.header-right {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-2);
+}
+
+/* Hero Section */
+.hero-section {
+    padding: var(--space-10) 0 var(--space-6);
+    text-align: center;
+}
+
+.hero-title {
+    font-size: clamp(var(--font-size-2xl), 5vw, var(--font-size-4xl));
+    font-weight: var(--font-weight-semibold); /* Смягчение */
+    margin-bottom: var(--space-6);
+    line-height: 1.1;
+}
+
+/* Filters Bar */
+.filters-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+}
+
+.category-filters {
+    display: flex;
+    gap: var(--space-2);
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.category-filters::-webkit-scrollbar {
+    display: none;
+}
+
+.filter-btn {
+    height: 40px;
+    padding: 0 var(--space-4);
+    border-radius: var(--radius-full);
+    background: hsla(var(--secondary), 0.5);
+    border: 1px solid hsl(var(--border));
+    color: hsl(var(--muted-foreground));
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-sm);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    transition: var(--transition-all);
+    cursor: pointer;
+}
+
+.filter-btn:hover {
+    background: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+}
+
+.filter-btn.active {
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    border-color: transparent;
+}
+
+/* Apps Grid */
+.apps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-6);
+    margin-bottom: var(--space-12);
+}
+
+/* App Card */
+.app-card {
+    background: hsla(var(--card), 0.5);
+    backdrop-filter: var(--blur-sm);
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    border: 1px solid hsl(var(--border));
+    transition: var(--shadow-md), transform 0.2s ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+}
+
+.app-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.app-card-cover {
+    aspect-ratio: 16/9;
+    position: relative;
+    overflow: hidden;
+    background: hsl(var(--muted));
+}
+
+.app-card-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.app-card-content {
+    padding: var(--space-4);
+}
+
+.app-card-title {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--space-1);
+}
+
+.app-card-desc {
+    font-size: var(--font-size-sm);
+    color: hsl(var(--muted-foreground));
+    line-height: 1.4;
+}
+
+/* Utility */
+.glass {
+    background: hsla(var(--background), 0.5);
+    backdrop-filter: var(--blur-md);
+    border: 1px solid hsl(var(--border));
+}
+
+.container {
+    padding-left: var(--space-4);
+    padding-right: var(--space-4);
+}

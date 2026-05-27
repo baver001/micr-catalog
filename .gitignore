@@ -1,9 +1,26 @@
 # Dependencies
 node_modules/
+server/api/node_modules/
+server/sky-render/node_modules/
 
 # Build
 dist/
 
+# Wrangler
+.wrangler/
+
+# Environment
+.env
+.env.local
+
 # OS files
 .DS_Store
 Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Old repos (not part of this project)
+micr-frontend/
+micr.fun-platform/

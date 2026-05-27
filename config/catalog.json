@@ -1,8 +1,9 @@
 {
-  "name": "My micr Catalog",
-  "description": "Personal collection of micro-apps",
+  "name": "micr.fun",
+  "description": "Павел's micro-app catalog — games, tools, experiments",
   "theme": "auto",
   "language": "ru",
   "engine": "micrfun/micr",
+  "domain": "micr.fun",
   "apps": ["breathing", "color-palette", "dice", "reaction", "reaction-test", "spend-elons-money"]
 }

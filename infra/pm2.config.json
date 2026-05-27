@@ -1,0 +1,13 @@
+{
+  "apps": [
+    {
+      "name": "micr-api",
+      "script": "server/api/index.js",
+      "cwd": "/root/projects/micr.fun",
+      "env": {
+        "NODE_ENV": "production",
+        "PORT": "3000"
+      }
+    }
+  ]
+}

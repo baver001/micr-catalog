@@ -1,0 +1,69 @@
+{
+  "meta": {
+    "code": "en",
+    "name": "English",
+    "flag": "🇬🇧"
+  },
+  "header": {
+    "searchPlaceholder": "Search apps...",
+    "suggest": "Suggest",
+    "toggleTheme": "Toggle theme",
+    "language": "Language"
+  },
+  "hero": {
+    "subtitle": "Collection of micro games and apps"
+  },
+  "stats": {
+    "apps": "Apps",
+    "views": "Views"
+  },
+  "filters": {
+    "allApps": "All apps",
+    "all": "All",
+    "popular": "Popular",
+    "newest": "Newest",
+    "byName": "By name"
+  },
+  "categories": {
+    "games": "Games",
+    "tools": "Tools",
+    "creative": "Creative",
+    "learning": "Learning",
+    "fun": "Fun",
+    "social": "Social"
+  },
+  "empty": {
+    "title": "Nothing found",
+    "subtitle": "Try changing the filters"
+  },
+  "footer": {
+    "suggestApp": "Suggest an app",
+    "madeWith": "Made with"
+  },
+  "viewer": {
+    "back": "Back",
+    "share": "Share",
+    "fullscreen": "Fullscreen",
+    "install": "Install",
+    "copied": "Copied!",
+    "featured": "Featured",
+    "open": "Open"
+  },
+  "submit": {
+    "title": "Suggest an app",
+    "name": "App name",
+    "description": "Description",
+    "category": "Category",
+    "selectCategory": "Select category",
+    "icon": "Icon",
+    "color": "Color",
+    "url": "App URL",
+    "email": "Your email",
+    "button": "Submit",
+    "success": "App submitted for review!"
+  },
+  "languages": {
+    "ru": "Русский",
+    "en": "English"
+  }
+}

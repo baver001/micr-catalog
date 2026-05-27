@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Загрузка... — micr.fun</title>
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="theme-dark">
+    <div class="app-viewer-standalone" id="appContainer">
+        <header class="viewer-header">
+            <div class="viewer-info">
+                <a href="/" class="btn-icon-clear" title="Назад">
+                    <i data-lucide="chevron-left"></i>
+                </a>
+                <div id="viewerIcon" class="viewer-icon"></div>
+                <div>
+                    <h1 id="viewerTitle" class="viewer-title">Загрузка...</h1>
+                    <p id="viewerCategory" class="viewer-category"></p>
+                </div>
+            </div>
+            <div class="viewer-actions">
+                <button class="btn-icon-clear" id="favBtn" title="В избранное">
+                    <i data-lucide="heart"></i>
+                </button>
+                <button class="btn-icon-clear" id="shareBtn" title="Поделиться">
+                    <i data-lucide="share-2"></i>
+                </button>
+                <button class="btn-icon-clear" id="fullscreenBtn" title="Полный экран">
+                    <i data-lucide="maximize"></i>
+                </button>
+            </div>
+        </header>
+
+        <button class="fullscreen-exit hidden" id="exitFullscreen">
+            <i data-lucide="minimize"></i>
+            <span>Выйти</span>
+        </button>
+
+        <div class="viewer-body">
+            <div id="viewerLoading" class="viewer-loading">
+                <div class="loader"></div>
+            </div>
+            <div id="appFrame" class="h-full">
+                <!-- Iframe will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { getAppsData, toggleFavorite, isFavorite, initTheme, getAppIdFromUrl, incrementAppViews } from '/js/store.js';
+        import { createIcons, icons } from 'lucide';
+
+        const theme = initTheme();
+        document.body.className = `theme-${theme}`;
+
+        const appId = getAppIdFromUrl();
+        const container = document.getElementById('appContainer');
+        const appFrame = document.getElementById('appFrame');
+        const viewerIcon = document.getElementById('viewerIcon');
+        const viewerTitle = document.getElementById('viewerTitle');
+        const viewerCategory = document.getElementById('viewerCategory');
+        const viewerLoading = document.getElementById('viewerLoading');
+        const favBtn = document.getElementById('favBtn');
+        const shareBtn = document.getElementById('shareBtn');
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+        const exitFullscreen = document.getElementById('exitFullscreen');
+
+        let currentApp = null;
+
+        const refreshIcons = () => createIcons({ icons });
+
+        async function loadApp() {
+            if (!appId) {
+                showError('Приложение не найдено');
+                return;
+            }
+
+            try {
+                const data = await getAppsData();
+                currentApp = data.apps.find(a => a.id === appId);
+
+                if (!currentApp) {
+                    showError('Приложение не найдено');
+                    return;
+                }
+
+                // Analytics
+                try { incrementAppViews(appId); } catch (e) { }
+
+                // UI Update
+                document.title = `${currentApp.name} — micr.fun`;
+                viewerTitle.textContent = currentApp.name;
+                viewerCategory.textContent = data.categories[currentApp.category]?.name || currentApp.category;
+                
+                viewerIcon.style.background = `linear-gradient(135deg, ${getGradientColors(currentApp.color)})`;
+                viewerIcon.innerHTML = `<i data-lucide="${currentApp.icon}"></i>`;
+                
+                updateFavButton();
+                refreshIcons();
+
+                // Load iframe
+                const iframe = document.createElement('iframe');
+                iframe.src = currentApp.url || currentApp.path;
+                iframe.className = "w-full h-full border-none";
+                iframe.onload = () => viewerLoading.classList.add('hidden');
+                iframe.onerror = () => showError('Не удалось загрузить приложение');
+                appFrame.appendChild(iframe);
+
+            } catch (err) {
+                showError('Ошибка загрузки данных');
+            }
+        }
+
+        function showError(message) {
+            viewerLoading.innerHTML = `
+                <div class="text-center p-8">
+                    <div class="text-4xl mb-4">😕</div>
+                    <p class="mb-4 text-muted">${message}</p>
+                    <a href="/" class="btn-primary">На главную</a>
+                </div>
+            `;
+            viewerLoading.classList.remove('hidden');
+        }
+
+        function updateFavButton() {
+            const isFav = isFavorite(appId);
+            favBtn.classList.toggle('active', isFav);
+            const icon = favBtn.querySelector('i');
+            if (icon) {
+                icon.setAttribute('data-lucide', isFav ? 'heart-off' : 'heart');
+                refreshIcons();
+            }
+        }
+
+        favBtn.addEventListener('click', () => {
+            toggleFavorite(appId);
+            updateFavButton();
+        });
+
+        shareBtn.addEventListener('click', async () => {
+            const url = window.location.href;
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: currentApp?.name || 'micr.fun',
+                        text: currentApp?.description || 'Микроприложение',
+                        url: url
+                    });
+                } catch (err) { }
+            } else {
+                await navigator.clipboard.writeText(url);
+                alert('Ссылка скопирована!');
+            }
+        });
+
+        fullscreenBtn.addEventListener('click', () => {
+            container.classList.add('fullscreen');
+            exitFullscreen.classList.remove('hidden');
+        });
+
+        exitFullscreen.addEventListener('click', () => {
+            container.classList.remove('fullscreen');
+            exitFullscreen.classList.add('hidden');
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && container.classList.contains('fullscreen')) {
+                exitFullscreen.click();
+            }
+        });
+
+        function getGradientColors(colorClass) {
+            const map = {
+                'from-amber-500 to-orange-500': '#f59e0b, #f97316',
+                'from-purple-500 to-pink-500': '#a855f7, #ec4899',
+                'from-blue-500 to-cyan-500': '#3b82f6, #06b6d4',
+                'from-rose-500 to-red-500': '#f43f5e, #ef4444',
+                'from-emerald-500 to-green-500': '#10b981, #22c55e',
+                'from-violet-500 to-purple-500': '#8b5cf6, #a855f7',
+                'from-teal-500 to-emerald-500': '#14b8a6, #10b981',
+                'from-red-500 to-rose-500': '#ef4444, #f43f5e',
+                'from-red-400 to-orange-400': '#f87171, #fb923c',
+                'from-indigo-500 to-blue-500': '#6366f1, #3b82f6',
+                'from-yellow-400 to-amber-500': '#facc15, #f59e0b',
+                'from-cyan-500 to-blue-500': '#06b6d4, #3b82f6',
+                'from-slate-500 to-zinc-500': '#64748b, #71717a',
+                'from-fuchsia-500 to-pink-500': '#d946ef, #ec4899',
+                'from-green-500 to-emerald-500': '#22c55e, #10b981',
+                'from-sky-500 to-blue-500': '#0ea5e9, #3b82f6'
+            };
+            return map[colorClass] || '#8b5cf6, #d946ef';
+        }
+
+        loadApp();
+    </script>
+</body>
+
+</html>
