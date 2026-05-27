@@ -1,0 +1,8 @@
+{
+  "name": "My micr Catalog",
+  "description": "Personal collection of micro-apps",
+  "theme": "auto",
+  "language": "ru",
+  "engine": "micrfun/micr",
+  "apps": ["breathing", "color-palette", "dice", "reaction", "reaction-test", "spend-elons-money"]
+}

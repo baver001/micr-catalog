@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reaction Test — micr.fun</title>
+    <link rel="manifest" href="manifest.json">
+    <script src="/apps-pwa-bridge.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, system-ui, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.15s;
+        }
+
+        .waiting {
+            background: #ef4444;
+        }
+
+        .ready {
+            background: #22c55e;
+        }
+
+        .result {
+            background: #3b82f6;
+        }
+
+        .idle {
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+        }
+
+        .game-area {
+            text-align: center;
+            padding: 40px;
+            cursor: pointer;
+            user-select: none;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 28px;
+            color: white;
+            margin-bottom: 12px;
+        }
+
+        p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 18px;
+            max-width: 400px;
+        }
+
+        .time {
+            font-size: 72px;
+            font-weight: 700;
+            color: white;
+            margin: 20px 0;
+        }
+
+        .time-unit {
+            font-size: 24px;
+            font-weight: 400;
+        }
+
+        .stats {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 12px 24px;
+            border-radius: 12px;
+        }
+
+        .stat {
+            text-align: center;
+            color: white;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            opacity: 0.7;
+            margin-bottom: 4px;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body class="idle">
+    <div class="game-area" id="gameArea">
+        <div class="icon" id="icon">⚡</div>
+        <h1 id="title">Тест реакции</h1>
+        <p id="message">Кликните чтобы начать</p>
+        <div class="time hidden" id="time"></div>
+    </div>
+
+    <div class="stats">
+        <div class="stat">
+            <div class="stat-label">Лучший</div>
+            <div class="stat-value" id="best">—</div>
+        </div>
+        <div class="stat">
+            <div class="stat-label">Средний</div>
+            <div class="stat-value" id="average">—</div>
+        </div>
+        <div class="stat">
+            <div class="stat-label">Попыток</div>
+            <div class="stat-value" id="attempts">0</div>
+        </div>
+    </div>
+
+    <script>
+        let state = 'idle';
+        let startTime = 0;
+        let timeoutId = null;
+        let results = [];
+
+        const gameArea = document.getElementById('gameArea');
+        const icon = document.getElementById('icon');
+        const title = document.getElementById('title');
+        const message = document.getElementById('message');
+        const timeDisplay = document.getElementById('time');
+        const bestDisplay = document.getElementById('best');
+        const avgDisplay = document.getElementById('average');
+        const attemptsDisplay = document.getElementById('attempts');
+
+        function updateStats() {
+            attemptsDisplay.textContent = results.length;
+            if (results.length > 0) {
+                const best = Math.min(...results);
+                const avg = Math.round(results.reduce((a, b) => a + b) / results.length);
+                bestDisplay.textContent = best + 'мс';
+                avgDisplay.textContent = avg + 'мс';
+            }
+        }
+
+        function startWaiting() {
+            state = 'waiting';
+            document.body.className = 'waiting';
+            icon.textContent = '🔴';
+            title.textContent = 'Ждите зелёный...';
+            message.textContent = 'Не кликайте пока!';
+            timeDisplay.classList.add('hidden');
+
+            const delay = 1000 + Math.random() * 4000;
+            timeoutId = setTimeout(showGreen, delay);
+        }
+
+        function showGreen() {
+            state = 'ready';
+            document.body.className = 'ready';
+            icon.textContent = '🟢';
+            title.textContent = 'КЛИКНИТЕ!';
+            message.textContent = '';
+            startTime = performance.now();
+        }
+
+        function tooSoon() {
+            clearTimeout(timeoutId);
+            state = 'idle';
+            document.body.className = 'result';
+            icon.textContent = '❌';
+            title.textContent = 'Слишком рано!';
+            message.textContent = 'Кликните чтобы попробовать снова';
+        }
+
+        function showResult(time) {
+            state = 'result';
+            document.body.className = 'result';
+
+            results.push(time);
+            updateStats();
+
+            let emoji = '😐';
+            if (time < 200) emoji = '🔥';
+            else if (time < 250) emoji = '⚡';
+            else if (time < 300) emoji = '👍';
+            else if (time >= 400) emoji = '🐢';
+
+            icon.textContent = emoji;
+            title.textContent = '';
+            timeDisplay.innerHTML = `${time}<span class="time-unit">мс</span>`;
+            timeDisplay.classList.remove('hidden');
+            message.textContent = 'Кликните чтобы попробовать снова';
+        }
+
+        gameArea.addEventListener('click', () => {
+            switch (state) {
+                case 'idle':
+                case 'result':
+                    startWaiting();
+                    break;
+                case 'waiting':
+                    tooSoon();
+                    break;
+                case 'ready':
+                    const time = Math.round(performance.now() - startTime);
+                    showResult(time);
+                    break;
+            }
+        });
+    </script>
+</body>
+
+</html>

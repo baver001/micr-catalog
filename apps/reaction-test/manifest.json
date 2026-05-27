@@ -1,0 +1,16 @@
+{
+    "name": "Reaction High — micr.fun",
+    "short_name": "Reaction+",
+    "description": "More advanced reaction test with stats",
+    "start_url": ".",
+    "display": "standalone",
+    "theme_color": "#1e1b4b",
+    "background_color": "#1e1b4b",
+    "icons": [
+        {
+            "src": "/icons/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        }
+    ]
+}
