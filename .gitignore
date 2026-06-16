@@ -1,26 +1,32 @@
 # Dependencies
 node_modules/
-server/api/node_modules/
-server/sky-render/node_modules/
+.pnpm-store/
 
-# Build
+# Build output
 dist/
-
-# Wrangler
-.wrangler/
+dist-ssr/
 
 # Environment
 .env
-.env.local
-
-# OS files
-.DS_Store
-Thumbs.db
+.env.*
 
 # Editor
 .vscode/
 .idea/
+*.swp
+*.swo
 
-# Old repos (not part of this project)
-micr-frontend/
-micr.fun-platform/
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# PM2
+.pm2/
+
+# SSL / Secrets
+*.pem
+*.key

@@ -19,7 +19,7 @@ if [ ! -d "node_modules" ]; then
     npm install
 fi
 
-# 2. Build with Vite
+# 2. Build with Vite (index.html + static assets)
 npm run build
 
 if [ $? -ne 0 ]; then
@@ -29,22 +29,24 @@ fi
 
 echo -e "${GREEN}✅ Build complete${NC}"
 
-# 3. Copy dist/ to /var/www/micr.fun
-echo -e "${BLUE}📤 Copying to $TARGET...${NC}"
+# 3. Copy dist/ to web root
+echo -e "${BLUE}📤 Copying dist to $TARGET...${NC}"
 rm -rf "$TARGET"/*
 cp -r dist/* "$TARGET/"
 
-# 4. Copy server-side static pages (laziness, sky-render)
-cp server/laziness.html "$TARGET/" 2>/dev/null
-cp server/sky-render/index.html "$TARGET/sky.html" 2>/dev/null
-cp server/index.html "$TARGET/" 2>/dev/null
+# 4. Copy apps and server-side pages
+echo -e "${BLUE}📦 Copying apps and static pages...${NC}"
+cp -r apps "$TARGET/"
+cp laziness.html "$TARGET/" 2>/dev/null || echo "  laziness.html not found, skipping"
+cp server/sky-render/index.html "$TARGET/sky.html" 2>/dev/null || echo "  sky-render not found, skipping"
 
 echo -e "${GREEN}✅ Static files deployed${NC}"
 
 # 5. Restart API
 echo -e "${BLUE}🔄 Restarting API...${NC}"
-pm2 restart micr-api 2>/dev/null || pm2 start "$PROJECT_DIR/server/api/index.js" --name micr-api --cwd "$PROJECT_DIR/server/api"
-
+cd "$PROJECT_DIR/server/api"
+npm install 2>/dev/null || true
+pm2 restart micr-api 2>/dev/null || pm2 start index.js --name micr-api --cwd "$PROJECT_DIR/server/api"
 pm2 save > /dev/null
 
 echo ""

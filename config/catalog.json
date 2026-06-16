@@ -5,5 +5,11 @@
   "language": "ru",
   "engine": "micrfun/micr",
   "domain": "micr.fun",
-  "apps": ["breathing", "color-palette", "dice", "reaction", "reaction-test", "spend-elons-money"]
+  "apps": [
+    "breathing",
+    "color-palette",
+    "dice",
+    "reaction-test",
+    "spend-elons-money"
+  ]
 }
