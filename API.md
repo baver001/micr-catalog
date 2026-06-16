@@ -1,241 +1,127 @@
 # API Documentation
 
-Base URL: `https://api.micr.fun/api`
+Base URL: `https://micr.fun/api` (or `http://localhost:3000/api` for local dev)
 
 ## Endpoints
 
-### Apps
+### GET /api/catalog
 
-#### Get All Apps
-```http
-GET /apps
-```
+Returns the current catalog of apps.
 
 **Response:**
 ```json
 [
-  {
-    "id": "550e8400-e29b-41d4-a716-446655440001",
-    "slug": "spend-elons-money",
-    "name": "Потрать деньги Илона",
-    "description": "Симулятор траты состояния Илона Маска",
-    "category": "games",
-    "icon": "dollar-sign",
-    "color": "from-emerald-500 to-green-500",
-    "url": "https://neal.fun/spend/",
-    "image": null,
-    "views": 1250,
-    "status": "published",
-    "created_at": "2024-01-07T10:00:00.000Z",
-    "updated_at": "2024-01-07T10:00:00.000Z"
-  }
+    {
+        "id": 1,
+        "name": "Лень",
+        "description": "Фундаментальная модель блокировки действия и внутреннего конфликта.",
+        "url": "/laziness.html"
+    },
+    {
+        "id": 2,
+        "name": "Sky Render",
+        "description": "Интерактивная WebGL визуализация атмосферы.",
+        "url": "/sky.html"
+    }
 ]
 ```
 
-#### Increment Views
-```http
-POST /apps/increment-views
-Content-Type: application/json
+**Note:** Data is in-memory only. Restarting the API server resets the catalog to defaults.
 
+### POST /api/catalog
+
+Add a new app to the catalog (non-persistent).
+
+**Request:**
+```json
 {
-  "app_id": "550e8400-e29b-41d4-a716-446655440001"
+    "name": "My App",
+    "description": "What it does",
+    "url": "/apps/my-app/index.html"
 }
 ```
 
 **Response:**
 ```json
 {
-  "success": true
+    "id": 3,
+    "name": "My App",
+    "description": "What it does",
+    "url": "/apps/my-app/index.html"
 }
 ```
 
-### Submissions
+### GET /api/submissions
 
-#### Get All Submissions
-```http
-GET /submissions
-```
+List pending app submissions. Currently returns empty array (not implemented).
 
 **Response:**
 ```json
-[
-  {
-    "id": "550e8400-e29b-41d4-a716-446655440010",
-    "name": "My Cool App",
-    "description": "An awesome app",
-    "category": "games",
-    "url": "https://example.com",
-    "author_name": "John Doe",
-    "author_email": "john@example.com",
-    "status": "pending",
-    "submitted_at": "2024-01-07T10:00:00.000Z",
-    "reviewed_at": null
-  }
-]
+[]
 ```
-
-#### Create Submission
-```http
-POST /submissions
-Content-Type: application/json
-
-{
-  "name": "My Cool App",
-  "description": "An awesome app",
-  "category": "games",
-  "url": "https://example.com",
-  "author_name": "John Doe",
-  "author_email": "john@example.com"
-}
-```
-
-**Response:**
-```json
-{
-  "id": "550e8400-e29b-41d4-a716-446655440010",
-  "name": "My Cool App",
-  "description": "An awesome app",
-  "category": "games",
-  "url": "https://example.com",
-  "author_name": "John Doe",
-  "author_email": "john@example.com",
-  "status": "pending"
-}
-```
-
-#### Update Submission Status
-```http
-PUT /submissions/:id
-Content-Type: application/json
-
-{
-  "status": "approved"
-}
-```
-
-**Response:**
-```json
-{
-  "success": true
-}
-```
-
-**Status values:**
-- `pending` - Ожидает проверки
-- `approved` - Одобрено
-- `rejected` - Отклонено
-
-#### Delete Submission
-```http
-DELETE /submissions/:id
-```
-
-**Response:**
-```json
-{
-  "success": true
-}
-```
-
-## Categories
-
-Available categories:
-- `games` - Игры
-- `tools` - Инструменты
-- `creative` - Креатив
-- `learning` - Обучение
-- `fun` - Развлечения
-- `social` - Социальные
 
 ## Error Responses
 
-### 400 Bad Request
-```json
-{
-  "error": "app_id is required"
-}
-```
-
 ### 404 Not Found
 ```json
-{
-  "error": "Not found"
-}
-```
-
-### 500 Internal Server Error
-```json
-{
-  "error": "Internal server error message"
-}
+{ "error": "Not found" }
 ```
 
 ## CORS
 
-All endpoints support CORS with the following headers:
-- `Access-Control-Allow-Origin: *`
-- `Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS`
-- `Access-Control-Allow-Headers: Content-Type, Authorization`
-
-## Rate Limiting
-
-Currently no rate limiting is implemented. This may change in the future.
+API does not include CORS headers (same-origin access only via Nginx proxy).
 
 ## Authentication
 
-Currently no authentication is required for read operations. Write operations (POST, PUT, DELETE) are open but should be protected in production.
+No authentication. All endpoints are open.
+
+## Local Development
+
+The API server runs independently:
+
+```bash
+cd server/api
+node index.js
+# → http://localhost:3000
+```
+
+In production, Nginx proxies `/api/` to this server.
+
+## MCP Integration
+
+The MCP server (`mcp-server.js`) exposes the catalog to AI agents:
+
+```bash
+node server/api/mcp-server.js
+# Communicates over stdio with the agent
+```
+
+Tools available:
+- `get_catalog` — Returns current app list
+- `add_app` — Adds app with name + description
 
 ## Examples
 
-### JavaScript (Fetch)
+### cURL
+```bash
+# Get catalog
+curl https://micr.fun/api/catalog
 
-```javascript
-// Get all apps
-const apps = await fetch('https://api.micr.fun/api/apps')
-  .then(res => res.json());
-
-// Increment views
-await fetch('https://api.micr.fun/api/apps/increment-views', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ app_id: '550e8400-e29b-41d4-a716-446655440001' })
-});
-
-// Submit app
-const submission = await fetch('https://api.micr.fun/api/submissions', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-    name: 'My App',
-    description: 'Cool app',
-    category: 'games',
-    url: 'https://example.com',
-    author_name: 'John',
-    author_email: 'john@example.com'
-  })
-}).then(res => res.json());
+# Add app
+curl -X POST https://micr.fun/api/catalog \
+  -H 'Content-Type: application/json' \
+  -d '{"name":"My App","description":"Cool thing","url":"/apps/my-app/"}'
 ```
 
-### cURL
+### JavaScript
+```javascript
+// Get catalog
+const apps = await fetch('/api/catalog').then(r => r.json());
 
-```bash
-# Get all apps
-curl https://api.micr.fun/api/apps
-
-# Increment views
-curl -X POST https://api.micr.fun/api/apps/increment-views \
-  -H "Content-Type: application/json" \
-  -d '{"app_id":"550e8400-e29b-41d4-a716-446655440001"}'
-
-# Submit app
-curl -X POST https://api.micr.fun/api/submissions \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name":"My App",
-    "description":"Cool app",
-    "category":"games",
-    "url":"https://example.com",
-    "author_name":"John",
-    "author_email":"john@example.com"
-  }'
+// Add app
+await fetch('/api/catalog', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: 'My App', description: '...', url: '/apps/my-app/' })
+});
 ```

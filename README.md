@@ -1,74 +1,127 @@
-# micr.fun — Pavel's Micro-App Catalog 🎮
+# micr.fun — Micro-App Catalog
 
 [![Engine: micrfun/micr](https://img.shields.io/badge/Engine-micrfun%2Fmicr-000?logo=github)](https://github.com/micrfun/micr)
 
-This is **my personal micr catalog** — a complete deployment template showing how to build, brand, and self-host your own micro-app portal.
+Self-hosted micro-app portal. Single-page catalog with a sidebar and iframe embed. Zero external backend dependencies.
+
+```
+┌──────────────┐ ┌────────────────────┐
+│  µ micr.fun  │ │  Toolbar           │
+│              │ ├────────────────────┤
+│  Breathing   │ │                    │
+│  Palette     │ │   ┌────────────┐   │
+│  Dice        │ │   │  iframe    │   │
+│  Reaction    │ │   │            │   │
+│  Elon's $   │ │   │  App runs  │   │
+│              │ │   │  here      │   │
+│              │ │   └────────────┘   │
+└──────────────┘ └────────────────────┘
+```
 
 ## What's Inside
 
 ```
-micr-catalog/
-├── apps/              # My micro-apps (6 apps)
+├── index.html              # Main catalog UI (sidebar + iframe)
+├── laziness.html           # Static content page ("Work #1")
+├── apps/                   # Micro-applications
 │   ├── breathing/
 │   ├── color-palette/
 │   ├── dice/
-│   ├── reaction/
 │   ├── reaction-test/
 │   └── spend-elons-money/
-├── styles/            # Custom branding & themes
-├── config/            # Catalog metadata
-├── js/                # Core engine (from micrfun/micr)
-├── worker/            # Cloudflare Worker backend
-├── server/            # Self-hosting: API, MCP, sky-render
-│   ├── api/           # Express API + MCP server
-│   └── sky-render/    # Live sky background
-├── infra/             # Nginx, PM2, deploy scripts
-└── docs/              # Full documentation
+├── server/api/             # Express API + MCP server
+│   ├── index.js            # /api/catalog endpoint
+│   ├── mcp-server.js       # MCP for agent integration
+│   └── package.json
+├── config/catalog.json     # Brand config & app list
+├── infra/
+│   ├── deploy.sh           # Deploy script
+│   ├── nginx-micr.fun.conf # Nginx config
+│   └── pm2.config.json     # PM2 process config
+├── styles/                 # CSS
+├── js/                     # Client JS (api client, i18n)
+├── admin/                  # Admin panel
+└── locales/                # Translations (ru, en)
 ```
+
+## Stack
+
+| Layer | Tool |
+|---|---|
+| Frontend | Static HTML + CSS + Vanilla JS |
+| Build | Vite (optional, for bundling) |
+| Server | Nginx |
+| API | Express.js + PM2 |
+| Agent Integration | MCP (Model Context Protocol) |
+| SSL | Let's Encrypt (Certbot) |
+
+## Quick Start
+
+### 1. Clone the engine
+
+For your own catalog, fork the engine:
+
+```bash
+git clone https://github.com/micrfun/micr.git my-catalog
+cd my-catalog
+```
+
+### 2. Configure
+
+Edit `config/catalog.json`:
+
+```json
+{
+  "name": "My Catalog",
+  "description": "My micro-app collection",
+  "language": "en",
+  "domain": "example.com",
+  "apps": ["my-app-1", "my-app-2"]
+}
+```
+
+### 3. Add an app
+
+```bash
+mkdir apps/my-app
+cat > apps/my-app/index.html << 'EOF'
+<!DOCTYPE html>
+<html>
+<head><title>My App</title></head>
+<body><h1>Hello!</h1></body>
+</html>
+EOF
+```
+
+### 4. Deploy to your server
+
+See [DEPLOYMENT.md](DEPLOYMENT.md) for full server setup or use the deploy script:
+
+```bash
+./infra/deploy.sh
+```
+
+## This Repository
+
+This specific repo (`baver001/micr-catalog`) is the **live deployment** for [micr.fun](https://micr.fun). It contains:
+
+- Personal branding and copy (Russian language, "Лень", etc.)
+- 5 custom micro-apps
+- The running production configuration
+
+The clean open-source engine lives at [`micrfun/micr`](https://github.com/micrfun/micr). Fork that if you want your own catalog.
 
 ## Architecture
 
-```
-micrfun/micr (engine) ← upstream
-        │
-        ▼
-baver001/micr-catalog (this repo)
-        │
-        │  git push
-        ▼
-  Netlify (frontend)  +  senko.network (server)
-```
+See [ARCHITECTURE.md](ARCHITECTURE.md)
 
-## Deploy Options
+## API
 
-### Option A: Netlify (free, easiest)
-```bash
-npm install && npm run build
-npx netlify deploy --prod
-```
+See [API.md](API.md)
 
-### Option B: Self-hosted (full control)
-```bash
-# Copy static files
-cp -f index.html /var/www/micr.fun/
+## Deployment
 
-# Start API
-pm2 start infra/pm2.config.json
-
-# Configure nginx
-cp infra/nginx-micr.fun.conf /etc/nginx/sites-enabled/
-nginx -t && nginx -s reload
-```
-
-## For New Users
-
-Want your own catalog? This repo is a **reference template**:
-
-1. Fork the [micrfun/micr engine](https://github.com/micrfun/micr)
-2. Study this repo for production setup patterns
-3. Customize `config/catalog.json` with your name
-4. Add your apps to `apps/`
-5. Deploy!
+See [DEPLOYMENT.md](DEPLOYMENT.md)
 
 ## License
 
