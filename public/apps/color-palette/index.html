@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Palette — micr.fun</title>
+    <link rel="manifest" href="manifest.json">
+    <script src="/apps-pwa-bridge.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, system-ui, sans-serif;
+        }
+
+        body {
+            background: #0f0f0f;
+            min-height: 100vh;
+            color: white;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 14px;
+        }
+
+        .palette {
+            display: flex;
+            border-radius: 20px;
+            overflow: hidden;
+            height: 200px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .color {
+            flex: 1;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding: 15px 5px;
+            cursor: pointer;
+            transition: flex 0.2s;
+            position: relative;
+        }
+
+        .color:hover {
+            flex: 1.3;
+        }
+
+        .color-code {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            padding: 4px 8px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 6px;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .color:hover .color-code {
+            opacity: 1;
+        }
+
+        .copied {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #22c55e;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .copied.show {
+            opacity: 1;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #8b5cf6, #d946ef);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-secondary {
+            background: #222;
+            color: white;
+            border: 1px solid #333;
+        }
+
+        .btn-secondary:hover {
+            background: #2a2a2a;
+        }
+
+        .history {
+            margin-top: 30px;
+        }
+
+        .history-title {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 12px;
+        }
+
+        .history-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+        }
+
+        .history-item {
+            display: flex;
+            height: 40px;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.15s;
+        }
+
+        .history-item:hover {
+            transform: scale(1.05);
+        }
+
+        .history-color {
+            flex: 1;
+        }
+
+        .export-area {
+            margin-top: 20px;
+            padding: 15px;
+            background: #1a1a1a;
+            border-radius: 12px;
+            font-family: monospace;
+            font-size: 12px;
+            color: #888;
+            display: none;
+        }
+
+        .export-area.show {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>🌈 Color Palette Generator</h1>
+            <p class="subtitle">Нажмите на цвет чтобы скопировать</p>
+        </header>
+
+        <div class="palette" id="palette"></div>
+
+        <div class="controls">
+            <button class="btn btn-primary" onclick="generate()">🎲 Новая палитра</button>
+            <button class="btn btn-secondary" onclick="toggleExport()">📋 Экспорт</button>
+        </div>
+
+        <div class="export-area" id="export"></div>
+
+        <div class="history">
+            <div class="history-title">История палитр</div>
+            <div class="history-grid" id="history"></div>
+        </div>
+    </div>
+
+    <div class="copied" id="copied">Скопировано!</div>
+
+    <script>
+        let currentPalette = [];
+        let history = [];
+
+        function hslToHex(h, s, l) {
+            l /= 100;
+            const a = s * Math.min(l, 1 - l) / 100;
+            const f = n => {
+                const k = (n + h / 30) % 12;
+                const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+                return Math.round(255 * color).toString(16).padStart(2, '0');
+            };
+            return `#${f(0)}${f(8)}${f(4)}`;
+        }
+
+        function generatePalette() {
+            const baseHue = Math.random() * 360;
+            const palette = [];
+
+            // Генерируем 5 гармоничных цветов
+            const offsets = [0, 30, 60, 180, 210];
+            offsets.forEach((offset, i) => {
+                const hue = (baseHue + offset) % 360;
+                const sat = 60 + Math.random() * 30;
+                const light = 40 + (i * 10);
+                palette.push(hslToHex(hue, sat, light));
+            });
+
+            return palette;
+        }
+
+        function render() {
+            const paletteEl = document.getElementById('palette');
+            paletteEl.innerHTML = currentPalette.map(color => `
+                <div class="color" style="background: ${color}" onclick="copyColor('${color}')">
+                    <span class="color-code">${color}</span>
+                </div>
+            `).join('');
+        }
+
+        function renderHistory() {
+            const historyEl = document.getElementById('history');
+            historyEl.innerHTML = history.slice(-10).reverse().map(palette => `
+                <div class="history-item" onclick="loadPalette(${JSON.stringify(palette).replace(/"/g, '&quot;')})">
+                    ${palette.map(c => `<div class="history-color" style="background: ${c}"></div>`).join('')}
+                </div>
+            `).join('');
+        }
+
+        function generate() {
+            if (currentPalette.length > 0) {
+                history.push([...currentPalette]);
+            }
+            currentPalette = generatePalette();
+            render();
+            renderHistory();
+            document.getElementById('export').classList.remove('show');
+        }
+
+        function loadPalette(palette) {
+            currentPalette = palette;
+            render();
+        }
+
+        function copyColor(color) {
+            navigator.clipboard.writeText(color);
+            const copied = document.getElementById('copied');
+            copied.classList.add('show');
+            setTimeout(() => copied.classList.remove('show'), 1500);
+        }
+
+        function toggleExport() {
+            const exportEl = document.getElementById('export');
+            exportEl.classList.toggle('show');
+            if (exportEl.classList.contains('show')) {
+                const css = currentPalette.map((c, i) => `--color-${i + 1}: ${c};`).join('\n');
+                exportEl.textContent = `:root {\n${css}\n}`;
+            }
+        }
+
+        generate();
+    </script>
+</body>
+
+</html>

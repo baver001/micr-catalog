@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dice</title>
+    <link rel="manifest" href="manifest.json">
+    <script src="/apps-pwa-bridge.js"></script>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: #18181b;
+            color: #fafafa;
+            font-family: sans-serif;
+            perspective: 1000px;
+        }
+
+        .scene {
+            width: 100px;
+            height: 100px;
+            perspective: 600px;
+        }
+
+        .cube {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: translateZ(-50px);
+            transition: transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .face {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            border: 2px solid #e4e4e7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: #18181b;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .face-1 {
+            transform: rotateY(0deg) translateZ(50px);
+        }
+
+        .face-2 {
+            transform: rotateY(90deg) translateZ(50px);
+        }
+
+        .face-3 {
+            transform: rotateY(180deg) translateZ(50px);
+        }
+
+        .face-4 {
+            transform: rotateY(-90deg) translateZ(50px);
+        }
+
+        .face-5 {
+            transform: rotateX(90deg) translateZ(50px);
+        }
+
+        .face-6 {
+            transform: rotateX(-90deg) translateZ(50px);
+        }
+
+        .dot {
+            width: 16px;
+            height: 16px;
+            background: #18181b;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        /* Simplified dots for speed */
+        .f1 .dot {}
+
+        button {
+            margin-top: 60px;
+            padding: 12px 32px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #f43f5e, #fb923c);
+            border: none;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="scene">
+        <div class="cube" id="cube">
+            <div class="face face-1">1</div>
+            <div class="face face-2">2</div>
+            <div class="face face-3">3</div>
+            <div class="face face-4">4</div>
+            <div class="face face-5">5</div>
+            <div class="face face-6">6</div>
+        </div>
+    </div>
+    <button onclick="roll()">Roll Dice</button>
+
+    <script>
+        const cube = document.getElementById('cube');
+
+        function roll() {
+            const x = Math.floor(Math.random() * 4) * 90;
+            const y = Math.floor(Math.random() * 4) * 90;
+
+            // Add extra rotations for effect
+            const rotX = x + 360 * Math.floor(Math.random() * 3 + 2);
+            const rotY = y + 360 * Math.floor(Math.random() * 3 + 2);
+
+            cube.style.transform = `translateZ(-50px) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+        }
+    </script>
+</body>
+
+</html>

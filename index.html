@@ -1,114 +1,523 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>micr.fun — Микроприложения</title>
-    <meta name="description" content="Коллекция интерактивных микроприложений. Простые, быстрые, бесплатные.">
-    <meta name="theme-color" content="#0a0e27">
-    <link rel="manifest" href="/manifest.json">
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    <link rel="apple-touch-icon" href="/icons/icon-192.png">
-    <link rel="stylesheet" href="/styles/main.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>micr.fun — Каталог микроприложений</title>
+<meta name="theme-color" content="#0d0c0a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d0c0a;
+  --bg2: #15130f;
+  --bg3: #1d1a14;
+  --ink: #e8e3d6;
+  --ink-dim: #9a9485;
+  --ink-faint: #5a564b;
+  --line: #2a261f;
+  --accent: #d4541c;
+  --accent2: #e8a838;
+  --signal: #7fa886;
+  --warn: #b85540;
+  --pad-x: clamp(20px, 4vw, 40px);
+  --nav-w: 220px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html, body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+  height: 100%;
+}
+
+body {
+  background: radial-gradient(ellipse at top, #1a1612 0%, var(--bg) 60%), var(--bg);
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.18 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: .4;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: 0;
+}
+
+::selection { background: var(--accent); color: var(--bg); }
+
+/* Layout */
+#app {
+  display: flex;
+  height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+/* Sidebar */
+#sidebar {
+  width: var(--nav-w);
+  min-width: var(--nav-w);
+  background: var(--bg2);
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  padding: 24px 0;
+  overflow-y: auto;
+}
+
+.sidebar-header {
+  padding: 0 20px 24px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 8px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.logo-icon {
+  width: 32px;
+  height: 32px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  color: var(--accent);
+}
+
+.logo-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+.sidebar-section {
+  padding: 12px 20px 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.app-list {
+  list-style: none;
+}
+
+.app-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background .2s;
+  border-left: 2px solid transparent;
+  color: var(--ink-dim);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-decoration: none;
+}
+
+.app-item:hover {
+  background: rgba(212, 84, 28, .06);
+  color: var(--ink);
+}
+
+.app-item.active {
+  background: rgba(212, 84, 28, .1);
+  border-left-color: var(--accent);
+  color: var(--ink);
+}
+
+.app-item .dot {
+  width: 6px;
+  height: 6px;
+  background: var(--ink-faint);
+  flex-shrink: 0;
+}
+
+.app-item.active .dot {
+  background: var(--accent);
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding: 16px 20px 0;
+  border-top: 1px solid var(--line);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: var(--ink-faint);
+  letter-spacing: .12em;
+}
+
+/* Main content area */
+#main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* Toolbar */
+#toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg2);
+  min-height: 48px;
+  flex-shrink: 0;
+}
+
+.toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.toolbar-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-size: 16px;
+  color: var(--ink);
+  font-style: italic;
+}
+
+.toolbar-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid var(--line);
+  padding: 2px 8px;
+}
+
+.toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--ink-dim);
+  cursor: pointer;
+  transition: all .2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.btn:hover {
+  border-color: var(--ink-faint);
+  color: var(--ink);
+  background: var(--bg3);
+}
+
+.btn-accent {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.btn-accent:hover {
+  background: rgba(212, 84, 28, .1);
+  color: var(--accent2);
+}
+
+/* Iframe container */
+#iframe-wrap {
+  flex: 1;
+  position: relative;
+  background: var(--bg);
+}
+
+#iframe-wrap iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+/* Loading state */
+.loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--ink-faint);
+  letter-spacing: .15em;
+}
+
+.loading .pulse {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  margin-right: 8px;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.2} }
+
+/* Fullscreen overlay */
+#fullscreen-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: var(--bg);
+}
+
+#fullscreen-overlay.active {
+  display: flex;
+  flex-direction: column;
+}
+
+.fs-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg2);
+  flex-shrink: 0;
+  min-height: 48px;
+}
+
+.fs-iframe {
+  flex: 1;
+  border: none;
+  width: 100%;
+}
+
+/* Mobile: hide sidebar, show hamburger */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--ink-dim);
+  cursor: pointer;
+  padding: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 18px;
+}
+
+/* Hide sidebar toggle label on desktop */
+.sidebar-toggle-label { display: none; }
+
+@media (max-width: 768px) {
+  :root { --nav-w: 200px; }
+  #sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 500;
+    transform: translateX(-100%);
+    transition: transform .25s ease;
+    box-shadow: 2px 0 24px rgba(0,0,0,.5);
+  }
+  #sidebar.open { transform: translateX(0); }
+  .menu-toggle { display: block; }
+  .sidebar-toggle-label { display: inline; }
+  #toolbar { padding: 8px 12px; }
+  .toolbar-title { font-size: 14px; }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--line); }
+</style>
 </head>
+<body>
 
-<body class="theme-dark">
-    <!-- Background Particles -->
-    <canvas id="particleCanvas" class="particles-bg"></canvas>
+<div id="app">
 
-    <!-- Build Timestamp -->
-    <div style="position: absolute; top: 2px; left: 0; right: 0; text-align: center; font-size: 10px; color: hsl(var(--muted-foreground)); z-index: 1000; pointer-events: none;">
-        Обновлено: 21.04.2026 11:47
+  <!-- Sidebar -->
+  <nav id="sidebar">
+    <div class="sidebar-header">
+      <a href="/" class="logo">
+        <span class="logo-icon">µ</span>
+        <span class="logo-text">micr.fun</span>
+      </a>
     </div>
 
-    <!-- Header -->
-    <header class="header">
-        <div class="container header-content">
-            <!-- Logo area -->
-            <div class="header-left">
-                <div style="width: 44px; height: 44px;"></div>
-                <a href="/" class="logo-container" id="logoLink">
-                    <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" id="logoSvg">
-                        <rect width="44" height="44" rx="14" fill="#1a1a1a" />
-                        <rect x="11" y="12" width="9" height="20" rx="4" fill="#60a5fa" id="leftEye" />
-                        <rect x="24" y="12" width="9" height="20" rx="4" fill="#a855f7" id="rightEye" />
-                    </svg>
-                </a>
-            </div>
+    <span class="sidebar-section">Микроприложения</span>
+    <ul class="app-list" id="appList">
+      <!-- Populated by JS -->
+    </ul>
 
-            <!-- Central Title -->
-            <div class="header-center">
-                <p class="header-subtitle" data-i18n="heroSubtitle">Коллекция микро игр и приложений</p>
-            </div>
+    <div class="sidebar-footer">
+      Том I · 2026
+    </div>
+  </nav>
 
-            <!-- Actions Area -->
-            <div class="header-right">
-                <button id="searchTrigger" class="btn-icon touch-target" title="Поиск (Ctrl+K)">
-                    <i data-lucide="search"></i>
-                </button>
-
-                <button id="settingsBtn" class="btn-icon touch-target" title="Настройки">
-                    <i data-lucide="sliders-horizontal"></i>
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <!-- Main Content -->
-    <main class="container main-content">
-        <!-- Hero Section -->
-        <section class="hero-section">
-            <h1 class="hero-title" data-i18n="heroTitle">Всё самое лучшее в одном месте</h1>
-            <div class="filters-bar">
-                <!-- Mobile-only Filter Trigger -->
-                <button id="mobileFilterTrigger" class="mobile-filter-trigger hidden-desktop">
-                    <span class="trigger-label">
-                        <i data-lucide="filter"></i>
-                        <span id="mobileFilterLabel">Фильтры и сортировка</span>
-                    </span>
-                    <i data-lucide="chevron-down" class="chevron-icon"></i>
-                </button>
-
-                <!-- Desktop/Mobile Filters -->
-                <div id="filtersContainer" class="filters-wrapper">
-                    <!-- Loaded via JS -->
-                </div>
-            </div>
-        </section>
-
-        <!-- Apps Grid -->
-        <section id="appsGrid" class="apps-grid">
-            <!-- Loaded via JS -->
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer-container">
-        <div class="container glass">
-            <p data-i18n="footerText">micr.fun &copy; 2026. Все права защищены.</p>
-        </div>
-    </footer>
-
-    <!-- Modals -->
-    <div id="filtersModal" class="modal-overlay hidden">
-        <div class="modal-content bottom-sheet">
-            <div class="modal-header">
-                <h3 data-i18n="filtersTitle">Фильтры</h3>
-                <button class="close-modal"><i data-lucide="x"></i></button>
-            </div>
-            <div id="mobileFiltersContent" class="modal-body">
-                <!-- Loaded via JS -->
-            </div>
-        </div>
+  <!-- Main -->
+  <div id="main">
+    <!-- Toolbar -->
+    <div id="toolbar">
+      <div class="toolbar-left">
+        <button class="menu-toggle" id="menuToggle" title="Меню">☰</button>
+        <span class="toolbar-title" id="currentTitle">Лень</span>
+        <span class="toolbar-badge" id="currentBadge">Работа №1</span>
+      </div>
+      <div class="toolbar-actions">
+        <button class="btn" id="btnBack" style="display:none">← Назад</button>
+        <button class="btn" id="btnFullscreen" title="На весь экран">⛶ <span class="sidebar-toggle-label">Полный экран</span></button>
+        <a class="btn" id="btnOpen" href="#" target="_blank" title="Открыть отдельно">↗ <span class="sidebar-toggle-label">Открыть</span></a>
+      </div>
     </div>
 
-    <!-- Scripts -->
-    <script type="module" src="/js/app-main.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Iframe -->
+    <div id="iframe-wrap">
+      <div class="loading" id="loading">
+        <span class="pulse"></span>
+        Загрузка приложения…
+      </div>
+      <iframe id="appFrame" src="" title="Микроприложение"></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- Fullscreen overlay -->
+<div id="fullscreen-overlay">
+  <div class="fs-toolbar">
+    <span class="toolbar-title" id="fsTitle">Лень</span>
+    <button class="btn" id="btnCloseFs">✕ Закрыть</button>
+  </div>
+  <iframe class="fs-iframe" id="fsFrame" src="" title="Полный экран"></iframe>
+</div>
+
+<script>
+const APPS = [
+  { id: 'laziness', name: 'Лень', badge: 'Работа №1', url: '/laziness.html', icon: '§' },
+  { id: 'breathing', name: 'Дыхание', badge: 'Инструмент', url: '/apps/breathing/index.html', icon: '○' },
+  { id: 'color-palette', name: 'Палитра', badge: 'Креатив', url: '/apps/color-palette/index.html', icon: '◐' },
+  { id: 'dice', name: 'Кости', badge: 'Игра', url: '/apps/dice/index.html', icon: '◈' },
+  { id: 'reaction-test', name: 'Тест реакции', badge: 'Игра', url: '/apps/reaction-test/index.html', icon: '◷' },
+  { id: 'spend-elons-money', name: 'Деньги Илона', badge: 'Игра', url: '/apps/spend-elons-money/index.html', icon: '◆' }
+];
+
+let currentApp = null;
+
+const appList = document.getElementById('appList');
+const appFrame = document.getElementById('appFrame');
+const loading = document.getElementById('loading');
+const currentTitle = document.getElementById('currentTitle');
+const currentBadge = document.getElementById('currentBadge');
+const btnFullscreen = document.getElementById('btnFullscreen');
+const btnOpen = document.getElementById('btnOpen');
+const btnBack = document.getElementById('btnBack');
+const fsOverlay = document.getElementById('fullscreen-overlay');
+const fsFrame = document.getElementById('fsFrame');
+const fsTitle = document.getElementById('fsTitle');
+
+// Build sidebar
+APPS.forEach(app => {
+  const li = document.createElement('li');
+  li.className = 'app-item';
+  li.innerHTML = `<span class="dot"></span> ${app.name}`;
+  li.addEventListener('click', () => loadApp(app));
+  li.dataset.appId = app.id;
+  appList.appendChild(li);
+});
+
+// Load app
+function loadApp(app) {
+  currentApp = app;
+  currentTitle.textContent = app.name;
+  currentBadge.textContent = app.badge;
+  btnOpen.href = app.url;
+
+  // Active state
+  document.querySelectorAll('.app-item').forEach(el => el.classList.remove('active'));
+  const item = document.querySelector(`[data-app-id="${app.id}"]`);
+  if (item) item.classList.add('active');
+
+  // Load iframe
+  loading.style.display = 'flex';
+  appFrame.style.display = 'none';
+  appFrame.src = app.url;
+}
+
+// Frame loaded
+appFrame.addEventListener('load', () => {
+  loading.style.display = 'none';
+  appFrame.style.display = 'block';
+});
+
+// Fullscreen toggle
+btnFullscreen.addEventListener('click', () => {
+  if (!currentApp) return;
+  fsTitle.textContent = currentApp.name;
+  fsFrame.src = currentApp.url;
+  fsOverlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+});
+
+document.getElementById('btnCloseFs').addEventListener('click', () => {
+  fsOverlay.classList.remove('active');
+  document.body.style.overflow = '';
+  fsFrame.src = '';
+});
+
+// Mobile menu
+const sidebar = document.getElementById('sidebar');
+document.getElementById('menuToggle').addEventListener('click', () => {
+  sidebar.classList.toggle('open');
+});
+
+// Close sidebar when app selected on mobile
+document.querySelectorAll('.app-item').forEach(item => {
+  item.addEventListener('click', () => {
+    if (window.innerWidth <= 768) sidebar.classList.remove('open');
+  });
+});
+
+// Keyboard shortcut: Escape to close fullscreen
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && fsOverlay.classList.contains('active')) {
+    document.getElementById('btnCloseFs').click();
+  }
+});
+
+// Load default: laziness
+loadApp(APPS[0]);
+</script>
+
 </body>
-
 </html>
