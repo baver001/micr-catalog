@@ -2,521 +2,679 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>micr.fun — Каталог микроприложений</title>
-<meta name="theme-color" content="#0d0c0a">
+<meta name="theme-color" content="#121212">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0d0c0a;
-  --bg2: #15130f;
-  --bg3: #1d1a14;
-  --ink: #e8e3d6;
-  --ink-dim: #9a9485;
-  --ink-faint: #5a564b;
-  --line: #2a261f;
-  --accent: #d4541c;
-  --accent2: #e8a838;
-  --signal: #7fa886;
-  --warn: #b85540;
-  --pad-x: clamp(20px, 4vw, 40px);
-  --nav-w: 220px;
+  --bg: #121212;
+  --bg-elevated: rgba(255,255,255,0.03);
+  --bg-hover: rgba(255,255,255,0.06);
+  --text-primary: #ffffff;
+  --text-secondary: #9ca3af;
+  --text-muted: #6b7280;
+  --border: rgba(255,255,255,0.06);
+  --border-hover: rgba(255,255,255,0.12);
+  --accent: #3b82f6;
+  --accent-teal: #2dd4bf;
+  --radius: 14px;
+  --transition: all 0.2s ease;
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
 
 html, body {
   background: var(--bg);
-  color: var(--ink);
-  font-family: 'Fraunces', serif;
-  font-weight: 300;
-  line-height: 1.55;
+  color: var(--text-primary);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  overflow: hidden;
-  height: 100%;
 }
 
 body {
-  background: radial-gradient(ellipse at top, #1a1612 0%, var(--bg) 60%), var(--bg);
-  position: relative;
+  background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(59,130,246,0.08) 0%, transparent 50%),
+              radial-gradient(ellipse 60% 40% at 80% 100%, rgba(45,212,191,0.05) 0%, transparent 50%),
+              var(--bg);
+  min-height: 100vh;
 }
 
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.18 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: .4;
-  mix-blend-mode: overlay;
-  pointer-events: none;
-  z-index: 0;
+::selection { background: var(--accent); color: #fff; }
+
+/* Header */
+.header {
+  padding: 24px clamp(16px, 5vw, 48px);
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-::selection { background: var(--accent); color: var(--bg); }
-
-/* Layout */
-#app {
-  display: flex;
-  height: 100vh;
-  position: relative;
-  z-index: 1;
-}
-
-/* Sidebar */
-#sidebar {
-  width: var(--nav-w);
-  min-width: var(--nav-w);
-  background: var(--bg2);
-  border-right: 1px solid var(--line);
-  display: flex;
-  flex-direction: column;
-  padding: 24px 0;
-  overflow-y: auto;
-}
-
-.sidebar-header {
-  padding: 0 20px 24px;
-  border-bottom: 1px solid var(--line);
-  margin-bottom: 8px;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  text-decoration: none;
-  color: var(--ink);
-}
-
-.logo-icon {
-  width: 32px;
-  height: 32px;
-  background: var(--bg);
-  border: 1px solid var(--line);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 14px;
-  color: var(--accent);
-}
-
-.logo-text {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: .15em;
-  text-transform: uppercase;
-  color: var(--ink-dim);
-}
-
-.sidebar-section {
-  padding: 12px 20px 4px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  color: var(--ink-faint);
-}
-
-.app-list {
-  list-style: none;
-}
-
-.app-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 20px;
-  cursor: pointer;
-  transition: background .2s;
-  border-left: 2px solid transparent;
-  color: var(--ink-dim);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: .08em;
-  text-decoration: none;
-}
-
-.app-item:hover {
-  background: rgba(212, 84, 28, .06);
-  color: var(--ink);
-}
-
-.app-item.active {
-  background: rgba(212, 84, 28, .1);
-  border-left-color: var(--accent);
-  color: var(--ink);
-}
-
-.app-item .dot {
-  width: 6px;
-  height: 6px;
-  background: var(--ink-faint);
-  flex-shrink: 0;
-}
-
-.app-item.active .dot {
-  background: var(--accent);
-}
-
-.sidebar-footer {
-  margin-top: auto;
-  padding: 16px 20px 0;
-  border-top: 1px solid var(--line);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  color: var(--ink-faint);
-  letter-spacing: .12em;
-}
-
-/* Main content area */
-#main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-/* Toolbar */
-#toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 20px;
-  border-bottom: 1px solid var(--line);
-  background: var(--bg2);
-  min-height: 48px;
-  flex-shrink: 0;
-}
-
-.toolbar-left {
+.header-top {
   display: flex;
   align-items: center;
   gap: 12px;
+  margin-bottom: 32px;
 }
 
-.toolbar-title {
-  font-family: 'Fraunces', serif;
-  font-weight: 300;
+.logo-icon {
+  width: 36px; height: 36px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 600;
+  color: var(--text-primary);
+}
+
+.logo-text {
+  font-size: 18px; font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.hero {
+  margin-bottom: 40px;
+}
+
+.hero h1 {
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, var(--text-primary) 60%, var(--text-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero p {
   font-size: 16px;
-  color: var(--ink);
-  font-style: italic;
+  color: var(--text-secondary);
+  max-width: 480px;
+  line-height: 1.6;
 }
 
-.toolbar-badge {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  letter-spacing: .15em;
-  text-transform: uppercase;
-  color: var(--accent);
-  border: 1px solid var(--line);
-  padding: 2px 8px;
-}
-
-.toolbar-actions {
+/* Search + Filters */
+.controls {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.search-wrap {
+  position: relative;
+  max-width: 400px;
+}
+
+.search-wrap input {
+  width: 100%;
+  padding: 12px 16px 12px 44px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 14px;
+  transition: var(--transition);
+  outline: none;
+}
+
+.search-wrap input::placeholder { color: var(--text-muted); }
+.search-wrap input:focus { border-color: var(--accent); background: var(--bg-hover); }
+
+.search-wrap svg {
+  position: absolute;
+  left: 14px; top: 50%;
+  transform: translateY(-50%);
+  width: 18px; height: 18px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
   gap: 8px;
 }
 
-.btn {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  padding: 6px 12px;
-  border: 1px solid var(--line);
-  background: var(--bg);
-  color: var(--ink-dim);
+.filter-btn {
+  padding: 8px 16px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
   cursor: pointer;
-  transition: all .2s;
+  transition: var(--transition);
+}
+
+.filter-btn:hover {
+  border-color: var(--border-hover);
+  color: var(--text-primary);
+}
+
+.filter-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* Grid */
+.main {
+  padding: 0 clamp(16px, 5vw, 48px) 64px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.app-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* Card */
+.app-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.app-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--card-accent, var(--accent));
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.app-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-3px);
+  background: var(--bg-hover);
+}
+
+.app-card:hover::before { opacity: 1; }
+
+.card-header {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 14px;
+}
+
+.card-icon {
+  width: 48px; height: 48px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  background: var(--card-accent-bg, var(--bg-hover));
+  color: var(--card-accent, var(--accent));
+}
+
+.card-icon svg { width: 24px; height: 24px; }
+
+.card-title-wrap { min-width: 0; }
+
+.card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.btn:hover {
-  border-color: var(--ink-faint);
-  color: var(--ink);
-  background: var(--bg3);
+.card-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: var(--card-accent-bg, var(--bg-hover));
+  color: var(--card-accent, var(--accent));
+  border: 1px solid var(--card-accent-border, var(--border));
 }
 
-.btn-accent {
+.card-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  flex: 1;
+}
+
+.card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.card-views {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.card-views svg { width: 14px; height: 14px; }
+
+.card-action {
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  align-self: flex-start;
+}
+
+.card-action:hover {
   border-color: var(--accent);
   color: var(--accent);
 }
 
-.btn-accent:hover {
-  background: rgba(212, 84, 28, .1);
-  color: var(--accent2);
+/* Hidden card (filtered out) */
+.app-card.hidden { display: none; }
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--text-muted);
+  font-size: 15px;
 }
 
-/* Iframe container */
-#iframe-wrap {
-  flex: 1;
-  position: relative;
-  background: var(--bg);
-}
-
-#iframe-wrap iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-  display: block;
-}
-
-/* Loading state */
-.loading {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--ink-faint);
-  letter-spacing: .15em;
-}
-
-.loading .pulse {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  background: var(--accent);
-  margin-right: 8px;
-  animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.2} }
-
-/* Fullscreen overlay */
-#fullscreen-overlay {
+/* Modal */
+.modal-overlay {
   display: none;
   position: fixed;
   inset: 0;
-  z-index: 1000;
-  background: var(--bg);
+  z-index: 100;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 
-#fullscreen-overlay.active {
+.modal-overlay.active { display: flex; }
+
+.modal {
+  width: 100%;
+  max-width: 1100px;
+  height: 90vh;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  animation: modalIn 0.2s ease;
 }
 
-.fs-toolbar {
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.96) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-toolbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 20px;
-  border-bottom: 1px solid var(--line);
-  background: var(--bg2);
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border);
   flex-shrink: 0;
-  min-height: 48px;
+  min-height: 52px;
+  gap: 12px;
 }
 
-.fs-iframe {
-  flex: 1;
-  border: none;
-  width: 100%;
+.modal-info { display: flex; align-items: center; gap: 10px; min-width: 0; }
+
+.modal-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* Mobile: hide sidebar, show hamburger */
-.menu-toggle {
-  display: none;
-  background: none;
-  border: none;
-  color: var(--ink-dim);
+.modal-badge {
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+
+.modal-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+
+.modal-btn {
+  padding: 6px 12px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
   cursor: pointer;
-  padding: 4px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 18px;
+  transition: var(--transition);
+  display: flex; align-items: center; gap: 4px;
+  white-space: nowrap;
 }
 
-/* Hide sidebar toggle label on desktop */
-.sidebar-toggle-label { display: none; }
+.modal-btn:hover { border-color: var(--border-hover); color: var(--text-primary); }
 
-@media (max-width: 768px) {
-  :root { --nav-w: 200px; }
-  #sidebar {
-    position: fixed;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    z-index: 500;
-    transform: translateX(-100%);
-    transition: transform .25s ease;
-    box-shadow: 2px 0 24px rgba(0,0,0,.5);
-  }
-  #sidebar.open { transform: translateX(0); }
-  .menu-toggle { display: block; }
-  .sidebar-toggle-label { display: inline; }
-  #toolbar { padding: 8px 12px; }
-  .toolbar-title { font-size: 14px; }
+.modal-btn svg, .modal-btn .icon { width: 14px; height: 14px; }
+
+.modal-iframe-wrap { flex: 1; position: relative; background: var(--bg); }
+.modal-iframe-wrap iframe { width: 100%; height: 100%; border: none; display: block; }
+
+.modal-loading {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  gap: 10px;
+  color: var(--text-muted);
+  font-size: 13px;
 }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--line); }
+.modal-loading .spinner {
+  width: 16px; height: 16px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-muted);
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .app-grid { grid-template-columns: 1fr; gap: 12px; }
+  .modal { height: 100vh; border-radius: 0; }
+  .modal-overlay { padding: 0; }
+  .modal-title { font-size: 13px; }
+  .modal-btn span { display: none; }
+  .modal-btn { padding: 6px; }
+  .hero h1 { font-size: 28px; }
+}
+
+@media (max-width: 480px) {
+  .header { padding: 16px; }
+  .main { padding: 0 16px 40px; }
+  .app-card { padding: 18px; }
+}
 </style>
 </head>
 <body>
 
-<div id="app">
-
-  <!-- Sidebar -->
-  <nav id="sidebar">
-    <div class="sidebar-header">
-      <a href="/" class="logo">
-        <span class="logo-icon">µ</span>
-        <span class="logo-text">micr.fun</span>
-      </a>
+<header class="header">
+  <div class="header-top">
+    <div class="logo-icon">µ</div>
+    <span class="logo-text">micr.fun</span>
+  </div>
+  <div class="hero">
+    <h1>Каталог микроприложений</h1>
+    <p>Маленькие инструменты, игры и эксперименты — открывай и используй напрямую в браузере</p>
+  </div>
+  <div class="controls">
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="search" placeholder="Найти приложение..." autocomplete="off">
     </div>
-
-    <span class="sidebar-section">Микроприложения</span>
-    <ul class="app-list" id="appList">
-      <!-- Populated by JS -->
-    </ul>
-
-    <div class="sidebar-footer">
-      Том I · 2026
-    </div>
-  </nav>
-
-  <!-- Main -->
-  <div id="main">
-    <!-- Toolbar -->
-    <div id="toolbar">
-      <div class="toolbar-left">
-        <button class="menu-toggle" id="menuToggle" title="Меню">☰</button>
-        <span class="toolbar-title" id="currentTitle">Лень</span>
-        <span class="toolbar-badge" id="currentBadge">Работа №1</span>
-      </div>
-      <div class="toolbar-actions">
-        <button class="btn" id="btnBack" style="display:none">← Назад</button>
-        <button class="btn" id="btnFullscreen" title="На весь экран">⛶ <span class="sidebar-toggle-label">Полный экран</span></button>
-        <a class="btn" id="btnOpen" href="#" target="_blank" title="Открыть отдельно">↗ <span class="sidebar-toggle-label">Открыть</span></a>
-      </div>
-    </div>
-
-    <!-- Iframe -->
-    <div id="iframe-wrap">
-      <div class="loading" id="loading">
-        <span class="pulse"></span>
-        Загрузка приложения…
-      </div>
-      <iframe id="appFrame" src="" title="Микроприложение"></iframe>
+    <div class="filters" id="filters">
+      <button class="filter-btn active" data-filter="all">Все</button>
+      <button class="filter-btn" data-filter="games">Игры</button>
+      <button class="filter-btn" data-filter="tools">Инструменты</button>
+      <button class="filter-btn" data-filter="creative">Креатив</button>
+      <button class="filter-btn" data-filter="fun">Развлечения</button>
     </div>
   </div>
-</div>
+</header>
 
-<!-- Fullscreen overlay -->
-<div id="fullscreen-overlay">
-  <div class="fs-toolbar">
-    <span class="toolbar-title" id="fsTitle">Лень</span>
-    <button class="btn" id="btnCloseFs">✕ Закрыть</button>
+<main class="main">
+  <div class="app-grid" id="appGrid"></div>
+  <div class="empty-state" id="emptyState" style="display:none">Ничего не найдено</div>
+</main>
+
+<footer class="footer">
+  micr.fun · 2026
+</footer>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-toolbar">
+      <div class="modal-info">
+        <span class="modal-title" id="modalTitle">Приложение</span>
+        <span class="modal-badge" id="modalBadge">Категория</span>
+      </div>
+      <div class="modal-actions">
+        <button class="modal-btn" id="btnOpen" title="Открыть в новой вкладке">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          <span>Открыть</span>
+        </button>
+        <button class="modal-btn" id="btnFs" title="На весь экран">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+          <span>Полный экран</span>
+        </button>
+        <button class="modal-btn" id="btnCloseModal" title="Закрыть">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          <span>Закрыть</span>
+        </button>
+      </div>
+    </div>
+    <div class="modal-iframe-wrap">
+      <div class="modal-loading" id="modalLoading">
+        <span class="spinner"></span>
+        Загрузка...
+      </div>
+      <iframe id="modalFrame" src="" title="Приложение"></iframe>
+    </div>
   </div>
-  <iframe class="fs-iframe" id="fsFrame" src="" title="Полный экран"></iframe>
 </div>
 
 <script>
 const APPS = [
-  { id: 'laziness', name: 'Лень', badge: 'Работа №1', url: '/laziness.html', icon: '§' },
-  { id: 'breathing', name: 'Дыхание', badge: 'Инструмент', url: '/apps/breathing/index.html', icon: '○' },
-  { id: 'color-palette', name: 'Палитра', badge: 'Креатив', url: '/apps/color-palette/index.html', icon: '◐' },
-  { id: 'dice', name: 'Кости', badge: 'Игра', url: '/apps/dice/index.html', icon: '◈' },
-  { id: 'reaction-test', name: 'Тест реакции', badge: 'Игра', url: '/apps/reaction-test/index.html', icon: '◷' },
-  { id: 'spend-elons-money', name: 'Деньги Илона', badge: 'Игра', url: '/apps/spend-elons-money/index.html', icon: '◆' }
+  { id: 'laziness', name: 'Лень', description: 'Фундаментальная модель блокировки действия и внутреннего конфликта', category: 'creative', color: '#8b5cf6', views: 9200, url: '/laziness.html', icon: 'coffee' },
+  { id: 'breathing', name: 'Дыхание', description: 'Упражнения на дыхание для расслабления и концентрации', category: 'tools', color: '#3b82f6', views: 3200, url: '/apps/breathing/index.html', icon: 'wind' },
+  { id: 'color-palette', name: 'Палитра', description: 'Генератор и подбор красивых цветовых сочетаний', category: 'creative', color: '#a855f7', views: 2800, url: '/apps/color-palette/index.html', icon: 'palette' },
+  { id: 'dice', name: 'Кости', description: 'Бросай виртуальные игральные кости', category: 'fun', color: '#f43f5e', views: 5400, url: '/apps/dice/index.html', icon: 'dices' },
+  { id: 'reaction', name: 'Реакция', description: 'Проверь свою скорость реакции', category: 'games', color: '#f59e0b', views: 4100, url: '/apps/reaction/index.html', icon: 'zap' },
+  { id: 'reaction-test', name: 'Реакция Тест', description: 'Расширенный тест скорости реакции с разными режимами', category: 'games', color: '#ef4444', views: 3600, url: '/apps/reaction-test/index.html', icon: 'timer' }
 ];
 
-let currentApp = null;
+const CATEGORY_LABELS = {
+  all: 'Все',
+  games: 'Игры',
+  tools: 'Инструменты',
+  creative: 'Креатив',
+  fun: 'Развлечения'
+};
 
-const appList = document.getElementById('appList');
-const appFrame = document.getElementById('appFrame');
-const loading = document.getElementById('loading');
-const currentTitle = document.getElementById('currentTitle');
-const currentBadge = document.getElementById('currentBadge');
-const btnFullscreen = document.getElementById('btnFullscreen');
+// Icons as SVG
+const ICONS = {
+  coffee: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>',
+  wind: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/></svg>',
+  palette: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.04a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.01 17.461 2 12 2z"/></svg>',
+  dices: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="8.5" cy="8.5" r="1.5"/><circle cx="15.5" cy="15.5" r="1.5"/></svg>',
+  zap: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>',
+  timer: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>'
+};
+
+const grid = document.getElementById('appGrid');
+const empty = document.getElementById('emptyState');
+const search = document.getElementById('search');
+const filterBtns = document.querySelectorAll('.filter-btn');
+const modal = document.getElementById('modal');
+const modalFrame = document.getElementById('modalFrame');
+const modalLoading = document.getElementById('modalLoading');
+const modalTitle = document.getElementById('modalTitle');
+const modalBadge = document.getElementById('modalBadge');
 const btnOpen = document.getElementById('btnOpen');
-const btnBack = document.getElementById('btnBack');
-const fsOverlay = document.getElementById('fullscreen-overlay');
-const fsFrame = document.getElementById('fsFrame');
-const fsTitle = document.getElementById('fsTitle');
+const btnClose = document.getElementById('btnCloseModal');
 
-// Build sidebar
-APPS.forEach(app => {
-  const li = document.createElement('li');
-  li.className = 'app-item';
-  li.innerHTML = `<span class="dot"></span> ${app.name}`;
-  li.addEventListener('click', () => loadApp(app));
-  li.dataset.appId = app.id;
-  appList.appendChild(li);
-});
+let activeFilter = 'all';
+let activeQuery = '';
 
-// Load app
-function loadApp(app) {
-  currentApp = app;
-  currentTitle.textContent = app.name;
-  currentBadge.textContent = app.badge;
-  btnOpen.href = app.url;
-
-  // Active state
-  document.querySelectorAll('.app-item').forEach(el => el.classList.remove('active'));
-  const item = document.querySelector(`[data-app-id="${app.id}"]`);
-  if (item) item.classList.add('active');
-
-  // Load iframe
-  loading.style.display = 'flex';
-  appFrame.style.display = 'none';
-  appFrame.src = app.url;
+function formatViews(n) {
+  if (n >= 1000) return (n / 1000).toFixed(1).replace('.0', '') + 'k';
+  return String(n);
 }
 
-// Frame loaded
-appFrame.addEventListener('load', () => {
-  loading.style.display = 'none';
-  appFrame.style.display = 'block';
-});
+function createCard(app) {
+  const card = document.createElement('div');
+  card.className = 'app-card';
+  card.dataset.id = app.id;
+  card.dataset.category = app.category;
+  card.style.setProperty('--card-accent', app.color);
+  card.style.setProperty('--card-accent-bg', app.color + '15');
+  card.style.setProperty('--card-accent-border', app.color + '30');
 
-// Fullscreen toggle
-btnFullscreen.addEventListener('click', () => {
-  if (!currentApp) return;
-  fsTitle.textContent = currentApp.name;
-  fsFrame.src = currentApp.url;
-  fsOverlay.classList.add('active');
+  card.innerHTML = `
+    <div class="card-header">
+      <div class="card-icon">${ICONS[app.icon] || ''}</div>
+      <div class="card-title-wrap">
+        <div class="card-title">${app.name}</div>
+        <span class="card-badge">${CATEGORY_LABELS[app.category] || app.category}</span>
+      </div>
+    </div>
+    <div class="card-desc">${app.description}</div>
+    <div class="card-meta">
+      <div class="card-views">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        ${formatViews(app.views)}
+      </div>
+      <button class="card-action">Открыть</button>
+    </div>
+  `;
+
+  card.addEventListener('click', (e) => {
+    if (e.target.closest('.card-action')) {
+      e.stopPropagation();
+      openModal(app);
+    } else {
+      openModal(app);
+    }
+  });
+
+  return card;
+}
+
+function render() {
+  grid.innerHTML = '';
+  let count = 0;
+
+  for (const app of APPS) {
+    const matchesFilter = activeFilter === 'all' || app.category === activeFilter;
+    const q = activeQuery.toLowerCase();
+    const matchesSearch = !q || app.name.toLowerCase().includes(q) || app.description.toLowerCase().includes(q);
+
+    if (matchesFilter && matchesSearch) {
+      grid.appendChild(createCard(app));
+      count++;
+    }
+  }
+
+  empty.style.display = count === 0 ? 'block' : 'none';
+}
+
+function openModal(app) {
+  modalTitle.textContent = app.name;
+  modalBadge.textContent = CATEGORY_LABELS[app.category] || app.category;
+  modalBadge.style.background = app.color + '20';
+  modalBadge.style.color = app.color;
+  modalBadge.style.border = '1px solid ' + app.color + '40';
+  btnOpen.onclick = () => window.open(app.url, '_blank');
+
+  modalLoading.style.display = 'flex';
+  modalFrame.style.display = 'none';
+  modalFrame.src = app.url;
+  modal.classList.add('active');
   document.body.style.overflow = 'hidden';
-});
+}
 
-document.getElementById('btnCloseFs').addEventListener('click', () => {
-  fsOverlay.classList.remove('active');
+function closeModal() {
+  modal.classList.remove('active');
+  modalFrame.src = '';
   document.body.style.overflow = '';
-  fsFrame.src = '';
+}
+
+// Events
+search.addEventListener('input', (e) => {
+  activeQuery = e.target.value;
+  render();
 });
 
-// Mobile menu
-const sidebar = document.getElementById('sidebar');
-document.getElementById('menuToggle').addEventListener('click', () => {
-  sidebar.classList.toggle('open');
-});
-
-// Close sidebar when app selected on mobile
-document.querySelectorAll('.app-item').forEach(item => {
-  item.addEventListener('click', () => {
-    if (window.innerWidth <= 768) sidebar.classList.remove('open');
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeFilter = btn.dataset.filter;
+    render();
   });
 });
 
-// Keyboard shortcut: Escape to close fullscreen
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape' && fsOverlay.classList.contains('active')) {
-    document.getElementById('btnCloseFs').click();
+btnClose.addEventListener('click', closeModal);
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) closeModal();
+});
+
+document.getElementById('btnFs').addEventListener('click', () => {
+  const el = modal.querySelector('.modal');
+  if (!document.fullscreenElement) {
+    el.requestFullscreen?.() || el.webkitRequestFullscreen?.();
+  } else {
+    document.exitFullscreen?.() || document.webkitExitFullscreen?.();
   }
 });
 
-// Load default: laziness
-loadApp(APPS[0]);
+modalFrame.addEventListener('load', () => {
+  modalLoading.style.display = 'none';
+  modalFrame.style.display = 'block';
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeModal();
+});
+
+render();
 </script>
 
 </body>

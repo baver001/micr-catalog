@@ -12,12 +12,6 @@ let catalog = [
         name: 'Лень', 
         description: 'Фундаментальная модель блокировки действия и внутреннего конфликта.',
         url: '/laziness.html'
-    },
-    { 
-        id: 2, 
-        name: 'Sky Render', 
-        description: 'Интерактивная WebGL визуализация атмосферы.',
-        url: '/sky.html'
     }
 ];
 
