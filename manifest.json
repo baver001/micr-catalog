@@ -1,0 +1,20 @@
+{
+  "name": "micr.fun",
+  "short_name": "micr.fun",
+  "description": "Каталог микроприложений",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#121212",
+  "theme_color": "#121212",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["entertainment", "utilities", "games"],
+  "lang": "ru",
+  "orientation": "any"
+}
