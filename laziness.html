@@ -29,6 +29,7 @@
     --fs-h1: clamp(44px, 11vw, 108px);
     --fs-quote: clamp(22px, 4vw, 44px);
     --fs-final: clamp(26px, 5.2vw, 56px);
+    --content-max: 1200px;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html,body{background:var(--bg);color:var(--ink);font-family:'Fraunces',serif;font-weight:300;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden;text-rendering:optimizeLegibility;}
@@ -38,11 +39,11 @@
   img,svg{max-width:100%;display:block}
   ::selection{background:var(--accent);color:var(--bg)}
   .masthead{position:relative;z-index:2;padding:clamp(20px,4vw,32px) var(--pad-x) 0;border-bottom:1px solid var(--line);}
-  .masthead-row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;font-family:'JetBrains Mono',monospace;font-size:var(--fs-eyebrow);color:var(--ink-faint);text-transform:uppercase;letter-spacing:.15em;padding-bottom:16px;}
+  .masthead-row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;font-family:'JetBrains Mono',monospace;font-size:var(--fs-eyebrow);color:var(--ink-faint);text-transform:uppercase;letter-spacing:.15em;padding-bottom:16px;max-width:var(--content-max);margin:0 auto;}
   .masthead-row .dot{display:inline-block;width:6px;height:6px;background:var(--accent);border-radius:50%;margin-right:8px;vertical-align:1px;animation:pulse 2.5s ease-in-out infinite;}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
   .hero{position:relative;z-index:2;padding:clamp(48px,8vw,64px) var(--pad-x) var(--pad-section);border-bottom:1px solid var(--line);overflow:hidden;}
-  .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,48px);align-items:end}
+  .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,48px);align-items:end;max-width:var(--content-max);margin:0 auto;}
   .eyebrow{font-family:'JetBrains Mono',monospace;font-size:var(--fs-eyebrow);color:var(--accent);letter-spacing:.2em;text-transform:uppercase;margin-bottom:20px;}
   .eyebrow::before{content:"§ ";color:var(--ink-faint)}
   h1.title{font-family:'Fraunces',serif;font-weight:300;font-size:var(--fs-h1);line-height:.92;letter-spacing:-.03em;color:var(--ink);word-break: break-word;}
@@ -51,7 +52,7 @@
   h1.title .strike::after{content:"";position:absolute;left:-4%;right:-4%;top:55%;height:3px;background:var(--accent);transform:rotate(-2deg);}
   .deck{font-family:'Fraunces',serif;font-style:italic;font-weight:300;font-size:var(--fs-deck);color:var(--ink-dim);max-width:48ch;line-height:1.45;border-left:1px solid var(--line);padding-left:clamp(16px,2vw,24px);}
   .deck strong{font-style:normal;font-weight:500;color:var(--ink)}
-  .hero-meta{margin-top:clamp(40px,6vw,64px);display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(16px,3vw,32px);padding-top:24px;border-top:1px dashed var(--line);}
+  .hero-meta{margin-top:clamp(40px,6vw,64px);display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(16px,3vw,32px);padding-top:24px;border-top:1px dashed var(--line);max-width:var(--content-max);margin-left:auto;margin-right:auto;}
   .meta-item{font-family:'JetBrains Mono',monospace;font-size:11px;min-width:0}
   .meta-label{color:var(--ink-faint);letter-spacing:.15em;text-transform:uppercase;font-size:10px;display:block;margin-bottom:6px;}
   .meta-value{color:var(--ink);font-size:12px;line-height:1.4;word-wrap:break-word}
@@ -63,12 +64,12 @@
   blockquote.thesis-quote .accent{color:var(--accent-2);font-style:normal;font-weight:400}
   .attribution{font-family:'JetBrains Mono',monospace;font-size:var(--fs-eyebrow);color:var(--ink-faint);letter-spacing:.2em;margin-top:28px;text-transform:uppercase;}
   section{position:relative;z-index:2}
-  .section-head{padding:var(--pad-section) var(--pad-x) clamp(32px,5vw,48px);display:grid;grid-template-columns:1fr 2fr;gap:clamp(24px,4vw,48px);align-items:end;border-bottom:1px solid var(--line);}
+  .section-head{padding:var(--pad-section) var(--pad-x) clamp(32px,5vw,48px);display:grid;grid-template-columns:1fr 2fr;gap:clamp(24px,4vw,48px);align-items:end;border-bottom:1px solid var(--line);max-width:var(--content-max);margin:0 auto;}
   .section-head h2{font-family:'Fraunces',serif;font-weight:400;font-size:var(--fs-h2);line-height:.98;letter-spacing:-.02em;}
   .section-head h2 em{font-style:italic;color:var(--accent-2)}
   .section-head .lede{font-family:'Fraunces',serif;font-style:italic;color:var(--ink-dim);font-size:var(--fs-body);line-height:1.5;max-width:54ch;}
   .conditions{padding:clamp(48px,6vw,64px) var(--pad-x) var(--pad-section);border-bottom:1px solid var(--line);}
-  .conditions-layout{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(40px,6vw,80px);align-items:start;}
+  .conditions-layout{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(40px,6vw,80px);align-items:start;max-width:var(--content-max);margin:0 auto;}
   .diagram-wrap{position:sticky;top:24px;aspect-ratio:1;max-width:520px;margin:0 auto;width:100%;}
   .diagram{width:100%;height:100%;display:block;overflow:visible}
   .diagram .ring{fill:none;stroke:var(--line);stroke-width:.5}
@@ -98,7 +99,7 @@
   .condition .chev{color:var(--ink-faint);font-family:'JetBrains Mono',monospace;font-size:16px;transition:transform .3s;line-height:1;padding-top:6px;}
   .condition.active .chev{transform:rotate(90deg);color:var(--accent)}
   .typology{padding:clamp(48px,6vw,64px) var(--pad-x) var(--pad-section);border-bottom:1px solid var(--line);background:var(--bg-2);}
-  .type-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:var(--line);}
+  .type-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:var(--line);max-width:var(--content-max);margin:0 auto;}
   .type-card{background:var(--bg-2);padding:clamp(24px,3vw,36px) clamp(20px,2.5vw,32px);transition:all .35s;cursor:pointer;position:relative;overflow:hidden;min-height:260px;display:flex;flex-direction:column;}
   .type-card:hover{background:var(--bg-3)}
   .type-card .type-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:.2em;margin-bottom:14px;}
@@ -113,7 +114,7 @@
   .type-block .tval:last-child{margin-bottom:0}
   .type-block .tval strong{color:var(--ink);font-style:normal;font-weight:500}
   .callout{padding:var(--pad-section) var(--pad-x);border-bottom:1px solid var(--line);position:relative;overflow:hidden;}
-  .callout-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1.2fr;gap:clamp(40px,6vw,64px);align-items:center;}
+  .callout-inner{max-width:var(--content-max);margin:0 auto;display:grid;grid-template-columns:1fr 1.2fr;gap:clamp(40px,6vw,64px);align-items:center;}
   .callout-text h2{font-family:'Fraunces',serif;font-weight:300;font-size:clamp(32px,5vw,48px);line-height:1;letter-spacing:-.02em;margin-bottom:24px;}
   .callout-text h2 em{font-style:italic;color:var(--accent)}
   .callout-text p{font-family:'Fraunces',serif;color:var(--ink-dim);font-size:var(--fs-body);line-height:1.6;margin-bottom:16px;}
@@ -126,11 +127,11 @@
   .cycle-label.cl-3{bottom:0;left:50%;transform:translate(-50%,100%);color:var(--signal);border-color:var(--signal)}
   .cycle-label.cl-4{top:50%;left:0;transform:translate(-80%,-50%)}
   .integral{padding:var(--pad-section) var(--pad-x);border-bottom:1px solid var(--line);}
-  .integral-head{max-width:1100px;margin:0 auto}
+  .integral-head{max-width:var(--content-max);margin:0 auto}
   .integral-head h2{font-family:'Fraunces',serif;font-weight:300;font-size:clamp(30px,5vw,56px);line-height:1.02;letter-spacing:-.02em;margin-bottom:16px;}
   .integral-head h2 em{font-style:italic;color:var(--accent-2)}
   .integral-head p{font-family:'Fraunces',serif;font-style:italic;color:var(--ink-dim);font-size:var(--fs-body);max-width:60ch;line-height:1.5;}
-  .integral-grid{max-width:1100px;margin:clamp(32px,5vw,48px) auto 0;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);}
+  .integral-grid{max-width:var(--content-max);margin:clamp(32px,5vw,48px) auto 0;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);}
   .level{background:var(--bg);padding:clamp(24px,3vw,36px) clamp(20px,2.5vw,28px);display:flex;flex-direction:column;gap:14px;min-height:220px;position:relative;}
   .level-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-faint);letter-spacing:.2em;}
   .level-name{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink);letter-spacing:.1em;text-transform:uppercase;}
@@ -153,13 +154,13 @@
   .q .qtext{font-family:'Fraunces',serif;font-size:clamp(16px,2.2vw,20px);line-height:1.4;color:var(--ink);font-weight:300;}
   .q .qtext em{font-style:italic;color:var(--accent-2)}
   .final{padding:clamp(96px,15vw,160px) var(--pad-x) clamp(72px,12vw,120px);text-align:center;position:relative;overflow:hidden;}
-  .final::before{content:"";position:absolute;left:50%;top:60px;width:1px;height:80px;background:var(--accent);transform:translateX(-50%);}
-  .final::after{content:"§";position:absolute;left:50%;top:110px;transform:translateX(-50%);font-family:'Fraunces',serif;font-size:24px;color:var(--accent);background:var(--bg);padding:4px 8px;}
+  .final::before{content:"";position:absolute;left:50%;top:0;width:1px;height:40px;background:var(--accent);transform:translateX(-50%);}
+  .final::after{display:none}
   .final-quote{font-family:'Fraunces',serif;font-weight:300;font-style:italic;font-size:var(--fs-final);line-height:1.25;letter-spacing:-.02em;max-width:24ch;margin:80px auto 0;color:var(--ink);}
   .final-quote .underline{background:linear-gradient(transparent 65%,rgba(212,84,28,.35) 65%,rgba(212,84,28,.35) 92%,transparent 92%);padding:0 .05em;}
   .signature{margin-top:clamp(48px,8vw,80px);font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink-faint);letter-spacing:.25em;text-transform:uppercase;line-height:1.8;}
   .signature .sep{margin:0 12px;color:var(--accent)}
-  footer{padding:24px var(--pad-x);border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink-faint);letter-spacing:.15em;text-transform:uppercase;}
+  footer{padding:24px var(--pad-x);border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink-faint);letter-spacing:.15em;text-transform:uppercase;max-width:var(--content-max);margin:0 auto;}
   @media (max-width:900px){
     .hero-grid{grid-template-columns:1fr;gap:32px}
     .section-head{grid-template-columns:1fr;gap:24px;align-items:start}
@@ -182,6 +183,13 @@
     .swap{grid-template-columns:1fr;text-align:center;gap:14px;padding:22px}
     .swap-arrow{transform:rotate(90deg);font-size:18px}
     .final-quote{margin-top:60px;max-width:18ch}
+    .cycle{padding:0;max-width:260px}
+    .cycle svg{margin-bottom:60px}
+    .cycle-label{font-size:9px;padding:4px 8px;white-space:normal;max-width:120px}
+    .cycle-label.cl-1{top:0;left:50%;transform:translate(-50%,-110%)}
+    .cycle-label.cl-2{top:40%;right:0;transform:translate(30%,-50%)}
+    .cycle-label.cl-3{bottom:0;left:50%;transform:translate(-50%,110%)}
+    .cycle-label.cl-4{top:40%;left:0;transform:translate(-30%,-50%)}
   }
 </style>
 </head>
@@ -189,7 +197,7 @@
 
 <header class="masthead">
   <div class="masthead-row">
-    <span><span class="dot"></span>Системная модель</span>
+    <span><span class="dot"></span>Модель</span>
     <span>Том I · 2026</span>
   </div>
 </header>
@@ -201,11 +209,11 @@
       <h1 class="title">Лень<br>не <span class="strike">порок</span>.<br>Лень — <em>указатель</em>.</h1>
     </div>
     <p class="deck">
-      Эта работа предлагает рассматривать лень не как моральную характеристику, а как <strong>системный сигнал</strong>, возникающий при нарушении условий запуска действия.
+      Лень — не порок и не слабость. Это <strong>сигнал тела и психики</strong> о том, что необходимые условия для действия не соблюдены.
     </p>
   </div>
   <div class="hero-meta">
-    <div class="meta-item"><span class="meta-label">Дисциплины</span><span class="meta-value">когнитивистика, нейроэкономика, интегральная теория</span></div>
+    <div class="meta-item"><span class="meta-label">Дисциплины</span><span class="meta-value">психология, нейрофизиология, теория принятия решений</span></div>
     <div class="meta-item"><span class="meta-label">Объём</span><span class="meta-value">7 условий · 7 типов · 1 тезис</span></div>
     <div class="meta-item"><span class="meta-label">Подход</span><span class="meta-value">расшифровка, не подавление</span></div>
     <div class="meta-item"><span class="meta-label">Чтение</span><span class="meta-value">≈ 9 мин · нелинейное</span></div>
@@ -217,7 +225,7 @@
     <span class="section-num">§ 02 — Главная гипотеза</span>
     <span class="quote-mark">"</span>
     <blockquote class="thesis-quote">
-      Лень — это не причина бездействия, а <span class="accent">информационный указатель конфликта</span> между ценностью действия, его стоимостью, внутренними угрозами и ресурсным состоянием.
+      Лень — не причина, а симптом. Она указывает, что в уравнении «стоит ли это делать?» мозг насчитал отрицательный баланс.
     </blockquote>
     <div class="attribution">— Центральный тезис</div>
   </div>
@@ -229,7 +237,7 @@
     <h2>Семь условий запуска <em>действия</em></h2>
   </div>
   <p class="lede">
-    Любое действие возникает только при одновременном выполнении семи системных условий. Если критически нарушено хотя бы одно — система снижает вероятность запуска. Нажмите узел или строку, чтобы исследовать.
+    Чтобы действие случилось, нужно совпадение семи факторов. Хотя бы один западает — и тело находит причину не начинать.
   </p>
 </div>
 
@@ -244,8 +252,7 @@
         <g id="spokes"></g>
         <g id="nodes"></g>
         <g class="center">
-          <text class="big" y="-4">действие</text>
-          <text y="22">7 условий · 1 запуск</text>
+          <text y="6" font-family="JetBrains Mono,monospace" font-size="14" letter-spacing=".08em" fill="var(--ink-dim)">7 условий запуска</text>
         </g>
       </svg>
     </div>
@@ -255,8 +262,8 @@
         <div class="idx">3.1</div>
         <div class="body">
           <h3>Смысл и ценность</h3>
-          <p>Действие должно восприниматься как значимое, связанное с идентичностью или потребностями.</p>
-          <div class="formula">→ Низкая ценность = слабый мотивационный сигнал</div>
+          <p>Мозг не вложит энергию в то, что ему безразлично. Действие должно задевать что-то важное — ценности, идентичность, живую потребность.</p>
+          <div class="formula">→ Ценность низкая → мозг не видит смысла вкладываться</div>
         </div>
         <div class="chev">›</div>
       </div>
@@ -264,8 +271,8 @@
         <div class="idx">3.2</div>
         <div class="body">
           <h3>Осуществимость</h3>
-          <p>Действие должно быть понятным и реализуемым. Слишком сложное или неопределённое — тормозит.</p>
-          <div class="formula">→ Неясность = рост стоимости планирования</div>
+          <p>Чем сложнее шаг, тем выше барьер. Если непонятно, с чего начать — мозг выбирает «потом».</p>
+          <div class="formula">→ Непонятно как → цена планирования взлетает</div>
         </div>
         <div class="chev">›</div>
       </div>
@@ -273,7 +280,7 @@
         <div class="idx">3.3</div>
         <div class="body">
           <h3>Стоимость</h3>
-          <p>Энергетическая, эмоциональная, когнитивная, временная, социальная — каждая блокирует.</p>
+          <p>Каждое действие стоит чего-то: времени, сил, внимания, социального комфорта. Если цена перевешивает выгоду — запуска не будет.</p>
           <div class="formula">→ Цена больше выгоды = действие не запускается</div>
         </div>
         <div class="chev">›</div>
@@ -282,8 +289,8 @@
         <div class="idx">3.4</div>
         <div class="body">
           <h3>Риск</h3>
-          <p>Возможность ошибки, стыда, оценки, потери статуса. Часто «лень» — это замаскированное избегание угрозы.</p>
-          <div class="formula">→ Угроза больше выгоды = защитное торможение</div>
+          <p>Страх облажаться, выглядеть глупо, потерять лицо. За многими «ленивыми» решениями стоит банальная защита.</p>
+          <div class="formula">→ Угроза перевешивает → мозг тормозит запуск</div>
         </div>
         <div class="chev">›</div>
       </div>
@@ -291,7 +298,7 @@
         <div class="idx">3.5</div>
         <div class="body">
           <h3>Энергия и ресурс</h3>
-          <p>Сон, восстановление, стресс, воспаление, когнитивная усталость. Без ресурса — нет инициативы.</p>
+          <p>Уставший мозг не берётся за сложное. Ему нужно восстановление, а не «ещё одно дело». И никакая мотивация это не обойдёт.</p>
           <div class="formula">→ Дефицит ресурса → переход к быстрым наградам</div>
         </div>
         <div class="chev">›</div>
@@ -300,7 +307,7 @@
         <div class="idx">3.6</div>
         <div class="body">
           <h3>Конкурирующие награды</h3>
-          <p>Среда мгновенного подкрепления: ленты, уведомления, короткий контент. Мозг постоянно сравнивает.</p>
+          <p>Лента, уведомления, короткие видео — они всегда рядом и дают дофамин бесплатно. Сложная деятельность не выигрывает в этой конкуренции — и это нормально.</p>
           <div class="formula">→ Быстрая награда вытесняет сложную деятельность</div>
         </div>
         <div class="chev">›</div>
@@ -309,8 +316,8 @@
         <div class="idx">3.7</div>
         <div class="body">
           <h3>Триггер запуска</h3>
-          <p>Даже при наличии мотивации действие не начнётся без понятного первого шага и низкого трения старта.</p>
-          <div class="formula">→ Трение старта растёт = вероятность избегания растёт</div>
+          <p>Мотивация — не всё. Без конкретного первого шага и низкого порога входа даже важное дело останется в планах.</p>
+          <div class="formula">→ Старт сложный → избегание становится выбором по умолчанию</div>
         </div>
         <div class="chev">›</div>
       </div>
@@ -428,7 +435,7 @@
       <div class="type-label">Метаправило</div>
       <div class="type-block">
         <p class="tval" style="font-size:15px;line-height:1.55">
-          Прежде чем «бороться», установите тип. Семь типов требуют семи разных стратегий — ответ на ресурсную лень разрушает защитную, и наоборот.
+          Прежде чем «бороться», установите тип. Семь типов требуют семи разных стратегий. Ошибка в диагнозе не просто бесполезна — она усугубляет состояние. Ресурсной лени (истощение) нужен отдых, а не подталкивание. Защитной (страх) — безопасная среда, а не волевой нажим. Протестной (давление) — автономия, а не дисциплина. Симптоматической (клиника) — терапия, а не самоорганизация. Неверная стратегия не просто бесполезна — она усугубляет цикл бездействия.
         </p>
       </div>
     </div>
@@ -440,8 +447,8 @@
     <div class="callout-text">
       <span class="section-num">§ 06</span>
       <h2>Прокрастинация — это <em>цикл</em>, а не лень</h2>
-      <p>Прокрастинация — не просто откладывание. Это <strong>регуляция эмоционального состояния через избегание</strong>.</p>
-      <p>Человек избегает не самой задачи, а эмоционального состояния, связанного с ней. Временное облегчение закрепляет цикл.</p>
+      <p>Человек откладывает не задачу, а чувство, которое она вызывает. Тревогу, скуку, неуверенность.</p>
+      <p>Моментальное облегчение от избегания закрепляет петлю — и в следующий раз откладывать становится ещё легче.</p>
     </div>
     <div class="cycle">
       <svg viewBox="-100 -100 200 200">
@@ -470,7 +477,7 @@
   <div class="integral-head">
     <span class="section-num">§ 09</span>
     <h2>Один сигнал — <em>четыре способа</em> его услышать</h2>
-    <p>Разные уровни развития сознания переживают «лень» принципиально по-разному. Сама интерпретация — уже выбор уровня.</p>
+    <p>То, как человек переживает «лень», зависит от того, на каком уровне он осмысляет себя и свои действия. Сама интерпретация — уже показатель.</p>
   </div>
   <div class="integral-grid">
     <div class="level">
@@ -522,7 +529,9 @@
 <section class="final">
   <span class="section-num">§ 12 — Финальный тезис</span>
   <p class="final-quote">
-    Лень — не противоположность <span class="underline">воле</span>. Это <em>указатель</em>, через который система сообщает, что действие воспринимается как <span class="underline">слишком дорогое</span>, <span class="underline">опасное</span>, <span class="underline">бессмысленное</span> или <span class="underline">неясное</span>.
+    Лень — не отсутствие воли, а сигнал психики о рассогласовании: цена действия перевешивает его ценность. Внутренняя система оценки заблокировала запуск, потому что баланс оказался отрицательным. Задача не в подавлении сигнала, а в том, чтобы разобраться, какой именно из семи факторов — смысл, осуществимость, цена, риск, ресурс, конкурирующие награды или триггер — нарушил равновесие.</p>
+  <p class="final-quote" style="margin-top:16px;font-size:clamp(18px,3.2vw,32px);font-weight:400;font-style:normal;">
+    Лень — не диагноз, а информация о дефиците конкретного ресурса.
   </p>
   <div class="signature">
     Не подавлять <span class="sep">·</span> Расшифровывать <span class="sep">·</span> Перенастраивать
@@ -557,16 +566,17 @@
     const circle = document.createElementNS('http://www.w3.org/2000/svg','circle');
     circle.setAttribute('r',9);
     g.appendChild(circle);
-    let dx = 0, dy = 0;
-    if (y < -50)      { dy = -22; }
-    else if (y > 50)  { dy = 30; }
-    else if (x > 0)   { dx = 24; dy = 4; }
-    else              { dx = -24; dy = 4; }
+    let labelR = R + 34;
+    const lx = Math.cos(angle) * labelR;
+    const ly = Math.sin(angle) * labelR;
+    let dx = lx - x, dy = ly - y;
+    let anchor = 'middle';
+    if (Math.cos(angle) > 0.35) anchor = 'start';
+    else if (Math.cos(angle) < -0.35) anchor = 'end';
     const text = document.createElementNS('http://www.w3.org/2000/svg','text');
     text.setAttribute('x',dx);
     text.setAttribute('y',dy);
-    if (x > 50 && Math.abs(y) < 60) text.setAttribute('text-anchor','start');
-    else if (x < -50 && Math.abs(y) < 60) text.setAttribute('text-anchor','end');
+    text.setAttribute('text-anchor',anchor);
     text.textContent = c.label;
     g.appendChild(text);
     nodesG.appendChild(g);
