@@ -1,0 +1,14 @@
+{
+  "name": "Ячейки · micr.fun",
+  "short_name": "Ячейки",
+  "description": "Статьи-разборы: психология, системы, поведение.",
+  "start_url": "/cells",
+  "scope": "/cells/",
+  "display": "standalone",
+  "background_color": "#0d0c0a",
+  "theme_color": "#0d0c0a",
+  "icons": [{"src": "/favicon.svg","sizes": "any","type": "image/svg+xml","purpose": "any maskable"}],
+  "categories": ["education"],
+  "lang": "ru",
+  "orientation": "any"
+}

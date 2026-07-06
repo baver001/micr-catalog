@@ -1,0 +1,14 @@
+{
+  "name": "Лень как система сигналов · micr.fun",
+  "short_name": "Лень",
+  "description": "Разбор семи условий запуска действия.",
+  "start_url": "/cells/laziness",
+  "scope": "/cells/laziness/",
+  "display": "standalone",
+  "background_color": "#0d0c0a",
+  "theme_color": "#0d0c0a",
+  "icons": [{"src": "/favicon.svg","sizes": "any","type": "image/svg+xml","purpose": "any maskable"}],
+  "categories": ["education"],
+  "lang": "ru",
+  "orientation": "any"
+}

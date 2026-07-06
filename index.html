@@ -308,114 +308,6 @@ body {
   font-size: 15px;
 }
 
-/* Modal */
-.modal-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  background: rgba(0,0,0,0.85);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-.modal-overlay.active { display: flex; }
-
-.modal {
-  width: 100%;
-  max-width: 1100px;
-  height: 90vh;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  animation: modalIn 0.2s ease;
-}
-
-@keyframes modalIn {
-  from { opacity: 0; transform: scale(0.96) translateY(10px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
-}
-
-.modal-toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 20px;
-  border-bottom: 1px solid var(--border);
-  flex-shrink: 0;
-  min-height: 52px;
-  gap: 12px;
-}
-
-.modal-info { display: flex; align-items: center; gap: 10px; min-width: 0; }
-
-.modal-title {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text-primary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.modal-badge {
-  padding: 2px 8px;
-  border-radius: 999px;
-  font-size: 10px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  flex-shrink: 0;
-}
-
-.modal-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-
-.modal-btn {
-  padding: 6px 12px;
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  color: var(--text-secondary);
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: var(--transition);
-  display: flex; align-items: center; gap: 4px;
-  white-space: nowrap;
-}
-
-.modal-btn:hover { border-color: var(--border-hover); color: var(--text-primary); }
-
-.modal-btn svg, .modal-btn .icon { width: 14px; height: 14px; }
-
-.modal-iframe-wrap { flex: 1; position: relative; background: var(--bg); }
-.modal-iframe-wrap iframe { width: 100%; height: 100%; border: none; display: block; }
-
-.modal-loading {
-  position: absolute; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  gap: 10px;
-  color: var(--text-muted);
-  font-size: 13px;
-}
-
-.modal-loading .spinner {
-  width: 16px; height: 16px;
-  border: 2px solid var(--border);
-  border-top-color: var(--accent);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin { to { transform: rotate(360deg); } }
-
 /* Footer */
 .footer {
   text-align: center;
@@ -430,11 +322,6 @@ body {
 /* Mobile */
 @media (max-width: 640px) {
   .app-grid { grid-template-columns: 1fr; gap: 12px; }
-  .modal { height: 100vh; border-radius: 0; }
-  .modal-overlay { padding: 0; }
-  .modal-title { font-size: 13px; }
-  .modal-btn span { display: none; }
-  .modal-btn { padding: 6px; }
   .hero h1 { font-size: 28px; }
 }
 
@@ -466,6 +353,7 @@ body {
       <button class="filter-btn" data-filter="games">Игры</button>
       <button class="filter-btn" data-filter="tools">Инструменты</button>
       <button class="filter-btn" data-filter="creative">Креатив</button>
+      <button class="filter-btn" data-filter="cells">Ячейки</button>
       <button class="filter-btn" data-filter="fun">Развлечения</button>
     </div>
   </div>
@@ -480,42 +368,9 @@ body {
   micr.fun · 2026
 </footer>
 
-<!-- Modal -->
-<div class="modal-overlay" id="modal">
-  <div class="modal">
-    <div class="modal-toolbar">
-      <div class="modal-info">
-        <span class="modal-title" id="modalTitle">Приложение</span>
-        <span class="modal-badge" id="modalBadge">Категория</span>
-      </div>
-      <div class="modal-actions">
-        <button class="modal-btn" id="btnOpen" title="Открыть в новой вкладке">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          <span>Открыть</span>
-        </button>
-        <button class="modal-btn" id="btnFs" title="На весь экран">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
-          <span>Полный экран</span>
-        </button>
-        <button class="modal-btn" id="btnCloseModal" title="Закрыть">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-          <span>Закрыть</span>
-        </button>
-      </div>
-    </div>
-    <div class="modal-iframe-wrap">
-      <div class="modal-loading" id="modalLoading">
-        <span class="spinner"></span>
-        Загрузка...
-      </div>
-      <iframe id="modalFrame" src="" title="Приложение"></iframe>
-    </div>
-  </div>
-</div>
-
 <script>
 const APPS = [
-  { id: 'laziness', name: 'Лень', description: 'Фундаментальная модель блокировки действия и внутреннего конфликта', category: 'creative', color: '#8b5cf6', views: 9200, url: '/laziness.html', icon: 'coffee' },
+  { id: 'laziness', name: 'Лень', description: 'Фундаментальная модель блокировки действия и внутреннего конфликта', category: 'cells', color: '#d4541c', views: 9200, url: '/cells/laziness', icon: 'coffee' },
   { id: 'breathing', name: 'Дыхание', description: 'Упражнения на дыхание для расслабления и концентрации', category: 'tools', color: '#3b82f6', views: 3200, url: '/apps/breathing/index.html', icon: 'wind' },
   { id: 'color-palette', name: 'Палитра', description: 'Генератор и подбор красивых цветовых сочетаний', category: 'creative', color: '#a855f7', views: 2800, url: '/apps/color-palette/index.html', icon: 'palette' },
   { id: 'dice', name: 'Кости', description: 'Бросай виртуальные игральные кости', category: 'fun', color: '#f43f5e', views: 5400, url: '/apps/dice/index.html', icon: 'dices' },
@@ -528,6 +383,7 @@ const CATEGORY_LABELS = {
   games: 'Игры',
   tools: 'Инструменты',
   creative: 'Креатив',
+  cells: 'Ячейки',
   fun: 'Развлечения'
 };
 
@@ -545,21 +401,9 @@ const grid = document.getElementById('appGrid');
 const empty = document.getElementById('emptyState');
 const search = document.getElementById('search');
 const filterBtns = document.querySelectorAll('.filter-btn');
-const modal = document.getElementById('modal');
-const modalFrame = document.getElementById('modalFrame');
-const modalLoading = document.getElementById('modalLoading');
-const modalTitle = document.getElementById('modalTitle');
-const modalBadge = document.getElementById('modalBadge');
-const btnOpen = document.getElementById('btnOpen');
-const btnClose = document.getElementById('btnCloseModal');
 
 let activeFilter = 'all';
 let activeQuery = '';
-
-function formatViews(n) {
-  if (n >= 1000) return (n / 1000).toFixed(1).replace('.0', '') + 'k';
-  return String(n);
-}
 
 function createCard(app) {
   const card = document.createElement('div');
@@ -580,21 +424,12 @@ function createCard(app) {
     </div>
     <div class="card-desc">${app.description}</div>
     <div class="card-meta">
-      <div class="card-views">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-        ${formatViews(app.views)}
-      </div>
       <button class="card-action">Открыть</button>
     </div>
   `;
 
-  card.addEventListener('click', (e) => {
-    if (e.target.closest('.card-action')) {
-      e.stopPropagation();
-      openModal(app);
-    } else {
-      openModal(app);
-    }
+  card.addEventListener('click', () => {
+    window.location.href = app.url;
   });
 
   return card;
@@ -618,27 +453,6 @@ function render() {
   empty.style.display = count === 0 ? 'block' : 'none';
 }
 
-function openModal(app) {
-  modalTitle.textContent = app.name;
-  modalBadge.textContent = CATEGORY_LABELS[app.category] || app.category;
-  modalBadge.style.background = app.color + '20';
-  modalBadge.style.color = app.color;
-  modalBadge.style.border = '1px solid ' + app.color + '40';
-  btnOpen.onclick = () => window.open(app.url, '_blank');
-
-  modalLoading.style.display = 'flex';
-  modalFrame.style.display = 'none';
-  modalFrame.src = app.url;
-  modal.classList.add('active');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeModal() {
-  modal.classList.remove('active');
-  modalFrame.src = '';
-  document.body.style.overflow = '';
-}
-
 // Events
 search.addEventListener('input', (e) => {
   activeQuery = e.target.value;
@@ -652,29 +466,6 @@ filterBtns.forEach(btn => {
     activeFilter = btn.dataset.filter;
     render();
   });
-});
-
-btnClose.addEventListener('click', closeModal);
-modal.addEventListener('click', (e) => {
-  if (e.target === modal) closeModal();
-});
-
-document.getElementById('btnFs').addEventListener('click', () => {
-  const el = modal.querySelector('.modal');
-  if (!document.fullscreenElement) {
-    el.requestFullscreen?.() || el.webkitRequestFullscreen?.();
-  } else {
-    document.exitFullscreen?.() || document.webkitExitFullscreen?.();
-  }
-});
-
-modalFrame.addEventListener('load', () => {
-  modalLoading.style.display = 'none';
-  modalFrame.style.display = 'block';
-});
-
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closeModal();
 });
 
 render();
