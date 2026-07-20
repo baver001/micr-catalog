@@ -168,6 +168,11 @@ body {
   background: var(--bg-hover);
 }
 
+.app-card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
 .card-preview {
   height: 120px;
   overflow: hidden;
@@ -217,28 +222,6 @@ body {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-}
-
-.card-action {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  background: transparent;
-  border: none;
-  border-top: 1px solid var(--border);
-  color: var(--text-muted);
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: var(--transition);
-  text-align: center;
-  margin-top: 8px;
-}
-
-.card-action:hover {
-  color: var(--accent);
-  background: var(--bg-hover);
 }
 
 /* Hidden card (filtered out) */
@@ -423,7 +406,32 @@ body {
     padding: 12px 16px 48px;
   }
 
-  .app-grid { grid-template-columns: 1fr; gap: 12px; }
+  .app-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .app-card {
+    min-width: 0;
+  }
+
+  .card-preview {
+    height: auto;
+    aspect-ratio: 16 / 10;
+  }
+
+  .card-title-overlay {
+    padding: 28px 16px 14px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.82));
+    font-size: 17px;
+  }
+
+  .card-desc {
+    padding: 12px 16px 16px;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
   .modal { height: 100vh; border-radius: 0; }
   .modal-overlay { padding: 0; }
   .modal-title { font-size: 13px; }
@@ -434,7 +442,15 @@ body {
 @media (max-width: 480px) {
   .header { padding: 16px; }
   .main { padding: 0 16px 40px; }
-  .app-card { padding: 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }
 </style>
 </head>
@@ -507,6 +523,9 @@ function createCard(app) {
   card.className = 'app-card';
   card.dataset.id = app.id;
   card.dataset.category = app.category;
+  card.tabIndex = 0;
+  card.setAttribute('role', 'link');
+  card.setAttribute('aria-label', `Открыть ${app.name}`);
 
   card.innerHTML = `
     <div class="card-preview">
@@ -515,15 +534,17 @@ function createCard(app) {
       <div class="card-title-overlay">${app.name}</div>
     </div>
     <div class="card-desc">${app.description}</div>
-    <button class="card-action">Открыть</button>
   `;
 
-  card.addEventListener('click', (e) => {
-    if (e.target.closest('.card-action')) {
-      e.stopPropagation();
-      window.location.href = app.url;
-    } else {
-      window.location.href = app.url;
+  const openCard = () => {
+    window.location.href = app.url;
+  };
+
+  card.addEventListener('click', openCard);
+  card.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openCard();
     }
   });
 
