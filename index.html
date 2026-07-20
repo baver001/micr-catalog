@@ -182,6 +182,7 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: top center;
   display: block;
 }
 
@@ -402,7 +403,6 @@ body {
         <button class="filter-btn" data-filter="games">Игры</button>
         <button class="filter-btn" data-filter="tools">Инструменты</button>
         <button class="filter-btn" data-filter="creative">Креатив</button>
-        <button class="filter-btn" data-filter="fun">Развлечения</button>
       </div>
       <div class="search-wrap">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -425,9 +425,7 @@ body {
 const APPS = [
   { id: 'laziness', name: 'Лень', description: 'Фундаментальная модель блокировки действия и внутреннего конфликта', category: 'creative', color: '#8b5cf6', views: 9200, url: '/laziness/', icon: 'coffee' },
   { id: 'breathing', name: 'Дыхание', description: 'Упражнения на дыхание для расслабления и концентрации', category: 'tools', color: '#3b82f6', views: 3200, url: '/apps/breathing/index.html', icon: 'wind' },
-  { id: 'color-palette', name: 'Палитра', description: 'Генератор и подбор красивых цветовых сочетаний', category: 'creative', color: '#a855f7', views: 2800, url: '/apps/color-palette/index.html', icon: 'palette' },
-  { id: 'dice', name: 'Кости', description: 'Бросай виртуальные игральные кости', category: 'fun', color: '#f43f5e', views: 5400, url: '/apps/dice/index.html', icon: 'dices' },
-  { id: 'reaction', name: 'Реакция', description: 'Проверь свою скорость реакции', category: 'games', color: '#f59e0b', views: 4100, url: '/apps/reaction/index.html', icon: 'zap' },
+  { id: 'reaction', name: 'Реакция', description: 'Проверь свою скорость реакции', category: 'games', color: '#f59e0b', views: 4100, url: '/apps/reaction-test/index.html', icon: 'zap' },
   { id: 'reaction-test', name: 'Реакция Тест', description: 'Расширенный тест скорости реакции с разными режимами', category: 'games', color: '#ef4444', views: 3600, url: '/apps/reaction-test/index.html', icon: 'timer' }
 ];
 
@@ -435,16 +433,14 @@ const CATEGORY_LABELS = {
   all: 'Все',
   games: 'Игры',
   tools: 'Инструменты',
-  creative: 'Креатив',
-  fun: 'Развлечения'
+  creative: 'Креатив'
 };
 
 const FILTER_COLORS = {
   all: '#3b82f6',
   games: '#f59e0b',
   tools: '#3b82f6',
-  creative: '#8b5cf6',
-  fun: '#f43f5e'
+  creative: '#8b5cf6'
 };
 const grid = document.getElementById('appGrid');
 const empty = document.getElementById('emptyState');
@@ -462,7 +458,7 @@ function createCard(app) {
 
   card.innerHTML = `
     <div class="card-preview">
-      <img src="/data/previews/${app.category}.svg" alt="" loading="lazy">
+      <img src="/data/previews/${app.id}.png" alt="Скриншот ${app.name}" loading="lazy" onerror="this.onerror=null;this.src='/data/previews/${app.category}.svg'">
       <span class="card-badge-overlay" style="background:${app.color}20;color:${app.color};border:1px solid ${app.color}40">${CATEGORY_LABELS[app.category] || app.category}</span>
       <div class="card-title-overlay">${app.name}</div>
     </div>
