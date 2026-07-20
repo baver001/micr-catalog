@@ -11,7 +11,7 @@ let catalog = [
         id: 1, 
         name: 'Лень', 
         description: 'Фундаментальная модель блокировки действия и внутреннего конфликта.',
-        url: '/cells/laziness',
+        url: '/laziness/',
         category: 'cells'
     }
 ];
@@ -49,7 +49,7 @@ app.post('/api/feedback', (req, res) => {
             id: Date.now(),
             text: text.trim(),
             contact: contact || null,
-            page: req.headers['referer'] || '/laziness.html',
+            page: req.headers['referer'] || '/laziness/',
             created: new Date().toISOString()
         });
         fs.writeFileSync(FEEDBACK_FILE, JSON.stringify(feedback, null, 2));
@@ -75,6 +75,6 @@ app.get('/api/feedback', (req, res) => {
     }
 });
 
-app.listen(port, () => {
+app.listen(port, '127.0.0.1', () => {
     console.log(`micr.fun API listening at http://localhost:${port}`);
 });

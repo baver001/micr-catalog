@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="page-title">micr.fun</title>
+<link rel="stylesheet" href="/data/styles/cells.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="/" class="back-link" data-i18n="catalog.back">← catalog</a>
+    <div class="lang-switcher">
+      <button class="lang-btn" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="ru">RU</button>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <article>
+    <header class="cell-header">
+      <div class="breadcrumbs" id="breadcrumbs">
+        <a href="/" data-i18n="catalog.back">catalog</a>
+      </div>
+      <h1 class="cell-title-lg" id="cell-title">—</h1>
+    </header>
+
+    <div class="cell-content" id="cell-content">
+      <div class="empty-state" data-i18n="ui.loading">Loading...</div>
+    </div>
+
+    <button class="feedback-btn" id="feedback-btn" data-cell="">
+      <span data-i18n="ui.feedback">Feedback</span>
+    </button>
+  </article>
+
+  <div class="backlinks" id="backlinks-root"></div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>micr.fun</p>
+  </div>
+</footer>
+
+<!-- Feedback Modal -->
+<div class="feedback-modal" id="feedback-modal">
+  <div class="feedback-modal-content">
+    <button class="close-btn feedback-close">&times;</button>
+    <form id="feedback-form">
+      <input type="hidden" name="cell" value="">
+      <textarea name="message" required data-i18n-placeholder="ui.feedback" placeholder="Your feedback..."></textarea>
+      <input type="text" name="contact" placeholder="Email or @username (optional)">
+      <div class="feedback-actions">
+        <button type="button" class="btn-secondary feedback-close">Cancel</button>
+        <button type="submit" class="btn-primary">Send</button>
+      </div>
+    </form>
+    <div id="feedback-thanks" class="feedback-thanks" style="display:none">✓ Thanks!</div>
+  </div>
+</div>
+
+<script src="/data/js/cells.js"></script>
+<script>
+(function(){
+  const SLUG = 'laziness';
+  const CAT = 'knowledge';
+  const LANG_KEY = 'micrfun_lang';
+
+  function currentLang() {
+    return localStorage.getItem(LANG_KEY) || (navigator.language || '').split('-')[0] === 'ru' ? 'ru' : 'en';
+  }
+
+  function loadCell() {
+    const lang = currentLang();
+    const titleEl = document.getElementById('cell-title');
+    const contentEl = document.getElementById('cell-content');
+    const feedbackBtn = document.getElementById('feedback-btn');
+    const breadcrumbs = document.getElementById('breadcrumbs');
+
+    // Load metadata
+    fetch('/data/graph.json').then(r => r.json()).then(data => {
+      const cell = data.cells[SLUG];
+      if (!cell) { contentEl.innerHTML = '<div class="empty-state">Cell not found</div>'; return; }
+
+      const title = cell.title[lang] || cell.title.en;
+      titleEl.textContent = (cell.icon || '') + ' ' + title;
+      document.title = title + ' — micr.fun';
+      feedbackBtn.dataset.cell = SLUG;
+
+      const catLabel = (window.micrfun && window.micrfun.t) ?
+        window.micrfun.t('categories.' + CAT) : CAT;
+      breadcrumbs.innerHTML = '<a href="/">' + (window.micrfun ? window.micrfun.t('catalog.back') : '← catalog') + '</a>' +
+        ' / <a href="/">' + catLabel + '</a>';
+
+      // Load content
+      loadContent(lang, cell);
+    }).catch(() => {
+      contentEl.innerHTML = '<div class="empty-state" data-i18n="ui.page_not_found">Page not found</div>';
+    });
+  }
+
+  function loadContent(lang, cell) {
+    const contentEl = document.getElementById('cell-content');
+    // Try content.{lang}.html, fall back to content.en.html
+    fetch('/cells/' + CAT + '/' + SLUG + '/content.' + lang + '.html')
+      .then(r => { if (!r.ok) throw new Error(); return r.text(); })
+      .then(html => {
+        contentEl.innerHTML = html;
+        if (window.micrfun) window.micrfun.processWikilinks(contentEl);
+        if (window.micrfun) window.micrfun.renderBacklinks(document.getElementById('backlinks-root'), SLUG);
+      })
+      .catch(() => {
+        // Fallback to English
+        fetch('/cells/' + CAT + '/' + SLUG + '/content.en.html')
+          .then(r => { if (!r.ok) throw new Error(); return r.text(); })
+          .then(html => {
+            contentEl.innerHTML = html;
+            if (window.micrfun) window.micrfun.processWikilinks(contentEl);
+            if (window.micrfun) window.micrfun.renderBacklinks(document.getElementById('backlinks-root'), SLUG);
+          })
+          .catch(() => {
+            contentEl.innerHTML = '<div class="empty-state">No content available</div>';
+          });
+      });
+  }
+
+  loadCell();
+
+  // Re-load on language change
+  window.addEventListener('storage', function(e) {
+    if (e.key === LANG_KEY) loadCell();
+  });
+  // Also listen via custom event from cells.js lang switch
+  document.addEventListener('langchange', function() { loadCell(); });
+})();
+</script>
+</body>
+</html>

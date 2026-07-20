@@ -3,13 +3,20 @@
   "short_name": "micr.fun",
   "description": "Каталог микроприложений",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#121212",
-  "theme_color": "#121212",
+  "background_color": "#0d0c0a",
+  "theme_color": "#0d0c0a",
   "icons": [
     {
       "src": "/favicon.svg",
       "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon.svg",
+      "sizes": "512x512",
       "type": "image/svg+xml",
       "purpose": "any maskable"
     }

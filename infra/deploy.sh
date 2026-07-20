@@ -21,11 +21,24 @@ cp index.html "$TARGET/"
 echo -e "${BLUE}📦 Copying apps...${NC}"
 cp -r apps "$TARGET/"
 
-# 3. Copy static pages
-echo -e "${BLUE}📋 Copying static pages...${NC}"
+# 3. Copy static pages and cell source tree
+echo -e "${BLUE}📋 Copying static pages and cells...${NC}"
 cp laziness.html "$TARGET/" 2>/dev/null || echo "  laziness.html not found, skipping"
 cp favicon.svg "$TARGET/" 2>/dev/null || echo "  favicon.svg not found, skipping"
+cp icon.svg "$TARGET/" 2>/dev/null || echo "  icon.svg not found, skipping"
 cp manifest.json "$TARGET/" 2>/dev/null || echo "  manifest.json not found, skipping"
+rm -rf "$TARGET/cells" "$TARGET/data"
+cp -r cells data "$TARGET/"
+
+# Public URLs stay flat; categories exist only in the source tree.
+declare -A CELL_CATEGORIES=(
+  [breathing]=tools [focus]=tools [palette]=tools
+  [dice]=games [reaction]=games
+  [elon]=knowledge [habits]=knowledge [laziness]=knowledge
+)
+for slug in "${!CELL_CATEGORIES[@]}"; do
+  ln -sfn "cells/${CELL_CATEGORIES[$slug]}/$slug" "$TARGET/$slug"
+done
 
 # 4. Verify
 echo -e "${BLUE}✅ Verifying...${NC}"

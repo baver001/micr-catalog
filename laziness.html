@@ -232,6 +232,34 @@
     .cycle-label.cl-3{bottom:0;left:50%;transform:translate(-50%,110%)}
     .cycle-label.cl-4{top:40%;left:0;transform:translate(-30%,-50%)}
   }
+/* Floating nav */
+.floating-nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 1000;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 20px;
+  background: rgba(13,12,10,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+  font-family: system-ui, sans-serif;
+  font-size: 13px;
+  transition: transform 0.3s ease;
+}
+.floating-nav.hidden { transform: translateY(-100%); }
+.floating-nav .nav-left { display: flex; align-items: center; gap: 12px; }
+.floating-nav .nav-right { display: flex; align-items: center; gap: 8px; }
+.floating-nav a { color: var(--ink-dim); text-decoration: none; padding: 4px 10px; border-radius: 4px; transition: all 0.15s; }
+.floating-nav a:hover { color: var(--ink); background: var(--bg-3); }
+.floating-nav .nav-back { color: var(--accent); font-weight: 500; }
+.floating-nav .nav-arrow { font-size: 16px; line-height: 1; }
+.floating-nav .nav-sep { color: var(--ink-faint); }
+.floating-nav .related-links { display: flex; gap: 6px; flex-wrap: wrap; }
+.floating-nav .related-links a { font-size: 12px; padding: 2px 8px; border: 1px solid var(--line); border-radius: 100px; }
+.floating-nav .related-links a:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Body padding for fixed nav */
+body { padding-top: 48px; }
 </style>
 </head>
 <body>
@@ -695,5 +723,80 @@
     submit.disabled = false; submit.textContent = 'Отправить';
   });
 </script>
+<div class="floating-nav" id="floatingNav">
+  <div class="nav-left">
+    <a href="/" class="nav-back">← Каталог</a>
+    <span class="nav-sep">|</span>
+    <a href="" id="navPrev" title="Предыдущее">←</a>
+    <a href="" id="navNext" title="Следующее">→</a>
+    <span class="nav-sep" id="navRelatedSep" style="display:none">|</span>
+    <div class="related-links" id="navRelated"></div>
+  </div>
+  <div class="nav-right">
+    <span id="navPosition" style="color:var(--ink-faint);font-size:12px;"></span>
+  </div>
+</div>
+
+<script>
+(function(){
+  const CURRENT_URL = '/laziness.html';
+  const APPS = [
+    {id:'laziness', name:'Лень', category:'creative', color:'#8b5cf6', url:'/laziness.html'},
+    {id:'breathing', name:'Дыхание', category:'tools', color:'#3b82f6', url:'/apps/breathing/index.html'},
+    {id:'color-palette', name:'Палитра', category:'creative', color:'#a855f7', url:'/apps/color-palette/index.html'},
+    {id:'dice', name:'Кости', category:'fun', color:'#f43f5e', url:'/apps/dice/index.html'},
+    {id:'reaction', name:'Реакция', category:'games', color:'#f59e0b', url:'/apps/reaction/index.html'},
+    {id:'reaction-test', name:'Реакция Тест', category:'games', color:'#ef4444', url:'/apps/reaction-test/index.html'}
+  ];
+
+  const current = APPS.find(a => a.url === CURRENT_URL);
+  if (!current) return;
+
+  // Find neighbors in same category
+  const sameCat = APPS.filter(a => a.category === current.category);
+  const idx = sameCat.findIndex(a => a.id === current.id);
+  const prev = idx > 0 ? sameCat[idx-1] : null;
+  const next = idx < sameCat.length-1 ? sameCat[idx+1] : null;
+
+  const prevEl = document.getElementById('navPrev');
+  const nextEl = document.getElementById('navNext');
+  const posEl = document.getElementById('navPosition');
+
+  if (prev) { prevEl.href = prev.url; prevEl.style.opacity = '1'; }
+  else { prevEl.style.opacity = '0.2'; prevEl.removeAttribute('href'); }
+
+  if (next) { nextEl.href = next.url; nextEl.style.opacity = '1'; }
+  else { nextEl.style.opacity = '0.2'; nextEl.removeAttribute('href'); }
+
+  if (sameCat.length > 1) {
+    posEl.textContent = (idx+1) + '/' + sameCat.length + ' · ' + (window.__CAT_LABELS && window.__CAT_LABELS[current.category] || current.category);
+  }
+
+  // Related links from graph.json
+  fetch('/data/graph.json')
+    .then(r => r.ok ? r.json() : Promise.reject())
+    .then(data => {
+      const cell = data.cells && data.cells.laziness;
+      if (!cell) return;
+      const relatedEl = document.getElementById('navRelated');
+      const sepEl = document.getElementById('navRelatedSep');
+      const links = (cell.links_to || []).concat(cell.linked_from || []);
+      if (links.length === 0) return;
+      sepEl.style.display = '';
+      links.forEach(slug => {
+        const ref = data.cells[slug];
+        if (ref) {
+          const title = ref.title && (ref.title.ru || ref.title.en) || slug;
+          const a = document.createElement('a');
+          a.href = '/' + ref.slug + '.html';
+          a.textContent = title;
+          relatedEl.appendChild(a);
+        }
+      });
+    })
+    .catch(() => {});
+})();
+</script>
+
 </body>
 </html>

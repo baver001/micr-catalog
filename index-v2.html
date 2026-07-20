@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>micr.fun — Games, experiments, tools & knowledge</title>
+<meta name="description" content="A catalog of micro-formats for learning, playing and exploring.">
+<link rel="stylesheet" href="/data/styles/cells.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <span class="back-link" data-i18n="catalog.title">A catalog of games, experiments, tools &amp; knowledge</span>
+    <div class="lang-switcher">
+      <button class="lang-btn" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="ru">RU</button>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <div id="catalog-root">
+    <div class="empty-state" data-i18n="ui.loading">Loading...</div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>micr.fun</p>
+  </div>
+</footer>
+
+<!-- Feedback Modal -->
+<div class="feedback-modal" id="feedback-modal">
+  <div class="feedback-modal-content">
+    <button class="close-btn feedback-close">&times;</button>
+    <h3 data-i18n="ui.feedback">Feedback</h3>
+    <form id="feedback-form">
+      <input type="hidden" name="cell" value="">
+      <textarea name="message" required data-i18n-placeholder="ui.feedback" placeholder="Your feedback..."></textarea>
+      <input type="text" name="contact" placeholder="Email or @username (optional)">
+      <div class="feedback-actions">
+        <button type="button" class="btn-secondary feedback-close" data-i18n="ui.loading">Cancel</button>
+        <button type="submit" class="btn-primary">Send</button>
+      </div>
+    </form>
+    <div id="feedback-thanks" class="feedback-thanks" style="display:none">✓ Thanks!</div>
+  </div>
+</div>
+
+<script src="/data/js/cells.js"></script>
+<script>
+// Catalog renderer
+const CATEGORY_ORDER = ['games', 'experiments', 'tools', 'knowledge'];
+
+function renderCatalog() {
+  const root = document.getElementById('catalog-root');
+  root.innerHTML = '';
+
+  fetch('/data/graph.json').then(r => r.json()).then(data => {
+    const cells = data.cells;
+    const lang = window.micrfun.lang();
+
+    // Group by category
+    const byCategory = {};
+    Object.keys(cells).forEach(slug => {
+      const cell = cells[slug];
+      if (!byCategory[cell.category]) byCategory[cell.category] = [];
+      byCategory[cell.category].push(cell);
+    });
+
+    let html = '';
+    CATEGORY_ORDER.forEach(cat => {
+      const items = byCategory[cat] || [];
+      if (items.length === 0) return;
+
+      const catLabel = window.micrfun.t('categories.' + cat);
+      html += '<section class="category-section">';
+      html += '<h2 class="category-heading">' + catLabel + '</h2>';
+      html += '<div class="cell-grid">';
+      items.forEach(cell => {
+        const title = cell.title[lang] || cell.title.en;
+        const desc = cell.description[lang] || cell.description.en;
+        html += '<a href="/cells/' + cell.category + '/' + cell.slug + '/" class="cell-card">';
+        if (cell.icon) html += '<span class="cell-icon">' + cell.icon + '</span>';
+        html += '<span class="cell-title">' + title + '</span>';
+        html += '<span class="cell-desc">' + desc + '</span>';
+        html += '<span class="cell-category">' + catLabel + '</span>';
+        html += '</a>';
+      });
+      html += '</div></section>';
+    });
+
+    if (!html) html = '<div class="empty-state">No cells yet</div>';
+    root.innerHTML = html;
+  }).catch(() => {
+    root.innerHTML = '<div class="empty-state" data-i18n="ui.page_not_found">Page not found</div>';
+    window.micrfun.t && window.micrfun.t('ui.page_not_found');
+  });
+}
+
+// Expose for language switching
+window.renderCatalog = renderCatalog;
+renderCatalog();
+</script>
+</body>
+</html>

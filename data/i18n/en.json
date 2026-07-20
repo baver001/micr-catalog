@@ -1,0 +1,24 @@
+{
+  "catalog": {
+    "title": "A catalog of games, experiments, tools & knowledge",
+    "subtitle": "Micro-formats for learning, playing and exploring",
+    "back": "← catalog"
+  },
+  "categories": {
+    "games": "Games",
+    "experiments": "Experiments",
+    "tools": "Tools",
+    "knowledge": "Knowledge"
+  },
+  "ui": {
+    "feedback": "Feedback",
+    "language": "Language",
+    "referenced_in": "Referenced in",
+    "links_to": "Links to",
+    "loading": "Loading...",
+    "page_not_found": "Page not found"
+  },
+  "cell": {
+    "about": "About this cell"
+  }
+}

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 120" width="500" height="120">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@800;900&amp;display=swap');
+      .t { font-family: 'Nunito', 'Arial Rounded MT Bold', 'Comic Sans MS', sans-serif; font-weight: 900; }
+    </style>
+  </defs>
+
+  <!-- Буква m: лавандовый -->
+  <text x="0" y="90" class="t" font-size="76" fill="#b8a9d4">m</text>
+
+  <!-- Буква i: голубой -->
+  <text x="70" y="90" class="t" font-size="76" fill="#7fa9c4">i</text>
+
+  <!-- Элемент над i: круг + месяц -->
+  <circle cx="88" cy="20" r="16" fill="#d4c5a9"/>
+  <path d="M82 14 A10 10 0 1 0 82 30 A8 8 0 1 1 82 14Z" fill="#fff"/>
+
+  <!-- Буква c: бирюзовый -->
+  <text x="122" y="90" class="t" font-size="76" fill="#7fc4b8">c</text>
+
+  <!-- Буква r: мятный -->
+  <text x="175" y="90" class="t" font-size="76" fill="#a8d4b8">r</text>
+
+  <!-- Точка-разделитель: бежевая -->
+  <circle cx="224" cy="82" r="6" fill="#d4c5a9"/>
+
+  <!-- Буква f: розовая (самая высокая) -->
+  <text x="248" y="78" class="t" font-size="88" fill="#e8b4c4">f</text>
+
+  <!-- Буква u: светло-розовая/лиловая -->
+  <text x="305" y="90" class="t" font-size="76" fill="#d4b4c8">u</text>
+
+  <!-- Буква n: лавандовая (как m) -->
+  <text x="365" y="90" class="t" font-size="76" fill="#b8a9d4">n</text>
+</svg>

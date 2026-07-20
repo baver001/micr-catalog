@@ -1,6 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <rect width="100" height="100" rx="20" fill="#121212"/>
-  <rect x="8" y="8" width="84" height="84" rx="14" fill="none" stroke="#3b82f6" stroke-width="2" opacity="0.3"/>
-  <text x="50" y="42" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="700" font-size="36" fill="#3b82f6">μ</text>
-  <text x="50" y="68" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="500" font-size="10" fill="#9ca3af" letter-spacing="1">fun</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@800;900&amp;display=swap');
+      .t { font-family: 'Nunito', 'Arial Rounded MT Bold', 'Comic Sans MS', sans-serif; font-weight: 900; }
+    </style>
+  </defs>
+  <rect width="100" height="100" rx="20" fill="#0d0c0a"/>
+  <text x="4" y="72" class="t" font-size="60" fill="#b8a9d4">m</text>
+  <text x="35" y="72" class="t" font-size="60" fill="#7fa9c4">i</text>
+  <circle cx="44" cy="14" r="11" fill="#d4c5a9"/>
+  <path d="M40 10 A7 7 0 1 0 40 22 A6 6 0 1 1 40 10Z" fill="#0d0c0a"/>
+  <text x="64" y="72" class="t" font-size="60" fill="#7fc4b8">c</text>
+  <text x="87" y="72" class="t" font-size="60" fill="#a8d4b8">r</text>
 </svg>

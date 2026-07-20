@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@800;900&amp;display=swap');
+      .t { font-family: 'Nunito', 'Arial Rounded MT Bold', 'Comic Sans MS', sans-serif; font-weight: 900; }
+    </style>
+    <clipPath id="rnd"><rect width="512" height="512" rx="96"/></clipPath>
+  </defs>
+  <!-- Фон -->
+  <rect width="512" height="512" rx="96" fill="#0d0c0a"/>
+  <!-- Буква m: лавандовый -->
+  <text x="24" y="350" class="t" font-size="280" fill="#b8a9d4">m</text>
+  <!-- Буква i: голубой -->
+  <text x="165" y="350" class="t" font-size="280" fill="#7fa9c4">i</text>
+  <!-- Элемент над i: жёлтый круг + чёрный месяц -->
+  <circle cx="228" cy="80" r="52" fill="#d4c5a9"/>
+  <path d="M215 60 A32 32 0 1 0 215 116 A28 28 0 1 1 215 60Z" fill="#0d0c0a"/>
+  <!-- Буква c: бирюзовый -->
+  <text x="295" y="350" class="t" font-size="280" fill="#7fc4b8">c</text>
+  <!-- Буква r: мятный -->
+  <text x="410" y="350" class="t" font-size="280" fill="#a8d4b8">r</text>
+</svg>

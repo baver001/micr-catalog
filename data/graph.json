@@ -1,3 +1,76 @@
-[
-  {"source":"laziness","target":"procrastination","type":"related"}
-]
+{
+  "cells": {
+    "laziness": {
+      "slug": "laziness",
+      "category": "knowledge",
+      "title": { "en": "Laziness", "ru": "Лень" },
+      "description": { "en": "What laziness really is — a resource deficit, not a character flaw", "ru": "Что такое лень на самом деле — дефицит ресурса, а не порок" },
+      "icon": "🦥",
+      "links_to": [],
+      "linked_from": ["habits"]
+    },
+    "breathing": {
+      "slug": "breathing",
+      "category": "tools",
+      "title": { "en": "Breathing", "ru": "Дыхание" },
+      "description": { "en": "Guided breathing exercises for calm and focus", "ru": "Управляемое дыхание для спокойствия и фокуса" },
+      "icon": "🌬️",
+      "links_to": ["focus"],
+      "linked_from": []
+    },
+    "focus": {
+      "slug": "focus",
+      "category": "tools",
+      "title": { "en": "Focus", "ru": "Фокус" },
+      "description": { "en": "Deep work timer for concentrated sessions", "ru": "Таймер глубокой работы для концентрированных сессий" },
+      "icon": "🎯",
+      "links_to": ["breathing"],
+      "linked_from": ["breathing"]
+    },
+    "palette": {
+      "slug": "palette",
+      "category": "tools",
+      "title": { "en": "Palette", "ru": "Палитра" },
+      "description": { "en": "Color scheme generator and visual harmony tool", "ru": "Генератор цветовых схем и инструмент визуальной гармонии" },
+      "icon": "🎨",
+      "links_to": [],
+      "linked_from": []
+    },
+    "dice": {
+      "slug": "dice",
+      "category": "games",
+      "title": { "en": "Dice", "ru": "Кости" },
+      "description": { "en": "Random dice rolls with multiple configurations", "ru": "Случайные броски костей с разными настройками" },
+      "icon": "🎲",
+      "links_to": [],
+      "linked_from": []
+    },
+    "reaction": {
+      "slug": "reaction",
+      "category": "games",
+      "title": { "en": "Reaction", "ru": "Реакция" },
+      "description": { "en": "Test and train your reaction time", "ru": "Проверь и тренируй свою реакцию" },
+      "icon": "⚡",
+      "links_to": [],
+      "linked_from": []
+    },
+    "elon": {
+      "slug": "elon",
+      "category": "knowledge",
+      "title": { "en": "Elon", "ru": "Илон" },
+      "description": { "en": "Notes and observations on Elon Musk's thinking", "ru": "Заметки и наблюдения о мышлении Илона Маска" },
+      "icon": "🚀",
+      "links_to": [],
+      "linked_from": []
+    },
+    "habits": {
+      "slug": "habits",
+      "category": "knowledge",
+      "title": { "en": "Atomic Habits", "ru": "Атомные привычки" },
+      "description": { "en": "Building systems for sustainable habit change", "ru": "Построение систем для устойчивого изменения привычек" },
+      "icon": "🔄",
+      "links_to": ["laziness"],
+      "linked_from": []
+    }
+  }
+}
