@@ -38,7 +38,7 @@ find "$TARGET/data" "$TARGET/cells" -type f -exec chmod 644 {} +
 declare -A CELL_CATEGORIES=(
   [breathing]=tools [focus]=tools [palette]=tools
   [dice]=games [reaction]=games
-  [elon]=knowledge [habits]=knowledge [laziness]=laziness
+  [elon]=knowledge [habits]=knowledge [laziness]=.
 )
 for slug in "${!CELL_CATEGORIES[@]}"; do
   ln -sfn "cells/${CELL_CATEGORIES[$slug]}/$slug" "$TARGET/$slug"
