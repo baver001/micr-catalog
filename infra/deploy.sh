@@ -28,7 +28,11 @@ cp favicon.svg "$TARGET/" 2>/dev/null || echo "  favicon.svg not found, skipping
 cp icon.svg "$TARGET/" 2>/dev/null || echo "  icon.svg not found, skipping"
 cp manifest.json "$TARGET/" 2>/dev/null || echo "  manifest.json not found, skipping"
 rm -rf "$TARGET/cells" "$TARGET/data"
-cp -r cells data "$TARGET/"
+cp -r cells data "$TARGET"
+
+# Public static assets must be readable by nginx/www-data. Source files may be private (0600).
+find "$TARGET/data" "$TARGET/cells" -type d -exec chmod 755 {} +
+find "$TARGET/data" "$TARGET/cells" -type f -exec chmod 644 {} +
 
 # Public URLs stay flat; categories exist only in the source tree.
 declare -A CELL_CATEGORIES=(
