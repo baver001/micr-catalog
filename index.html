@@ -544,7 +544,7 @@ function createCard(app) {
 
   card.innerHTML = `
     <div class="card-preview">
-      <img src="/data/previews/${app.id}.png?v=20260720" alt="Screenshot: ${app.name}" loading="lazy" onerror="handlePreviewError(this)">
+      <img src="/data/previews/${app.id}.png?v=20260720-2" alt="Screenshot: ${app.name}" loading="lazy" onerror="handlePreviewError(this)">
       <span class="card-badge-overlay" style="background:${app.color}20;color:${app.color};border:1px solid ${app.color}40">${CATEGORY_LABELS[app.category] || app.category}</span>
       <div class="card-title-overlay">${app.name}</div>
     </div>
