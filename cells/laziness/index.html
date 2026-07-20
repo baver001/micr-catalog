@@ -711,8 +711,13 @@
         return '<a href="/cells/' + slug + '" style="color:var(--accent-2);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line);transition:color .2s;" onmouseover="this.style.textDecorationColor=\'var(--accent-2)\'" onmouseout="this.style.textDecorationColor=\'var(--line)\'">' + label + '</a>';
       });
     });
-    fetch('/data/graph.json').then(r=>r.json()).then(graph => {
-      const incoming = graph.filter(e => e.target === 'laziness');
+    fetch('/data/graph.json').then(r=>r.json()).then(payload => {
+      const entries = Array.isArray(payload) ? payload : Object.values(payload.cells || {});
+      const incoming = Array.isArray(payload)
+        ? entries.filter(e => e.target === 'laziness')
+        : entries
+            .filter(e => (e.links_to || []).includes('laziness') || (e.linked_from || []).includes('laziness'))
+            .map(e => ({source: e.slug}));
       const list = document.getElementById('backlinksList');
       if (!list) return;
       if (!incoming.length) { list.innerHTML = '<span style="font-family:Fraunces,serif;font-style:italic;font-size:13px;color:var(--ink-faint);">Пока нет связанных ячеек</span>'; return; }
@@ -720,6 +725,9 @@
         const label = e.source.replace(/-/g, ' ');
         return '<a href="/cells/' + e.source + '" style="display:inline-block;font-family:JetBrains Mono,monospace;font-size:10px;color:var(--ink-dim);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;border:1px solid var(--line);padding:6px 12px;transition:all .2s;" onmouseover="this.style.borderColor=\'var(--accent-2)\';this.style.color=\'var(--accent-2)\'" onmouseout="this.style.borderColor=\'\';this.style.color=\'\'">' + label + '</a>';
       }).join('');
+    }).catch(() => {
+      const list = document.getElementById('backlinksList');
+      if (list) list.innerHTML = '<span style="font-family:Fraunces,serif;font-style:italic;font-size:13px;color:var(--ink-faint);">Связанные ячейки недоступны</span>';
     });
   })();
 </script>
