@@ -3,6 +3,8 @@
     "laziness": {
       "slug": "laziness",
       "category": "knowledge",
+      "url": "/laziness/",
+      "color": "#8b5cf6",
       "title": { "en": "Laziness", "ru": "Лень" },
       "description": { "en": "What laziness really is — a resource deficit, not a character flaw", "ru": "Что такое лень на самом деле — дефицит ресурса, а не порок" },
       "icon": "🦥",
@@ -12,6 +14,8 @@
     "breathing": {
       "slug": "breathing",
       "category": "tools",
+      "url": "/breathing/",
+      "color": "#2dd4bf",
       "title": { "en": "Breathing", "ru": "Дыхание" },
       "description": { "en": "Guided breathing exercises for calm and focus", "ru": "Управляемое дыхание для спокойствия и фокуса" },
       "icon": "🌬️",
@@ -21,6 +25,8 @@
     "focus": {
       "slug": "focus",
       "category": "tools",
+      "url": "/focus/",
+      "color": "#3b82f6",
       "title": { "en": "Focus", "ru": "Фокус" },
       "description": { "en": "Deep work timer for concentrated sessions", "ru": "Таймер глубокой работы для концентрированных сессий" },
       "icon": "🎯",
@@ -30,6 +36,8 @@
     "palette": {
       "slug": "palette",
       "category": "tools",
+      "url": "/palette/",
+      "color": "#f472b6",
       "title": { "en": "Palette", "ru": "Палитра" },
       "description": { "en": "Color scheme generator and visual harmony tool", "ru": "Генератор цветовых схем и инструмент визуальной гармонии" },
       "icon": "🎨",
@@ -39,6 +47,8 @@
     "dice": {
       "slug": "dice",
       "category": "games",
+      "url": "/dice/",
+      "color": "#f59e0b",
       "title": { "en": "Dice", "ru": "Кости" },
       "description": { "en": "Random dice rolls with multiple configurations", "ru": "Случайные броски костей с разными настройками" },
       "icon": "🎲",
@@ -48,15 +58,41 @@
     "reaction": {
       "slug": "reaction",
       "category": "games",
+      "url": "/reaction/",
+      "color": "#ef4444",
       "title": { "en": "Reaction", "ru": "Реакция" },
       "description": { "en": "Test and train your reaction time", "ru": "Проверь и тренируй свою реакцию" },
       "icon": "⚡",
       "links_to": [],
       "linked_from": []
     },
+    "mapmapmaps": {
+      "slug": "mapmapmaps",
+      "category": "games",
+      "url": "https://mapmapmaps.micr.fun/",
+      "color": "#22c55e",
+      "title": { "en": "MapMapMaps", "ru": "MapMapMaps" },
+      "description": { "en": "Guess the location from street panoramas", "ru": "Угадай место по панораме улицы" },
+      "icon": "🗺️",
+      "links_to": [],
+      "linked_from": []
+    },
+    "cameravox": {
+      "slug": "cameravox",
+      "category": "experiments",
+      "url": "https://cameravox.micr.fun/",
+      "color": "#38bdf8",
+      "title": { "en": "Cameravox", "ru": "Cameravox" },
+      "description": { "en": "A visual theremin: play sound by moving your hands", "ru": "Визуальный терменвокс: играй звуком движением рук" },
+      "icon": "🎹",
+      "links_to": [],
+      "linked_from": []
+    },
     "color-life": {
       "slug": "color-life",
-      "category": "games",
+      "category": "experiments",
+      "url": "/color-life/",
+      "color": "#ef5b73",
       "title": { "en": "Color Life", "ru": "Цветная жизнь" },
       "description": { "en": "Conway Life with RGB cells that mix into colonies", "ru": "Игра Конвея с RGB-клетками, которые смешиваются в цветные колонии" },
       "icon": "🌈",
@@ -65,7 +101,9 @@
     },
     "life-3d": {
       "slug": "life-3d",
-      "category": "games",
+      "category": "experiments",
+      "url": "/life-3d/",
+      "color": "#66a8ff",
       "title": { "en": "Life 3D", "ru": "Жизнь 3D" },
       "description": { "en": "Colored Conway generations rising as layers", "ru": "Цветные поколения Конвея, которые строятся слоями вверх" },
       "icon": "🧊",
@@ -75,6 +113,8 @@
     "elon": {
       "slug": "elon",
       "category": "knowledge",
+      "url": "/elon/",
+      "color": "#eab308",
       "title": { "en": "Elon", "ru": "Илон" },
       "description": { "en": "Notes and observations on Elon Musk's thinking", "ru": "Заметки и наблюдения о мышлении Илона Маска" },
       "icon": "🚀",
@@ -84,6 +124,8 @@
     "habits": {
       "slug": "habits",
       "category": "knowledge",
+      "url": "/habits/",
+      "color": "#34d399",
       "title": { "en": "Atomic Habits", "ru": "Атомные привычки" },
       "description": { "en": "Building systems for sustainable habit change", "ru": "Построение систем для устойчивого изменения привычек" },
       "icon": "🔄",

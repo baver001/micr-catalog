@@ -490,7 +490,8 @@ body {
         <button class="filter-btn active" data-filter="all">Все</button>
         <button class="filter-btn" data-filter="games">Игры</button>
         <button class="filter-btn" data-filter="tools">Инструменты</button>
-        <button class="filter-btn" data-filter="creative">Креатив</button>
+        <button class="filter-btn" data-filter="experiments">Эксперименты</button>
+        <button class="filter-btn" data-filter="knowledge">Знания</button>
       </div>
     </div>
   </div>
@@ -505,102 +506,48 @@ body {
   micr.fun · 2026
 </footer>
 
+<script src="/js/catalog.js"></script>
 <script>
-const APPS = [
-  { id: 'laziness', name: 'Лень', description: 'Фундаментальная модель блокировки действия и внутреннего конфликта', category: 'creative', color: '#8b5cf6', views: 9200, url: '/laziness/', icon: 'coffee' },
-  { id: 'mapmapmaps', name: 'MapMapMaps', description: 'Угадай место по панораме улицы', category: 'games', color: '#22c55e', views: 0, url: 'https://mapmapmaps.micr.fun/', icon: 'map' },
-  { id: 'color-life', name: 'Цветная жизнь', description: 'Игра Конвея: RGB-клетки смешиваются и создают колонии', category: 'games', color: '#ef5b73', views: 0, url: '/color-life/', icon: 'sparkles' },
-  { id: 'life-3d', name: 'Жизнь 3D', description: 'Цветные поколения игры Конвея строятся слоями вверх', category: 'games', color: '#66a8ff', views: 0, url: '/life-3d/', icon: 'cube' },
-  { id: 'cameravox', name: 'Cameravox', description: 'Визуальный терменвокс: играй звуком движением рук', category: 'tools', color: '#38bdf8', views: 0, url: 'https://cameravox.micr.fun/', icon: 'camera' }
-];
-
-const CATEGORY_LABELS = {
-  all: 'Все',
-  games: 'Игры',
-  tools: 'Инструменты',
-  creative: 'Креатив'
-};
-
 const FILTER_COLORS = {
   all: '#3b82f6',
   games: '#f59e0b',
-  tools: '#3b82f6',
-  creative: '#8b5cf6'
+  tools: '#2dd4bf',
+  experiments: '#a78bfa',
+  knowledge: '#34d399'
 };
+
 const grid = document.getElementById('appGrid');
 const empty = document.getElementById('emptyState');
 const search = document.getElementById('search');
 const filterBtns = document.querySelectorAll('.filter-btn');
 
+let APPS = [];
 let activeFilter = 'all';
 let activeQuery = '';
 
-function createCard(app) {
-  const card = document.createElement('div');
-  card.className = 'app-card';
-  card.dataset.id = app.id;
-  card.dataset.category = app.category;
-  card.tabIndex = 0;
-  card.setAttribute('role', 'link');
-  card.setAttribute('aria-label', `Открыть ${app.name}`);
-
-  card.innerHTML = `
-    <div class="card-preview">
-      <img src="/data/previews/${app.id}.png?v=20260720-2" alt="Screenshot: ${app.name}" loading="lazy" onerror="handlePreviewError(this)">
-      <span class="card-badge-overlay" style="background:${app.color}20;color:${app.color};border:1px solid ${app.color}40">${CATEGORY_LABELS[app.category] || app.category}</span>
-      <div class="card-title-overlay">${app.name}</div>
-    </div>
-    <div class="card-desc">${app.description}</div>
-  `;
-
-  const openCard = () => {
-    window.location.href = app.url;
-  };
-
-  card.addEventListener('click', openCard);
-  card.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      openCard();
-    }
+function paintFilters() {
+  filterBtns.forEach(btn => {
+    btn.style.setProperty('--btn-color', FILTER_COLORS[btn.dataset.filter] || '#3b82f6');
   });
-
-  return card;
-}
-
-function handlePreviewError(image) {
-  image.onerror = null;
-  const missingPreview = document.createElement('span');
-  missingPreview.className = 'missing-preview';
-  missingPreview.textContent = 'Предпросмотр недоступен';
-  image.replaceWith(missingPreview);
 }
 
 function render() {
-  // Set filter button colors
-  filterBtns.forEach(btn => {
-    const cat = btn.dataset.filter;
-    btn.style.setProperty('--btn-color', FILTER_COLORS[cat] || '#3b82f6');
-  });
-
-  grid.innerHTML = '';
-  let count = 0;
-
-  for (const app of APPS) {
-    const matchesFilter = activeFilter === 'all' || app.category === activeFilter;
-    const q = activeQuery.toLowerCase();
-    const matchesSearch = !q || app.name.toLowerCase().includes(q) || app.description.toLowerCase().includes(q);
-
-    if (matchesFilter && matchesSearch) {
-      grid.appendChild(createCard(app));
-      count++;
-    }
-  }
-
-  empty.style.display = count === 0 ? 'block' : 'none';
+  MicrCatalog.render({ apps: APPS, gridEl: grid, emptyEl: empty, filter: activeFilter, query: activeQuery });
 }
 
-// Events
+async function init() {
+  try {
+    APPS = await MicrCatalog.load();
+  } catch (err) {
+    console.error('Failed to load graph.json:', err);
+    empty.textContent = 'Не удалось загрузить каталог';
+    empty.style.display = 'block';
+    return;
+  }
+  paintFilters();
+  render();
+}
+
 search.addEventListener('input', (e) => {
   activeQuery = e.target.value;
   render();
@@ -615,7 +562,7 @@ filterBtns.forEach(btn => {
   });
 });
 
-render();
+init();
 
 // Register service worker
 if ('serviceWorker' in navigator) {
