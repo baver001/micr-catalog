@@ -54,6 +54,24 @@
       "links_to": [],
       "linked_from": []
     },
+    "color-life": {
+      "slug": "color-life",
+      "category": "games",
+      "title": { "en": "Color Life", "ru": "Цветная жизнь" },
+      "description": { "en": "Conway Life with RGB cells that mix into colonies", "ru": "Игра Конвея с RGB-клетками, которые смешиваются в цветные колонии" },
+      "icon": "🌈",
+      "links_to": [],
+      "linked_from": []
+    },
+    "life-3d": {
+      "slug": "life-3d",
+      "category": "games",
+      "title": { "en": "Life 3D", "ru": "Жизнь 3D" },
+      "description": { "en": "Colored Conway generations rising as layers", "ru": "Цветные поколения Конвея, которые строятся слоями вверх" },
+      "icon": "🧊",
+      "links_to": [],
+      "linked_from": []
+    },
     "elon": {
       "slug": "elon",
       "category": "knowledge",
