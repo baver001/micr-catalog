@@ -18,8 +18,8 @@ echo -e "${BLUE}📄 Copying index.html...${NC}"
 cp index.html "$TARGET/"
 
 # 2. Copy apps
-echo -e "${BLUE}📦 Copying apps...${NC}"
-cp -r apps "$TARGET/"
+echo -e "${BLUE}📦 Copying legacy apps (if present)...${NC}"
+if [ -d apps ]; then cp -r apps "$TARGET/"; fi
 
 # 3. Copy static pages and cell source tree
 echo -e "${BLUE}📋 Copying static pages and cells...${NC}"
@@ -37,7 +37,7 @@ find "$TARGET/data" "$TARGET/cells" -type f -exec chmod 644 {} +
 # Public URLs stay flat; categories exist only in the source tree.
 declare -A CELL_CATEGORIES=(
   [breathing]=tools [focus]=tools [palette]=tools
-  [dice]=games [reaction]=games
+  [dice]=games [reaction]=games [color-life]=games [life-3d]=games
   [elon]=knowledge [habits]=knowledge [laziness]=.
 )
 for slug in "${!CELL_CATEGORIES[@]}"; do
