@@ -9,6 +9,7 @@
     "dev:api": "cd server/api && npm install && node index.js",
     "deploy": "./infra/deploy.sh",
     "check:static": "node ./scripts/static-smoke.mjs",
+    "check:registry": "node ./scripts/registry-check.mjs",
     "check:i18n": "node ./scripts/i18n-check-keys.mjs",
     "check:deploy": "node ./scripts/deploy-config-check.mjs"
   }

@@ -1,0 +1,20 @@
+.micr-shell-root{position:relative;z-index:20}
+.micr-shell-dock{position:fixed;left:50%;bottom:calc(12px + env(safe-area-inset-bottom));z-index:40;display:flex;align-items:center;gap:8px;transform:translateX(-50%);padding:7px;border:1px solid rgba(255,255,255,.14);border-radius:999px;background:rgba(12,14,18,.82);backdrop-filter:blur(20px);box-shadow:0 16px 50px rgba(0,0,0,.32)}
+.micr-shell-dock button,.micr-shell-dock a{display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;color:#f5f7f8;background:rgba(255,255,255,.07);text-decoration:none;cursor:pointer;font:inherit}
+.micr-shell-dock button:hover,.micr-shell-dock a:hover{background:rgba(255,255,255,.15)}
+.micr-shell-dock button:focus-visible,.micr-shell-dock a:focus-visible,.micr-shell-sheet button:focus-visible,.micr-shell-sheet a:focus-visible{outline:2px solid #c6ff3d;outline-offset:3px}
+.micr-shell-dock .micr-shell-current{width:52px;height:52px;background:rgba(255,255,255,.1)}
+.micr-shell-dock .micr-shell-arrow{font-size:22px;color:rgba(245,247,248,.72)}
+.micr-shell-dock [aria-disabled=true]{visibility:hidden;pointer-events:none}
+.micr-shell-mascot-host{display:grid;place-items:center;width:38px;height:38px}
+.micr-shell-sheet-backdrop{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.48);opacity:0;transition:opacity .2s ease}
+.micr-shell-sheet-backdrop.is-open{opacity:1}
+.micr-shell-sheet{position:fixed;left:50%;bottom:0;z-index:51;width:min(560px,100%);max-height:min(76vh,680px);overflow:auto;padding:10px 18px calc(24px + env(safe-area-inset-bottom));border:1px solid rgba(255,255,255,.14);border-bottom:0;border-radius:26px 26px 0 0;background:rgba(20,22,28,.96);color:#f5f7f8;box-shadow:0 -20px 80px rgba(0,0,0,.38);transform:translate(-50%,100%);transition:transform .24s ease}
+.micr-shell-sheet.is-open{transform:translate(-50%,0)}
+.micr-shell-sheet[hidden],.micr-shell-sheet-backdrop[hidden]{display:none}
+.micr-shell-handle{width:42px;height:4px;margin:0 auto 18px;border-radius:99px;background:rgba(255,255,255,.25)}
+.micr-shell-sheet-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}.micr-shell-sheet h2{margin:0;font-size:22px;letter-spacing:-.04em}.micr-shell-sheet p{margin:5px 0 0;color:rgba(245,247,248,.62);font-size:13px}.micr-shell-close{width:40px;height:40px;border:1px solid rgba(255,255,255,.12);border-radius:50%;background:rgba(255,255,255,.06);color:inherit;font-size:20px;cursor:pointer}
+.micr-shell-actions{display:flex;gap:8px;margin-top:18px}.micr-shell-action{min-height:44px;padding:0 14px;border:1px solid rgba(255,255,255,.13);border-radius:12px;background:rgba(255,255,255,.07);color:inherit;text-decoration:none;cursor:pointer;font:inherit}.micr-shell-action.primary{border-color:transparent;background:#c6ff3d;color:#101509;font-weight:700}
+.micr-shell-siblings{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(132px,1fr);gap:8px;overflow-x:auto;margin-top:20px;padding-bottom:4px}.micr-shell-sibling{display:block;min-height:72px;padding:12px;border:1px solid rgba(255,255,255,.1);border-radius:14px;background:rgba(255,255,255,.045);color:inherit;text-decoration:none}.micr-shell-sibling strong{display:block;font-size:13px}.micr-shell-sibling small{display:block;margin-top:7px;color:rgba(245,247,248,.56);font-size:11px}.micr-shell-install-note{margin-top:14px;color:rgba(245,247,248,.56);font-size:12px}
+@media(max-width:520px){.micr-shell-dock{bottom:calc(8px + env(safe-area-inset-bottom));width:calc(100% - 24px);justify-content:space-between}.micr-shell-sheet{padding-left:14px;padding-right:14px}.micr-shell-actions>*{flex:1}}
+@media(prefers-reduced-motion:reduce){.micr-shell-sheet,.micr-shell-sheet-backdrop{transition:none}}

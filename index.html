@@ -377,7 +377,8 @@ body {
 }
 
 .card-preview {
-  height: 160px;
+  aspect-ratio: 16 / 9;
+  height: auto;
   overflow: hidden;
   background: var(--bg-elevated);
   display: flex;
@@ -406,30 +407,24 @@ body {
   text-align: center;
 }
 
-.card-badge-overlay {
+.card-content { padding: 14px 14px 16px; }
+.card-content h3 { margin: 0; font-size: 16px; font-weight: 650; letter-spacing: -0.02em; }
+.card-category {
   position: absolute;
-  top: 8px; right: 8px;
-  padding: 3px 10px;
+  left: 12px;
+  bottom: 10px;
+  padding: 3px 8px;
+  border: 1px solid currentColor;
   border-radius: 999px;
+  background: rgba(8,10,14,.72);
   font-size: 10px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  backdrop-filter: blur(4px);
 }
-
-.card-title-overlay {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  padding: 10px 12px;
-  background: linear-gradient(transparent, rgba(0,0,0,0.7));
-  font-size: 15px;
-  font-weight: 600;
-  color: #fff;
-}
-
 .card-desc {
-  padding: 8px 12px 0;
+  margin: 7px 0 0;
+  padding: 0;
   font-size: 13px;
   color: var(--text-secondary);
   line-height: 1.5;
@@ -630,17 +625,12 @@ body {
 
   .card-preview {
     height: auto;
-    aspect-ratio: 16 / 10;
+    aspect-ratio: 16 / 9;
   }
 
-  .card-title-overlay {
-    padding: 28px 16px 14px;
-    background: linear-gradient(transparent, rgba(0,0,0,0.82));
-    font-size: 17px;
-  }
-
+  .card-content { padding: 12px 12px 14px; }
   .card-desc {
-    padding: 12px 16px 16px;
+    padding: 0;
     font-size: 14px;
     line-height: 1.55;
   }
@@ -752,14 +742,8 @@ body {
 <script src="/data/js/pwa-install.js"></script>
 <script src="/data/js/cross-nav.js"></script>
 <script>
-const APPS = [
-  { id: 'laziness', category: 'knowledge', color: '#2da87a', views: 9200, url: '/laziness/', icon: 'coffee' },
-  { id: 'mapmapmaps', category: 'games', color: '#22c55e', views: 0, url: '/play/mapmapmaps/', icon: 'map' },
-  { id: 'cameravox', category: 'tools', color: '#38bdf8', views: 0, url: '/play/cameravox/', icon: 'camera' },
-  { id: 'mask-clock', category: 'tools', color: '#b99cff', views: 0, url: '/mask-clock/', icon: 'clock' },
-  { id: 'color-life', category: 'experiments', color: '#ef5b73', views: 0, url: '/color-life/', icon: 'rainbow' },
-  { id: 'life-3d', category: 'experiments', color: '#66a8ff', views: 0, url: '/life-3d/', icon: 'cube' }
-];
+if (false) {
+const LEGACY_APPS = [];
 
 const FILTER_COLORS = {
   all: '#3b82f6',
@@ -915,7 +899,7 @@ function render() {
   grid.innerHTML = '';
   let count = 0;
 
-  for (const app of APPS) {
+  for (const app of LEGACY_APPS) {
     const matchesFilter = activeFilter === 'all' || app.category === activeFilter;
     const q = activeQuery.toLowerCase();
     const matchesSearch = !q
@@ -969,6 +953,11 @@ document.addEventListener('langchange', () => render());
   }
 })();
 
+// Registry-driven catalog renderer
+}
+</script>
+<script src="/data/js/catalog-hub.js"></script>
+<script>
 // Register service worker
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/sw.js');

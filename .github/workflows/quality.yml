@@ -17,6 +17,8 @@ jobs:
           node-version: 20
       - name: Validate static catalog
         run: npm run check:static
+      - name: Validate registry and Micr Shell surfaces
+        run: npm run check:registry
       - name: Validate i18n keys
         run: npm run check:i18n
       - name: Validate deployment configuration

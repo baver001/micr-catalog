@@ -13,6 +13,17 @@
     return Boolean(deferredPrompt);
   }
 
+  function isStandalone() {
+    return Boolean(
+      (global.matchMedia && global.matchMedia('(display-mode: standalone)').matches) ||
+      global.navigator.standalone === true
+    );
+  }
+
+  function isIOS() {
+    return /iphone|ipad|ipod/i.test(global.navigator.userAgent || '') && !global.MSStream;
+  }
+
   function promptInstall() {
     if (!deferredPrompt) return Promise.resolve(false);
     deferredPrompt.prompt();
@@ -24,6 +35,8 @@
 
   global.MicrPwa = {
     canInstall: () => canInstall(),
-    promptInstall: () => promptInstall()
+    promptInstall: () => promptInstall(),
+    isStandalone: () => isStandalone(),
+    isIOS: () => isIOS()
   };
 })(window);

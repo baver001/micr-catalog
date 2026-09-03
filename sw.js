@@ -1,44 +1,27 @@
-const CACHE = 'micrfun-v1';
+const CACHE = 'micrfun-shell-v2';
+const PRECACHE = ['/', '/index.html', '/favicon.svg', '/manifest.json', '/data/graph.json', '/data/surfaces.json'];
 
-const PRECACHE = [
-  '/',
-  '/index.html',
-  '/favicon.svg',
-  '/manifest.json',
-  '/laziness.html'
-];
-
-// Install: pre-cache core files
-self.addEventListener('install', e => {
-  self.skipWaiting();
-  e.waitUntil(
-    caches.open(CACHE).then(c => c.addAll(PRECACHE))
-  );
+self.addEventListener('install', event => {
+  event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(PRECACHE)).then(() => self.skipWaiting()));
 });
 
-// Activate: clean old caches
-self.addEventListener('activate', e => {
-  e.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
-    )
-  );
+self.addEventListener('activate', event => {
+  event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key !== CACHE).map(key => caches.delete(key)))).then(() => self.clients.claim()));
 });
 
-// Fetch: network-first, fallback to cache
-self.addEventListener('fetch', e => {
-  const url = new URL(e.request.url);
+function isShellAsset(url) {
+  return url.pathname === '/' || url.pathname === '/index.html' ||
+    url.pathname === '/favicon.svg' || url.pathname === '/icon.svg' ||
+    url.pathname === '/manifest.json' || url.pathname === '/data/graph.json' ||
+    url.pathname === '/data/surfaces.json' || url.pathname.startsWith('/data/js/') ||
+    url.pathname.startsWith('/data/styles/') || url.pathname.startsWith('/data/previews/');
+}
 
-  // Only handle same-origin GET requests
-  if (e.request.method !== 'GET' || url.origin !== location.origin) return;
-
-  e.respondWith(
-    fetch(e.request)
-      .then(res => {
-        const clone = res.clone();
-        caches.open(CACHE).then(c => c.put(e.request, clone));
-        return res;
-      })
-      .catch(() => caches.match(e.request).then(cached => cached || caches.match('/')))
-  );
+self.addEventListener('fetch', event => {
+  const url = new URL(event.request.url);
+  if (event.request.method !== 'GET' || url.origin !== location.origin || !isShellAsset(url)) return;
+  event.respondWith(fetch(event.request).then(response => {
+    if (response.ok) caches.open(CACHE).then(cache => cache.put(event.request, response.clone()));
+    return response;
+  }).catch(() => caches.match(event.request).then(cached => cached || caches.match('/'))));
 });

@@ -62,14 +62,17 @@
     return id;
   }
 
-  function hubCategoryFor(id, registry) {
+  function hubCategoryFor(id, registry, graph) {
+    if (graph && graph.cells && graph.cells[id] && graph.cells[id].category) {
+      return graph.cells[id].category;
+    }
     var s = registry.surfaces[id] || {};
     return s.hubCategory || s.category || 'tools';
   }
 
-  function surfaceHref(id, surface) {
+  function surfaceHref(id, surface, graph) {
+    if (graph && graph.cells && graph.cells[id] && graph.cells[id].url) return graph.cells[id].url;
     if (!surface) return '/';
-    if (surface.embedUrl) return surface.embedUrl;
     if (surface.type === 'external' && surface.url) return surface.url;
     return '/' + id + '/';
   }
@@ -204,7 +207,11 @@
     function renderSheet(registry, graph) {
       var surface = slug ? registry.surfaces[slug] || {} : {};
       var list = catalogList(registry);
-      var neighbors = ringNeighbors(slug, list);
+      var currentCategory = slug && graph.cells[slug] ? graph.cells[slug].category : category;
+      var navigationList = currentCategory && currentCategory !== 'all'
+        ? list.filter(function (id) { return hubCategoryFor(id, registry, graph) === currentCategory; })
+        : list;
+      var neighbors = ringNeighbors(slug, navigationList);
 
       links.innerHTML =
         '<a class="micr-cross-nav__link micr-cross-nav__link--home" href="/">' +
@@ -227,7 +234,7 @@
         var prevTitle = resolveAppTitle(neighbors.prev, registry, graph);
         ring.innerHTML +=
           '<a class="micr-cross-nav__jump micr-cross-nav__jump--prev" href="' +
-          surfaceHref(neighbors.prev, prevSurface) +
+          surfaceHref(neighbors.prev, prevSurface, graph) +
           '">' +
           t('nav.prev_app', { name: prevTitle }) +
           '</a>';
@@ -237,7 +244,7 @@
         var nextTitle = resolveAppTitle(neighbors.next, registry, graph);
         ring.innerHTML +=
           '<a class="micr-cross-nav__jump micr-cross-nav__jump--next" href="' +
-          surfaceHref(neighbors.next, nextSurface) +
+          surfaceHref(neighbors.next, nextSurface, graph) +
           '">' +
           t('nav.next_app', { name: nextTitle }) +
           '</a>';
@@ -247,10 +254,10 @@
       list.forEach(function (id) {
         var s = registry.surfaces[id] || {};
         var title = resolveAppTitle(id, registry, graph);
-        var cat = hubCategoryFor(id, registry);
+        var cat = hubCategoryFor(id, registry, graph);
         var li = document.createElement('li');
         var a = document.createElement('a');
-        a.href = surfaceHref(id, s);
+        a.href = surfaceHref(id, s, graph);
         a.className = 'micr-cross-nav__catalog-link';
         if (id === slug) a.classList.add('is-current');
         a.innerHTML =
@@ -271,7 +278,7 @@
           mascotApi = global.MicrMascot.mountMascot(mascotHost, {
             surface: 'miniapp',
             appSlug: slug,
-            categoryId: hubCategoryFor(slug, registry) || category,
+            categoryId: hubCategoryFor(slug, registry, graph) || category,
             accentColor: m.face,
             faceRx: m.rx,
             faceShape: m.shape

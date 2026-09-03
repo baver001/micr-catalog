@@ -79,7 +79,7 @@
     },
     "cameravox": {
       "slug": "cameravox",
-      "category": "experiments",
+      "category": "tools",
       "url": "https://cameravox.micr.fun/",
       "color": "#38bdf8",
       "title": { "en": "Cameravox", "ru": "Cameravox" },

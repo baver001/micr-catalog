@@ -3,62 +3,44 @@
   "surfaces": {
     "laziness": {
       "type": "cell",
-      "category": "knowledge",
-      "hubCategory": "knowledge",
       "mascot": { "rx": 18, "face": "#2da87a" },
       "pwa": { "scope": "/laziness/", "start_url": "/laziness/" }
     },
     "mapmapmaps": {
       "type": "external",
-      "category": "games",
-      "hubCategory": "games",
-      "url": "https://mapmapmaps.micr.fun/",
       "embedUrl": "/play/mapmapmaps/",
       "mascot": { "rx": 12, "face": "#22c55e", "shape": "pin" },
       "pwa": { "scope": "https://mapmapmaps.micr.fun/", "start_url": "https://mapmapmaps.micr.fun/" }
     },
     "cameravox": {
       "type": "external",
-      "category": "tools",
-      "hubCategory": "tools",
-      "url": "https://cameravox.micr.fun/",
       "embedUrl": "/play/cameravox/",
       "mascot": { "rx": 16, "face": "#38bdf8" },
       "pwa": { "scope": "https://cameravox.micr.fun/", "start_url": "https://cameravox.micr.fun/" }
     },
     "mask-clock": {
       "type": "cell",
-      "category": "tools",
-      "hubCategory": "tools",
       "mascot": { "rx": 16, "face": "#b99cff" },
-      "pwa": { "scope": "/mask-clock/", "start_url": "/mask-clock/" }
+      "pwa": { "scope": "/mask-clock/", "start_url": "/mask-clock/" },
+      "shell": { "enabled": true, "version": "0.1.0" }
     },
     "color-life": {
       "type": "cell",
-      "category": "experiments",
-      "hubCategory": "experiments",
       "mascot": { "rx": 14, "face": "#ef5b73" },
-      "pwa": { "scope": "/color-life/", "start_url": "/color-life/" }
+      "pwa": { "scope": "/color-life/", "start_url": "/color-life/" },
+      "shell": { "enabled": true, "version": "0.1.0" }
     },
     "life-3d": {
       "type": "cell",
-      "category": "experiments",
-      "hubCategory": "experiments",
       "mascot": { "rx": 14, "face": "#66a8ff" },
       "pwa": { "scope": "/life-3d/", "start_url": "/life-3d/" }
     },
-    "breathing": { "type": "cell", "category": "tools", "mascot": { "rx": 20, "face": "#2da87a" } },
-    "focus": { "type": "cell", "category": "tools", "mascot": { "rx": 9, "face": "#3d6fd4" } },
-    "dice": { "type": "cell", "category": "games", "mascot": { "rx": 8, "face": "#c4922a" } },
-    "reaction": { "type": "cell", "category": "games", "mascot": { "rx": 10, "face": "#e11d58" } },
-    "palette": { "type": "cell", "category": "tools", "mascot": { "rx": 17, "face": "#7c4dff" } },
-    "habits": { "type": "cell", "category": "knowledge", "mascot": { "rx": 15, "face": "#2da87a" } },
-    "elon": { "type": "cell", "category": "knowledge", "mascot": { "rx": 12, "face": "#0891b2" } }
-  },
-  "hubFilters": {
-    "games": ["mapmapmaps"],
-    "experiments": ["color-life", "life-3d"],
-    "tools": ["cameravox", "mask-clock"],
-    "knowledge": ["laziness"]
+    "breathing": { "type": "cell", "mascot": { "rx": 20, "face": "#2da87a" } },
+    "focus": { "type": "cell", "mascot": { "rx": 9, "face": "#3d6fd4" } },
+    "dice": { "type": "cell", "mascot": { "rx": 8, "face": "#c4922a" } },
+    "reaction": { "type": "cell", "mascot": { "rx": 10, "face": "#e11d58" } },
+    "palette": { "type": "cell", "mascot": { "rx": 17, "face": "#7c4dff" } },
+    "habits": { "type": "cell", "mascot": { "rx": 15, "face": "#2da87a" } },
+    "elon": { "type": "cell", "mascot": { "rx": 12, "face": "#0891b2" } }
   }
 }
