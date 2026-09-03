@@ -5,10 +5,53 @@
     "back": "← catalog"
   },
   "categories": {
+    "all": "All",
     "games": "Games",
     "experiments": "Experiments",
     "tools": "Tools",
-    "knowledge": "Knowledge"
+    "knowledge": "Knowledge",
+    "creative": "Creative"
+  },
+  "hub": {
+    "doc_title": "micr.fun — Micro-app catalog",
+    "search_placeholder": "Find an app…",
+    "search_open": "Search catalog",
+    "empty": "Nothing found",
+    "open_app": "Open {name}",
+    "preview_missing": "Preview unavailable"
+  },
+  "settings": {
+    "open": "Settings",
+    "theme": "Theme",
+    "theme_dark": "Dark",
+    "theme_light": "Light",
+    "language": "Language"
+  },
+  "nav": {
+    "catalog": "Catalog",
+    "open": "Catalog navigation",
+    "menu": "Navigation",
+    "prev_app": "← {name}",
+    "next_app": "{name} →",
+    "category_hub": "Category",
+    "previous": "Previous",
+    "next": "Next",
+    "install": "Install",
+    "install_app": "Install this app"
+  },
+  "apps": {
+    "laziness": {
+      "name": "Laziness",
+      "description": "A model of action blocking and inner conflict"
+    },
+    "mapmapmaps": {
+      "name": "MapMapMaps",
+      "description": "Guess the place from a street panorama"
+    },
+    "cameravox": {
+      "name": "Cameravox",
+      "description": "Visual theremin: play sound with hand motion"
+    }
   },
   "ui": {
     "feedback": "Feedback",

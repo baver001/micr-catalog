@@ -1,0 +1,67 @@
+{
+  "catalog": {
+    "title": "Catálogo de jogos, experimentos, ferramentas e conhecimento",
+    "subtitle": "Microformatos para aprender, jogar e explorar",
+    "back": "← catálogo"
+  },
+  "categories": {
+    "all": "Tudo",
+    "games": "Jogos",
+    "experiments": "Experimentos",
+    "tools": "Ferramentas",
+    "knowledge": "Conhecimento",
+    "creative": "Criativo"
+  },
+  "hub": {
+    "doc_title": "micr.fun — Catálogo de microapps",
+    "search_placeholder": "Encontrar um app…",
+    "search_open": "Search catalog",
+    "empty": "Nada encontrado",
+    "open_app": "Abrir {name}",
+    "preview_missing": "Pré-visualização indisponível"
+  },
+  "settings": {
+    "open": "Configurações",
+    "theme": "Tema",
+    "theme_dark": "Escuro",
+    "theme_light": "Claro",
+    "language": "Idioma"
+  },
+  "nav": {
+    "catalog": "Catálogo",
+    "open": "Catalog navigation",
+    "menu": "Navigation",
+    "prev_app": "← {name}",
+    "next_app": "{name} →",
+    "category_hub": "Categoria",
+    "previous": "Anterior",
+    "next": "Próximo",
+    "install": "Instalar",
+    "install_app": "Instalar este app"
+  },
+  "apps": {
+    "laziness": {
+      "name": "Preguiça",
+      "description": "Modelo de bloqueio de ação e conflito interno"
+    },
+    "mapmapmaps": {
+      "name": "MapMapMaps",
+      "description": "Adivinhe o lugar pela panorâmica da rua"
+    },
+    "cameravox": {
+      "name": "Cameravox",
+      "description": "Theremin visual: toque com movimento das mãos"
+    }
+  },
+  "ui": {
+    "feedback": "Feedback",
+    "language": "Idioma",
+    "referenced_in": "Referenciado em",
+    "links_to": "Links para",
+    "loading": "Carregando…",
+    "page_not_found": "Página não encontrada"
+  },
+  "cell": {
+    "about": "Sobre esta página"
+  }
+}

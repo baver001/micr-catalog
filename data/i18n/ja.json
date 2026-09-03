@@ -1,0 +1,67 @@
+{
+  "catalog": {
+    "title": "ゲーム・実験・ツール・知識のカタログ",
+    "subtitle": "学び・遊び・探索のためのマイクロ形式",
+    "back": "← カタログ"
+  },
+  "categories": {
+    "all": "すべて",
+    "games": "ゲーム",
+    "experiments": "実験",
+    "tools": "ツール",
+    "knowledge": "知識",
+    "creative": "クリエイティブ"
+  },
+  "hub": {
+    "doc_title": "micr.fun — マイクロアプリカタログ",
+    "search_placeholder": "アプリを検索…",
+    "search_open": "Search catalog",
+    "empty": "見つかりません",
+    "open_app": "{name} を開く",
+    "preview_missing": "プレビュー不可"
+  },
+  "settings": {
+    "open": "設定",
+    "theme": "テーマ",
+    "theme_dark": "ダーク",
+    "theme_light": "ライト",
+    "language": "言語"
+  },
+  "nav": {
+    "catalog": "カタログ",
+    "open": "Catalog navigation",
+    "menu": "Navigation",
+    "prev_app": "← {name}",
+    "next_app": "{name} →",
+    "category_hub": "カテゴリ",
+    "previous": "前へ",
+    "next": "次へ",
+    "install": "インストール",
+    "install_app": "このアプリをインストール"
+  },
+  "apps": {
+    "laziness": {
+      "name": "怠惰",
+      "description": "行動のブロックと内面の葛藤のモデル"
+    },
+    "mapmapmaps": {
+      "name": "MapMapMaps",
+      "description": "街角パノラマから場所を当てる"
+    },
+    "cameravox": {
+      "name": "Cameravox",
+      "description": "ビジュアル・テルミン：手の動きで演奏"
+    }
+  },
+  "ui": {
+    "feedback": "フィードバック",
+    "language": "言語",
+    "referenced_in": "参照元",
+    "links_to": "リンク先",
+    "loading": "読み込み中…",
+    "page_not_found": "ページが見つかりません"
+  },
+  "cell": {
+    "about": "このページについて"
+  }
+}

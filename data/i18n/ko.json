@@ -1,0 +1,67 @@
+{
+  "catalog": {
+    "title": "게임, 실험, 도구 및 지식 카탈로그",
+    "subtitle": "학습, 플레이, 탐색을 위한 마이크로 포맷",
+    "back": "← 카탈로그"
+  },
+  "categories": {
+    "all": "전체",
+    "games": "게임",
+    "experiments": "실험",
+    "tools": "도구",
+    "knowledge": "지식",
+    "creative": "창작"
+  },
+  "hub": {
+    "doc_title": "micr.fun — 마이크로앱 카탈로그",
+    "search_placeholder": "앱 찾기…",
+    "search_open": "Search catalog",
+    "empty": "결과 없음",
+    "open_app": "{name} 열기",
+    "preview_missing": "미리보기를 사용할 수 없음"
+  },
+  "settings": {
+    "open": "설정",
+    "theme": "테마",
+    "theme_dark": "다크",
+    "theme_light": "라이트",
+    "language": "언어"
+  },
+  "nav": {
+    "catalog": "카탈로그",
+    "open": "Catalog navigation",
+    "menu": "Navigation",
+    "prev_app": "← {name}",
+    "next_app": "{name} →",
+    "category_hub": "카테고리",
+    "previous": "이전",
+    "next": "다음",
+    "install": "설치",
+    "install_app": "이 앱 설치"
+  },
+  "apps": {
+    "laziness": {
+      "name": "게으름",
+      "description": "행동 차단과 내적 갈등의 모델"
+    },
+    "mapmapmaps": {
+      "name": "MapMapMaps",
+      "description": "거리 파노라마로 장소 맞히기"
+    },
+    "cameravox": {
+      "name": "Cameravox",
+      "description": "비주얼 테레민: 손 움직임으로 연주"
+    }
+  },
+  "ui": {
+    "feedback": "피드백",
+    "language": "언어",
+    "referenced_in": "참조됨",
+    "links_to": "링크",
+    "loading": "로딩 중…",
+    "page_not_found": "페이지를 찾을 수 없음"
+  },
+  "cell": {
+    "about": "이 페이지 정보"
+  }
+}

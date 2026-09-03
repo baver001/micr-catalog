@@ -1,0 +1,67 @@
+{
+  "catalog": {
+    "title": "Catálogo de juegos, experimentos, herramientas y conocimiento",
+    "subtitle": "Microformatos para aprender, jugar y explorar",
+    "back": "← catálogo"
+  },
+  "categories": {
+    "all": "Todo",
+    "games": "Juegos",
+    "experiments": "Experimentos",
+    "tools": "Herramientas",
+    "knowledge": "Conocimiento",
+    "creative": "Creativo"
+  },
+  "hub": {
+    "doc_title": "micr.fun — Catálogo de microapps",
+    "search_placeholder": "Buscar una app…",
+    "search_open": "Search catalog",
+    "empty": "No se encontró nada",
+    "open_app": "Abrir {name}",
+    "preview_missing": "Vista previa no disponible"
+  },
+  "settings": {
+    "open": "Ajustes",
+    "theme": "Tema",
+    "theme_dark": "Oscuro",
+    "theme_light": "Claro",
+    "language": "Idioma"
+  },
+  "nav": {
+    "catalog": "Catálogo",
+    "open": "Catalog navigation",
+    "menu": "Navigation",
+    "prev_app": "← {name}",
+    "next_app": "{name} →",
+    "category_hub": "Categoría",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "install": "Instalar",
+    "install_app": "Instalar esta app"
+  },
+  "apps": {
+    "laziness": {
+      "name": "Pereza",
+      "description": "Modelo de bloqueo de acción y conflicto interno"
+    },
+    "mapmapmaps": {
+      "name": "MapMapMaps",
+      "description": "Adivina el lugar por una panorámica callejera"
+    },
+    "cameravox": {
+      "name": "Cameravox",
+      "description": "Theremín visual: toca con el movimiento de las manos"
+    }
+  },
+  "ui": {
+    "feedback": "Comentarios",
+    "language": "Idioma",
+    "referenced_in": "Mencionado en",
+    "links_to": "Enlaces a",
+    "loading": "Cargando…",
+    "page_not_found": "Página no encontrada"
+  },
+  "cell": {
+    "about": "Acerca de esta página"
+  }
+}

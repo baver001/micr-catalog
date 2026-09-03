@@ -1,0 +1,150 @@
+/* Micr mascot */
+
+.micr-mascot {
+  --micr-face: #18181a;
+  --micr-eye: #ffffff;
+  --micr-unit: 44px;
+  --micr-rx-ratio: 0.31818;
+  --micr-rx: calc(var(--micr-unit) * var(--micr-rx-ratio));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  line-height: 0;
+}
+
+.micr-mascot[data-size="sm"] {
+  --micr-unit: 32px;
+}
+
+.micr-mascot[data-size="md"] {
+  --micr-unit: 44px;
+}
+
+.micr-mascot[data-size="lg"] {
+  --micr-unit: 56px;
+}
+
+.micr-head {
+  position: relative;
+  display: block;
+  width: var(--micr-unit);
+  height: var(--micr-unit);
+  flex-shrink: 0;
+  border-radius: var(--micr-rx);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.micr-head svg {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: var(--micr-unit);
+  height: var(--micr-unit);
+  overflow: visible;
+}
+
+.micr-mascot[data-shape="pin"] .micr-head {
+  border-radius: 0;
+  overflow: visible;
+  clip-path: none;
+}
+
+.micr-mascot[data-shape="pin"] .micr-head svg {
+  display: block;
+  overflow: visible;
+}
+
+.micr-mascot[data-shape="pin"] .micr-noise-canvas {
+  display: none !important;
+}
+
+.micr-mascot .micr-face {
+  transition: fill 0.35s ease;
+}
+
+.micr-noise-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: none;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+}
+
+.micr-mascot.is-noise .micr-noise-canvas {
+  display: block;
+}
+
+.micr-mascot .micr-eye {
+  fill: var(--micr-eye);
+  transition: transform 0.12s ease-out;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.micr-mascot[data-motion="soft"] .micr-eye {
+  transition-duration: 0.22s;
+}
+
+.micr-mascot.is-blinking .micr-eye {
+  transform: scaleY(0.15);
+}
+
+.micr-mascot-host {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.logo-wordmark {
+  display: block;
+  height: 22px;
+  width: auto;
+  flex-shrink: 0;
+}
+
+.micr-mascot-host[data-size="sm"] .logo-wordmark {
+  height: 18px;
+}
+
+.micr-mascot-host[data-size="lg"] .logo-wordmark {
+  height: 28px;
+}
+
+.site-header .micr-mascot-host {
+  margin-right: auto;
+}
+
+.site-header .container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.micr-mascot-watermark {
+  position: fixed;
+  bottom: 12px;
+  right: 12px;
+  z-index: 50;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.micr-mascot-watermark:hover {
+  opacity: 0.85;
+  pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .micr-mascot .micr-face,
+  .micr-mascot .micr-eye {
+    transition: none !important;
+  }
+}

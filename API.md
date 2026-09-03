@@ -15,7 +15,7 @@ Returns the current catalog of apps.
         "id": 1,
         "name": "Лень",
         "description": "Фундаментальная модель блокировки действия и внутреннего конфликта.",
-        "url": "/laziness.html"
+        "url": "/laziness/"
     },
     {
         "id": 2,

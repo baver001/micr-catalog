@@ -1,0 +1,67 @@
+{
+  "catalog": {
+    "title": "Katalog game, eksperimen, alat & pengetahuan",
+    "subtitle": "Mikroformat untuk belajar, bermain, dan jelajah",
+    "back": "← katalog"
+  },
+  "categories": {
+    "all": "Semua",
+    "games": "Game",
+    "experiments": "Eksperimen",
+    "tools": "Alat",
+    "knowledge": "Pengetahuan",
+    "creative": "Kreatif"
+  },
+  "hub": {
+    "doc_title": "micr.fun — Katalog micro-app",
+    "search_placeholder": "Cari aplikasi…",
+    "search_open": "Search catalog",
+    "empty": "Tidak ada hasil",
+    "open_app": "Buka {name}",
+    "preview_missing": "Pratinjau tidak tersedia"
+  },
+  "settings": {
+    "open": "Pengaturan",
+    "theme": "Tema",
+    "theme_dark": "Gelap",
+    "theme_light": "Terang",
+    "language": "Bahasa"
+  },
+  "nav": {
+    "catalog": "Katalog",
+    "open": "Catalog navigation",
+    "menu": "Navigation",
+    "prev_app": "← {name}",
+    "next_app": "{name} →",
+    "category_hub": "Kategori",
+    "previous": "Sebelumnya",
+    "next": "Berikutnya",
+    "install": "Pasang",
+    "install_app": "Pasang aplikasi ini"
+  },
+  "apps": {
+    "laziness": {
+      "name": "Kemalasan",
+      "description": "Model blok aksi dan konflik batin"
+    },
+    "mapmapmaps": {
+      "name": "MapMapMaps",
+      "description": "Tebak tempat dari panorama jalan"
+    },
+    "cameravox": {
+      "name": "Cameravox",
+      "description": "Theremin visual: main dengan gerakan tangan"
+    }
+  },
+  "ui": {
+    "feedback": "Masukan",
+    "language": "Bahasa",
+    "referenced_in": "Dirujuk di",
+    "links_to": "Tautan ke",
+    "loading": "Memuat…",
+    "page_not_found": "Halaman tidak ditemukan"
+  },
+  "cell": {
+    "about": "Tentang halaman ini"
+  }
+}

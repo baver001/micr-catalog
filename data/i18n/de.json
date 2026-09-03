@@ -1,0 +1,67 @@
+{
+  "catalog": {
+    "title": "Katalog für Spiele, Experimente, Tools & Wissen",
+    "subtitle": "Mikroformate zum Lernen, Spielen und Entdecken",
+    "back": "← Katalog"
+  },
+  "categories": {
+    "all": "Alle",
+    "games": "Spiele",
+    "experiments": "Experimente",
+    "tools": "Tools",
+    "knowledge": "Wissen",
+    "creative": "Kreativ"
+  },
+  "hub": {
+    "doc_title": "micr.fun — Micro-App-Katalog",
+    "search_placeholder": "App suchen…",
+    "search_open": "Search catalog",
+    "empty": "Nichts gefunden",
+    "open_app": "{name} öffnen",
+    "preview_missing": "Vorschau nicht verfügbar"
+  },
+  "settings": {
+    "open": "Einstellungen",
+    "theme": "Design",
+    "theme_dark": "Dunkel",
+    "theme_light": "Hell",
+    "language": "Sprache"
+  },
+  "nav": {
+    "catalog": "Katalog",
+    "open": "Catalog navigation",
+    "menu": "Navigation",
+    "prev_app": "← {name}",
+    "next_app": "{name} →",
+    "category_hub": "Kategorie",
+    "previous": "Zurück",
+    "next": "Weiter",
+    "install": "Installieren",
+    "install_app": "Diese App installieren"
+  },
+  "apps": {
+    "laziness": {
+      "name": "Faulheit",
+      "description": "Modell von Handlungsblockade und innerem Konflikt"
+    },
+    "mapmapmaps": {
+      "name": "MapMapMaps",
+      "description": "Errate den Ort anhand einer Straßenpanorama"
+    },
+    "cameravox": {
+      "name": "Cameravox",
+      "description": "Visuelles Theremin: spiele mit Handbewegung"
+    }
+  },
+  "ui": {
+    "feedback": "Feedback",
+    "language": "Sprache",
+    "referenced_in": "Verweisen auf",
+    "links_to": "Verlinkt zu",
+    "loading": "Laden…",
+    "page_not_found": "Seite nicht gefunden"
+  },
+  "cell": {
+    "about": "Über diese Seite"
+  }
+}

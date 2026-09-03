@@ -31,8 +31,11 @@ app.post('/api/catalog', (req, res) => {
 // Feedback endpoint
 const fs = require('fs');
 const path = require('path');
-const FEEDBACK_DIR = '/var/www/micr.fun/data';
-const FEEDBACK_FILE = path.join(FEEDBACK_DIR, 'feedback.json');
+const defaultFeedbackFile = process.env.NODE_ENV === 'production'
+    ? '/var/lib/micr.fun/feedback.json'
+    : path.join(__dirname, 'feedback.json');
+const FEEDBACK_FILE = process.env.FEEDBACK_FILE || defaultFeedbackFile;
+const FEEDBACK_DIR = path.dirname(FEEDBACK_FILE);
 
 app.post('/api/feedback', (req, res) => {
     const { text, contact } = req.body;

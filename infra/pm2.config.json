@@ -6,7 +6,8 @@
       "cwd": "/root/projects/micr.fun",
       "env": {
         "NODE_ENV": "production",
-        "PORT": "3000"
+        "PORT": "3000",
+        "FEEDBACK_FILE": "/var/lib/micr.fun/feedback.json"
       }
     }
   ]

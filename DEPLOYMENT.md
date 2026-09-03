@@ -84,11 +84,19 @@ certbot --nginx -d micr.fun
 ```
 
 This script:
-1. Builds frontend (`npm run build`)
-2. Copies `dist/` → `/var/www/micr.fun/`
-3. Copies `apps/` → `/var/www/micr.fun/apps/`
-4. Copies `laziness.html` → `/var/www/micr.fun/`
-5. Installs API deps and restarts PM2 process
+1. Synchronizes `index.html`, `sw.js`, `apps/`, `admin/`, `cells/`, `data/`, `locales/`, `play/` and the preserved `laziness.html` route → `/var/www/micr.fun/`.
+2. Recreates public flat cell links from the categorized source tree.
+3. Applies readable permissions to public static assets.
+4. Restarts or starts the `micr-api` PM2 process when the API exists.
+5. Writes the deployed commit marker under `/var/lib/micr.fun/`.
+
+It does not build a framework bundle. The catalog is served as static HTML/CSS/JS.
+
+The repository workflow runs this script automatically after a successful push to `main`, when `DEPLOY_ENABLED=true` and the `production` environment secrets are configured. `workflow_dispatch` provides an explicit manual run.
+
+Configure these secrets in the GitHub `production` environment for `baver001/micr-catalog`: `DEPLOY_HOST`, `DEPLOY_USER`, `DEPLOY_SSH_KEY` and `DEPLOY_KNOWN_HOSTS`; `DEPLOY_PORT` is optional and defaults to `22`. Set the repository variable `DEPLOY_ENABLED=true` only after the VPS checkout, Nginx, PM2 and permissions have been verified.
+
+The API feedback file is stored at `/var/lib/micr.fun/feedback.json`, outside the disposable `/var/www/micr.fun/data` tree.
 
 ### 8. Verify
 
@@ -104,7 +112,7 @@ curl https://micr.fun/api/catalog  # Should return JSON
 cd server/api
 node index.js
 
-# Terminal 2: Vite dev server
+# Terminal 2: static catalog server
 npm run dev
 ```
 
@@ -112,8 +120,8 @@ Or serve static files directly:
 
 ```bash
 cd /root/projects/micr.fun
-npx vite --port 5173
-# Open http://localhost:5173
+npm run dev
+# Open the printed local URL
 ```
 
 Note: `/api/` calls won't work without the Nginx proxy in local dev. Use direct `http://localhost:3000/api/catalog` for testing.
@@ -132,8 +140,9 @@ pm2 startup                 # Auto-start on boot
 
 ```bash
 cd /root/projects/micr.fun
-git pull
-./infra/deploy.sh
+git fetch origin main
+git pull --ff-only origin main
+RELEASE_SHA="$(git rev-parse HEAD)" ./infra/deploy.sh
 ```
 
 ## Troubleshooting
@@ -152,11 +161,9 @@ netstat -tlnp | grep 3000  # Is port 3000 bound?
 # Check what's actually deployed
 ls -la /var/www/micr.fun/
 
-# Rebuild manually
+# Re-run the explicit deploy operation
 cd /root/projects/micr.fun
-npm run build
-cp -r dist/* /var/www/micr.fun/
-cp -r apps /var/www/micr.fun/
+./infra/deploy.sh
 ```
 
 ### Nginx config errors

@@ -1,0 +1,32 @@
+name: Catalog quality
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Validate static catalog
+        run: npm run check:static
+      - name: Validate i18n keys
+        run: npm run check:i18n
+      - name: Validate deployment configuration
+        run: npm run check:deploy
+      - name: Check JavaScript syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS= read -r -d '' file; do
+            node --check "$file"
+          done < <(find data server scripts -type f \( -name '*.js' -o -name '*.mjs' \) -print0)
+
+# This workflow validates the catalog only. It never deploys production.

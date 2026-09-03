@@ -1,0 +1,67 @@
+{
+  "catalog": {
+    "title": "Oyun, deney, araç ve bilgi kataloğu",
+    "subtitle": "Öğrenmek, oynamak ve keşfetmek için mikro formatlar",
+    "back": "← katalog"
+  },
+  "categories": {
+    "all": "Tümü",
+    "games": "Oyunlar",
+    "experiments": "Deneyler",
+    "tools": "Araçlar",
+    "knowledge": "Bilgi",
+    "creative": "Yaratıcı"
+  },
+  "hub": {
+    "doc_title": "micr.fun — Mikro uygulama kataloğu",
+    "search_placeholder": "Uygulama bul…",
+    "search_open": "Search catalog",
+    "empty": "Sonuç yok",
+    "open_app": "{name} aç",
+    "preview_missing": "Önizleme yok"
+  },
+  "settings": {
+    "open": "Ayarlar",
+    "theme": "Tema",
+    "theme_dark": "Koyu",
+    "theme_light": "Açık",
+    "language": "Dil"
+  },
+  "nav": {
+    "catalog": "Katalog",
+    "open": "Catalog navigation",
+    "menu": "Navigation",
+    "prev_app": "← {name}",
+    "next_app": "{name} →",
+    "category_hub": "Kategori",
+    "previous": "Önceki",
+    "next": "Sonraki",
+    "install": "Yükle",
+    "install_app": "Bu uygulamayı yükle"
+  },
+  "apps": {
+    "laziness": {
+      "name": "Tembellik",
+      "description": "Eylem blokajı ve iç çatışma modeli"
+    },
+    "mapmapmaps": {
+      "name": "MapMapMaps",
+      "description": "Sokak panoramasından yeri tahmin et"
+    },
+    "cameravox": {
+      "name": "Cameravox",
+      "description": "Görsel theremin: el hareketiyle çal"
+    }
+  },
+  "ui": {
+    "feedback": "Geri bildirim",
+    "language": "Dil",
+    "referenced_in": "Referanslar",
+    "links_to": "Bağlantılar",
+    "loading": "Yükleniyor…",
+    "page_not_found": "Sayfa bulunamadı"
+  },
+  "cell": {
+    "about": "Bu sayfa hakkında"
+  }
+}

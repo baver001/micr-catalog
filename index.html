@@ -3,7 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>micr.fun — Каталог микроприложений</title>
+<title data-i18n-doc="hub.doc_title">micr.fun — Каталог микроприложений</title>
+<script>
+(function () {
+  var theme = localStorage.getItem('micrfun_theme');
+  if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme;
+})();
+</script>
 <meta name="theme-color" content="#0d0c0a">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="apple-touch-icon" href="/icon.svg">
@@ -11,8 +17,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/data/styles/mascot.css">
+<link rel="stylesheet" href="/data/styles/cross-nav.css">
+<link rel="stylesheet" href="/data/styles/hub-settings.css">
 <style>
-:root {
+:root,
+html[data-theme="dark"] {
   --bg: #121212;
   --bg-elevated: rgba(255,255,255,0.03);
   --bg-hover: rgba(255,255,255,0.06);
@@ -25,6 +35,28 @@
   --accent-teal: #2dd4bf;
   --radius: 14px;
   --transition: all 0.2s ease;
+  --body-glow-a: rgba(59,130,246,0.08);
+  --body-glow-b: rgba(45,212,191,0.05);
+  --settings-panel-bg: #1a1a1e;
+  --settings-shadow: 0 12px 40px rgba(0,0,0,0.45);
+  --micr-chrome-size: 32px;
+  --micr-chrome-rx: 10.182px;
+}
+
+html[data-theme="light"] {
+  --bg: #f3f3f4;
+  --bg-elevated: rgba(0,0,0,0.03);
+  --bg-hover: rgba(0,0,0,0.05);
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-muted: #6b7280;
+  --border: rgba(0,0,0,0.08);
+  --border-hover: rgba(0,0,0,0.14);
+  --accent: #2563eb;
+  --body-glow-a: rgba(37,99,235,0.06);
+  --body-glow-b: rgba(13,148,136,0.05);
+  --settings-panel-bg: #ffffff;
+  --settings-shadow: 0 12px 40px rgba(15,23,42,0.12);
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -39,8 +71,8 @@ html, body {
 }
 
 body {
-  background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(59,130,246,0.08) 0%, transparent 50%),
-              radial-gradient(ellipse 60% 40% at 80% 100%, rgba(45,212,191,0.05) 0%, transparent 50%),
+  background: radial-gradient(ellipse 80% 50% at 50% -10%, var(--body-glow-a) 0%, transparent 50%),
+              radial-gradient(ellipse 60% 40% at 80% 100%, var(--body-glow-b) 0%, transparent 50%),
               var(--bg);
   min-height: 100vh;
 }
@@ -54,71 +86,237 @@ body {
   margin: 0 auto;
 }
 
-.header-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 24px;
-}
-
-.header-left {
-  display: flex;
+.header-bar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
   gap: 12px;
+  margin-bottom: 20px;
 }
 
-.logo-link { display: flex; align-items: center; text-decoration: none; }
-.logo-link:hover { opacity: 0.85; }
-
-/* Controls */
-.controls {
-  display: flex;
+.header-mascot {
+  justify-self: start;
+  display: inline-flex;
   align-items: center;
-  gap: 12px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  line-height: 0;
 }
 
-.search-wrap {
+.header-mascot:hover { opacity: 0.9; }
+
+.header-logo {
+  grid-column: 2;
+  justify-self: center;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.header-logo:hover { opacity: 0.92; }
+
+.header-logo .logo-wordmark {
+  height: 22px;
+  width: auto;
+  display: block;
+}
+
+.header-settings {
+  justify-self: end;
+  grid-column: 3;
   position: relative;
 }
 
-.search-wrap input {
-  width: 220px;
-  padding: 10px 14px 10px 38px;
+.settings-btn {
+  width: var(--micr-chrome-size);
+  height: var(--micr-chrome-size);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: var(--micr-chrome-rx);
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition);
+  flex-shrink: 0;
+}
+
+.settings-btn:hover {
+  color: var(--text-primary);
+  background: var(--bg-hover);
+}
+
+.settings-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.settings-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 240px;
+  padding: 14px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--settings-panel-bg);
+  box-shadow: var(--settings-shadow);
+  z-index: 40;
+}
+
+.settings-panel[hidden] { display: none; }
+
+/* Controls — mobile-first: scrolling filters + compact search */
+.catalog-toolbar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  min-height: 44px;
+}
+
+.catalog-toolbar__filters {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 2px 4px 2px 0;
+  mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
+}
+
+.catalog-toolbar__filters::-webkit-scrollbar {
+  display: none;
+}
+
+.catalog-toolbar__search {
+  flex-shrink: 0;
+  position: relative;
+  z-index: 3;
+  width: 40px;
+  height: 40px;
+}
+
+.search-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.search-toggle:hover,
+.search-toggle[aria-expanded="true"] {
+  color: var(--text-primary);
+  border-color: var(--border-hover);
+  background: var(--bg-hover);
+}
+
+.search-toggle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 4;
+}
+
+.search-field {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  left: auto;
+  width: 0;
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  transition: opacity 0.18s ease;
+  z-index: 2;
+}
+
+.catalog-toolbar.is-search-open .search-field {
+  left: 0;
+  right: 0;
+  width: auto;
+  opacity: 1;
+  pointer-events: auto;
+  padding: 0 48px 0 8px;
+  background: var(--bg);
+  border-radius: 12px;
+  box-shadow: 0 0 0 1px var(--border);
+}
+
+.catalog-toolbar.is-search-open .catalog-toolbar__filters {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.search-field input {
+  flex: 1;
+  min-width: 0;
+  padding: 9px 12px;
   background: var(--bg-elevated);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
+  border-radius: 999px;
   color: var(--text-primary);
   font-family: inherit;
   font-size: 14px;
-  transition: var(--transition);
   outline: none;
 }
 
-.search-wrap input::placeholder { color: var(--text-muted); }
-.search-wrap input:focus { border-color: var(--accent); background: var(--bg-hover); }
+.search-field:not(.is-open) input {
+  width: 0;
+  padding: 0;
+  border: none;
+}
+
+.catalog-toolbar.is-search-open .search-field input {
+  width: 100%;
+}
+
+.search-field input:focus {
+  border-color: var(--accent);
+}
 
 #search:focus-visible,
-.filter-btn:focus-visible {
+.filter-btn:focus-visible,
+.settings-btn:focus-visible,
+.search-toggle:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
 
-.search-wrap svg {
-  position: absolute;
-  left: 14px; top: 50%;
-  transform: translateY(-50%);
-  width: 18px; height: 18px;
-  color: var(--text-muted);
-  pointer-events: none;
+.search-toggle svg {
+  width: 18px;
+  height: 18px;
 }
 
-.filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+.catalog-toolbar.is-search-open .search-toggle {
+  background: var(--bg-elevated);
 }
+
 .filter-btn {
+  flex-shrink: 0;
+  scroll-snap-align: start;
   padding: 8px 16px;
   background: transparent;
   border: 1px solid var(--btn-color, var(--border));
@@ -141,7 +339,6 @@ body {
   background: var(--btn-color, var(--accent));
   border-color: var(--btn-color, var(--accent));
   color: #fff;
-  box-shadow: 0 0 12px color-mix(in srgb, var(--btn-color, var(--accent)) 40%, transparent);
 }
 
 /* Grid */
@@ -378,14 +575,12 @@ body {
     padding: 16px 16px 8px;
   }
 
-  .header-top {
-    display: block;
-    margin-bottom: 0;
+  .header-bar {
+    margin-bottom: 14px;
   }
 
-  .header-left {
-    min-height: 24px;
-    margin-bottom: 14px;
+  .header-logo .logo-wordmark {
+    height: 20px;
   }
 
   .controls {
@@ -457,6 +652,12 @@ body {
   .modal-btn { padding: 6px; }
 }
 
+@media (max-width: 900px) {
+  .search-wrap input {
+    width: min(280px, 100%);
+  }
+}
+
 @media (max-width: 480px) {
   .header { padding: 16px; }
   .main { padding: 0 16px 40px; }
@@ -475,80 +676,175 @@ body {
 <body>
 
 <header class="header">
-  <div class="header-top">
-    <div class="header-left">
-      <a href="/" class="logo-link">
-        <img src="/logo-sm.png" alt="micr.fun" height="16" style="display:block">
-      </a>
+  <div class="header-bar">
+    <button type="button" class="header-mascot" id="hubMascotNav" aria-expanded="false" data-i18n-aria="nav.open">
+      <span data-micr-mascot data-size="sm"></span>
+    </button>
+    <a href="/" class="header-logo" id="logoLink">
+      <img class="logo-wordmark" src="/logo-sm.png" alt="micr.fun" height="22" decoding="async">
+    </a>
+    <div class="header-settings">
+      <button type="button" class="settings-btn" id="settingsBtn" aria-expanded="false" data-i18n-aria="settings.open">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <line x1="4" y1="9" x2="20" y2="9"/>
+          <circle cx="15" cy="9" r="2" fill="currentColor" stroke="none"/>
+          <line x1="4" y1="15" x2="20" y2="15"/>
+          <circle cx="9" cy="15" r="2" fill="currentColor" stroke="none"/>
+        </svg>
+      </button>
+      <div class="settings-panel" id="settingsPanel" hidden>
+        <div class="settings-field">
+          <span class="settings-label" data-i18n="ui.language">Language</span>
+          <div class="lang-picker" id="langPicker">
+            <button type="button" class="lang-picker__trigger" id="langPickerTrigger" aria-haspopup="listbox" aria-expanded="false">
+              <span class="lang-picker__value" id="langPickerValue">English</span>
+              <svg class="lang-picker__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <ul class="lang-picker__menu" id="langPickerMenu" role="listbox" hidden></ul>
+          </div>
+        </div>
+        <div class="settings-field settings-field--row">
+          <span class="settings-label" data-i18n="settings.theme">Theme</span>
+          <button type="button" class="theme-toggle" id="themeToggle" role="switch" aria-checked="false">
+            <span class="theme-toggle__track" aria-hidden="true"></span>
+            <span class="theme-toggle__thumb">
+              <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 14.5A8.5 8.5 0 1 1 9.5 3 6.5 6.5 0 0 0 21 14.5z"/></svg>
+              <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+            </span>
+          </button>
+        </div>
+      </div>
     </div>
-    <div class="controls">
-      <div class="search-wrap">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input type="text" id="search" placeholder="Найти приложение..." autocomplete="off">
+  </div>
+  <div class="catalog-toolbar" id="catalogToolbar">
+    <div class="catalog-toolbar__filters" id="filters">
+      <button class="filter-btn active" type="button" data-filter="all" data-i18n="categories.all">Все</button>
+      <button class="filter-btn" type="button" data-filter="games" data-i18n="categories.games">Игры</button>
+      <button class="filter-btn" type="button" data-filter="tools" data-i18n="categories.tools">Инструменты</button>
+      <button class="filter-btn" type="button" data-filter="knowledge" data-i18n="categories.knowledge">Знания</button>
+    </div>
+    <div class="catalog-toolbar__search">
+      <div class="search-field" id="searchField">
+        <input type="search" id="search" data-i18n-placeholder="hub.search_placeholder" placeholder="Найти…" autocomplete="off" enterkeyhint="search">
       </div>
-      <div class="filters" id="filters">
-        <button class="filter-btn active" data-filter="all">Все</button>
-        <button class="filter-btn" data-filter="games">Игры</button>
-        <button class="filter-btn" data-filter="tools">Инструменты</button>
-        <button class="filter-btn" data-filter="creative">Креатив</button>
-      </div>
+      <button type="button" class="search-toggle" id="searchToggle" aria-expanded="false" aria-controls="search" data-i18n-aria="hub.search_open">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="20" y1="20" x2="16.5" y2="16.5"/></svg>
+      </button>
     </div>
   </div>
 </header>
 
 <main class="main">
   <div class="app-grid" id="appGrid"></div>
-  <div class="empty-state" id="emptyState" style="display:none">Ничего не найдено</div>
+  <div class="empty-state" id="emptyState" style="display:none" data-i18n="hub.empty">Ничего не найдено</div>
 </main>
 
 <footer class="footer">
   micr.fun · 2026
 </footer>
 
+<div id="micr-cross-nav-root"></div>
+
+<script src="/data/js/i18n-core.js"></script>
+<script src="/data/js/mascot.js"></script>
+<script src="/data/js/hub-settings.js"></script>
+<script src="/data/js/pwa-install.js"></script>
+<script src="/data/js/cross-nav.js"></script>
 <script>
 const APPS = [
-  { id: 'laziness', name: 'Лень', description: 'Фундаментальная модель блокировки действия и внутреннего конфликта', category: 'creative', color: '#8b5cf6', views: 9200, url: '/laziness/', icon: 'coffee' },
-  { id: 'mapmapmaps', name: 'MapMapMaps', description: 'Угадай место по панораме улицы', category: 'games', color: '#22c55e', views: 0, url: 'https://mapmapmaps.micr.fun/', icon: 'map' },
-  { id: 'cameravox', name: 'Cameravox', description: 'Визуальный терменвокс: играй звуком движением рук', category: 'tools', color: '#38bdf8', views: 0, url: 'https://cameravox.micr.fun/', icon: 'camera' }
+  { id: 'laziness', category: 'knowledge', color: '#2da87a', views: 9200, url: '/laziness/', icon: 'coffee' },
+  { id: 'mapmapmaps', category: 'games', color: '#22c55e', views: 0, url: '/play/mapmapmaps/', icon: 'map' },
+  { id: 'cameravox', category: 'tools', color: '#38bdf8', views: 0, url: '/play/cameravox/', icon: 'camera' }
 ];
-
-const CATEGORY_LABELS = {
-  all: 'Все',
-  games: 'Игры',
-  tools: 'Инструменты',
-  creative: 'Креатив'
-};
 
 const FILTER_COLORS = {
   all: '#3b82f6',
   games: '#f59e0b',
   tools: '#3b82f6',
-  creative: '#8b5cf6'
+  knowledge: '#2da87a'
 };
+
+function appText(id, field) {
+  if (window.micrfun && typeof window.micrfun.t === 'function') {
+    return window.micrfun.t('apps.' + id + '.' + field);
+  }
+  return id;
+}
+
+function categoryLabel(cat) {
+  if (window.micrfun && typeof window.micrfun.t === 'function') {
+    return window.micrfun.t('categories.' + cat);
+  }
+  return cat;
+}
 const grid = document.getElementById('appGrid');
 const empty = document.getElementById('emptyState');
 const search = document.getElementById('search');
+const searchToggle = document.getElementById('searchToggle');
+const searchField = document.getElementById('searchField');
+const catalogToolbar = document.getElementById('catalogToolbar');
 const filterBtns = document.querySelectorAll('.filter-btn');
 
-let activeFilter = 'all';
+function setSearchOpen(open) {
+  if (!searchField || !searchToggle) return;
+  searchField.classList.toggle('is-open', open);
+  if (catalogToolbar) catalogToolbar.classList.toggle('is-search-open', open);
+  searchToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  if (open && search) search.focus();
+  if (!open && search) {
+    search.value = '';
+    activeQuery = '';
+    render();
+  }
+}
+
+if (searchToggle && searchField) {
+  searchToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    setSearchOpen(!catalogToolbar.classList.contains('is-search-open'));
+  });
+  document.addEventListener('click', (e) => {
+    if (!catalogToolbar.classList.contains('is-search-open')) return;
+    if (e.target.closest('.catalog-toolbar__search')) return;
+    setSearchOpen(false);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') setSearchOpen(false);
+  });
+}
+
+let activeFilter = new URLSearchParams(location.search).get('category') || 'all';
+if (!FILTER_COLORS[activeFilter] && activeFilter !== 'all') activeFilter = 'all';
 let activeQuery = '';
 
+function previewSrc(appId) {
+  if (window.micrfun && window.micrfun.localizedPreviewUrl) {
+    return window.micrfun.localizedPreviewUrl(appId);
+  }
+  return '/data/previews/' + appId + '.png?v=20260723';
+}
+
 function createCard(app) {
+  const name = appText(app.id, 'name');
+  const description = appText(app.id, 'description');
   const card = document.createElement('div');
   card.className = 'app-card';
   card.dataset.id = app.id;
   card.dataset.category = app.category;
   card.tabIndex = 0;
   card.setAttribute('role', 'link');
-  card.setAttribute('aria-label', `Открыть ${app.name}`);
+  const openLabel = window.micrfun
+    ? window.micrfun.t('hub.open_app').replace('{name}', name)
+    : name;
+  card.setAttribute('aria-label', openLabel);
 
   card.innerHTML = `
     <div class="card-preview">
-      <img src="/data/previews/${app.id}.png?v=20260720-2" alt="Screenshot: ${app.name}" loading="lazy" onerror="handlePreviewError(this)">
-      <span class="card-badge-overlay" style="background:${app.color}20;color:${app.color};border:1px solid ${app.color}40">${CATEGORY_LABELS[app.category] || app.category}</span>
-      <div class="card-title-overlay">${app.name}</div>
+      <img src="${previewSrc(app.id)}" alt="Screenshot: ${name}" loading="lazy" data-app-id="${app.id}" onerror="handlePreviewFallback(this)">
+      <span class="card-badge-overlay" style="background:${app.color}20;color:${app.color};border:1px solid ${app.color}40">${categoryLabel(app.category)}</span>
+      <div class="card-title-overlay">${name}</div>
     </div>
-    <div class="card-desc">${app.description}</div>
+    <div class="card-desc">${description}</div>
   `;
 
   const openCard = () => {
@@ -556,6 +852,16 @@ function createCard(app) {
   };
 
   card.addEventListener('click', openCard);
+  card.addEventListener('mouseenter', () => {
+    if (window.__micrMascot) {
+      window.__micrMascot.setContext({
+        surface: 'hub-category',
+        categoryId: app.category,
+        appSlug: app.id
+      });
+    }
+  });
+  card.addEventListener('mouseleave', () => syncMascot());
   card.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
@@ -566,16 +872,36 @@ function createCard(app) {
   return card;
 }
 
+function handlePreviewFallback(image) {
+  const appId = image.dataset.appId;
+  if (!image.dataset.fallback && appId && window.micrfun && window.micrfun.defaultPreviewUrl) {
+    image.dataset.fallback = '1';
+    image.src = window.micrfun.defaultPreviewUrl(appId);
+    return;
+  }
+  handlePreviewError(image);
+}
+
 function handlePreviewError(image) {
   image.onerror = null;
   const missingPreview = document.createElement('span');
   missingPreview.className = 'missing-preview';
-  missingPreview.textContent = 'Предпросмотр недоступен';
+  missingPreview.textContent = window.micrfun
+    ? window.micrfun.t('hub.preview_missing')
+    : 'Preview unavailable';
   image.replaceWith(missingPreview);
 }
 
+function syncMascot() {
+  if (!window.__micrMascot) return;
+  window.__micrMascot.setContext({
+    surface: activeFilter === 'all' ? 'hub-home' : 'hub-category',
+    categoryId: activeFilter === 'all' ? 'all' : activeFilter,
+    appSlug: null
+  });
+}
+
 function render() {
-  // Set filter button colors
   filterBtns.forEach(btn => {
     const cat = btn.dataset.filter;
     btn.style.setProperty('--btn-color', FILTER_COLORS[cat] || '#3b82f6');
@@ -587,7 +913,9 @@ function render() {
   for (const app of APPS) {
     const matchesFilter = activeFilter === 'all' || app.category === activeFilter;
     const q = activeQuery.toLowerCase();
-    const matchesSearch = !q || app.name.toLowerCase().includes(q) || app.description.toLowerCase().includes(q);
+    const matchesSearch = !q
+      || appText(app.id, 'name').toLowerCase().includes(q)
+      || appText(app.id, 'description').toLowerCase().includes(q);
 
     if (matchesFilter && matchesSearch) {
       grid.appendChild(createCard(app));
@@ -596,6 +924,7 @@ function render() {
   }
 
   empty.style.display = count === 0 ? 'block' : 'none';
+  syncMascot();
 }
 
 // Events
@@ -613,7 +942,27 @@ filterBtns.forEach(btn => {
   });
 });
 
-render();
+window.renderCatalog = render;
+document.addEventListener('micrfun:ready', () => {
+  filterBtns.forEach((btn) => {
+    btn.classList.toggle('active', btn.dataset.filter === activeFilter);
+  });
+  render();
+});
+document.addEventListener('langchange', () => render());
+
+(function initMascot() {
+  const host = document.querySelector('[data-micr-mascot]');
+  if (!host || !window.MicrMascot) return;
+  window.__micrMascot = MicrMascot.mountMascot(host, {
+    surface: 'hub-home',
+    categoryId: 'all'
+  });
+  const hubMascot = document.getElementById('hubMascotNav');
+  if (hubMascot && window.__micrMascot) {
+    hubMascot.addEventListener('mouseenter', () => window.__micrMascot.pulse());
+  }
+})();
 
 // Register service worker
 if ('serviceWorker' in navigator) {

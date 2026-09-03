@@ -1,0 +1,67 @@
+{
+  "catalog": {
+    "title": "Danh mục game, thí nghiệm, công cụ & tri thức",
+    "subtitle": "Định dạng micro để học, chơi và khám phá",
+    "back": "← danh mục"
+  },
+  "categories": {
+    "all": "Tất cả",
+    "games": "Game",
+    "experiments": "Thí nghiệm",
+    "tools": "Công cụ",
+    "knowledge": "Tri thức",
+    "creative": "Sáng tạo"
+  },
+  "hub": {
+    "doc_title": "micr.fun — Danh mục micro-app",
+    "search_placeholder": "Tìm ứng dụng…",
+    "search_open": "Search catalog",
+    "empty": "Không có kết quả",
+    "open_app": "Mở {name}",
+    "preview_missing": "Không có xem trước"
+  },
+  "settings": {
+    "open": "Cài đặt",
+    "theme": "Giao diện",
+    "theme_dark": "Tối",
+    "theme_light": "Sáng",
+    "language": "Ngôn ngữ"
+  },
+  "nav": {
+    "catalog": "Danh mục",
+    "open": "Catalog navigation",
+    "menu": "Navigation",
+    "prev_app": "← {name}",
+    "next_app": "{name} →",
+    "category_hub": "Danh mục con",
+    "previous": "Trước",
+    "next": "Tiếp",
+    "install": "Cài đặt",
+    "install_app": "Cài ứng dụng này"
+  },
+  "apps": {
+    "laziness": {
+      "name": "Lười biếng",
+      "description": "Mô hình chặn hành động và xung đột nội tâm"
+    },
+    "mapmapmaps": {
+      "name": "MapMapMaps",
+      "description": "Đoán địa điểm qua panorama đường phố"
+    },
+    "cameravox": {
+      "name": "Cameravox",
+      "description": "Theremin trực quan: chơi bằng cử chỉ tay"
+    }
+  },
+  "ui": {
+    "feedback": "Phản hồi",
+    "language": "Ngôn ngữ",
+    "referenced_in": "Được nhắc trong",
+    "links_to": "Liên kết tới",
+    "loading": "Đang tải…",
+    "page_not_found": "Không tìm thấy trang"
+  },
+  "cell": {
+    "about": "Về trang này"
+  }
+}

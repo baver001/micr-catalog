@@ -1,0 +1,67 @@
+{
+  "catalog": {
+    "title": "गames, प्रयोग, टूls और ज्ञान का कैटalog",
+    "subtitle": "सीखने, खेलने और खोजने के माइक्रo प्रारूप",
+    "back": "← कैटalog"
+  },
+  "categories": {
+    "all": "सभी",
+    "games": "गames",
+    "experiments": "प्रयोग",
+    "tools": "टूls",
+    "knowledge": "ज्ञान",
+    "creative": "रचनात्मक"
+  },
+  "hub": {
+    "doc_title": "micr.fun — माइक्रo-ऐp कैटalog",
+    "search_placeholder": "ऐp खोजें…",
+    "search_open": "Search catalog",
+    "empty": "कुछ नहीं मिला",
+    "open_app": "{name} खोलें",
+    "preview_missing": "पूर्वावलokan उपलब्ध नहीं"
+  },
+  "settings": {
+    "open": "सेटिंgs",
+    "theme": "थीम",
+    "theme_dark": "गहरा",
+    "theme_light": "हल्का",
+    "language": "भाषा"
+  },
+  "nav": {
+    "catalog": "कैटalog",
+    "open": "Catalog navigation",
+    "menu": "Navigation",
+    "prev_app": "← {name}",
+    "next_app": "{name} →",
+    "category_hub": "श्रेणी",
+    "previous": "पिछला",
+    "next": "अगला",
+    "install": "इंस्टॉल",
+    "install_app": "यह ऐp इंस्टॉल करें"
+  },
+  "apps": {
+    "laziness": {
+      "name": "आलस्य",
+      "description": "कार्रवाई रोक और आंतरिक संघर्ष का मॉडल"
+    },
+    "mapmapmaps": {
+      "name": "MapMapMaps",
+      "description": "सड़क panorama से स्थान guess करें"
+    },
+    "cameravox": {
+      "name": "Cameravox",
+      "description": "विज़ुअल theremin: हाथ से बजाएं"
+    }
+  },
+  "ui": {
+    "feedback": "प्रतिक्रिया",
+    "language": "भाषा",
+    "referenced_in": "संदर्भित",
+    "links_to": "लिंks",
+    "loading": "लोड हो रहa…",
+    "page_not_found": "पृष्ठ नहीं मिला"
+  },
+  "cell": {
+    "about": "इस पृष्ठ के बारे में"
+  }
+}

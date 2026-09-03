@@ -5,20 +5,63 @@
     "back": "← каталог"
   },
   "categories": {
+    "all": "Все",
     "games": "Игры",
     "experiments": "Эксперименты",
     "tools": "Инструменты",
-    "knowledge": "Знания"
+    "knowledge": "Знания",
+    "creative": "Креатив"
+  },
+  "hub": {
+    "doc_title": "micr.fun — Каталог микроприложений",
+    "search_placeholder": "Найти приложение…",
+    "search_open": "Поиск по каталогу",
+    "empty": "Ничего не найдено",
+    "open_app": "Открыть {name}",
+    "preview_missing": "Предпросмотр недоступен"
+  },
+  "settings": {
+    "open": "Настройки",
+    "theme": "Тема",
+    "theme_dark": "Тёмная",
+    "theme_light": "Светлая",
+    "language": "Язык"
+  },
+  "nav": {
+    "catalog": "Каталог",
+    "open": "Навигация каталога",
+    "menu": "Навигация",
+    "prev_app": "← {name}",
+    "next_app": "{name} →",
+    "category_hub": "Категория",
+    "previous": "Назад",
+    "next": "Далее",
+    "install": "Установить",
+    "install_app": "Установить приложение"
+  },
+  "apps": {
+    "laziness": {
+      "name": "Лень",
+      "description": "Модель блокировки действия и внутреннего конфликта"
+    },
+    "mapmapmaps": {
+      "name": "MapMapMaps",
+      "description": "Угадай место по панораме улицы"
+    },
+    "cameravox": {
+      "name": "Cameravox",
+      "description": "Визуальный терменвокс: играй звуком движением рук"
+    }
   },
   "ui": {
     "feedback": "Обратная связь",
     "language": "Язык",
     "referenced_in": "Ссылается на",
     "links_to": "Упоминает",
-    "loading": "Загрузка...",
+    "loading": "Загрузка…",
     "page_not_found": "Страница не найдена"
   },
   "cell": {
-    "about": "Об этой клетке"
+    "about": "Об этой странице"
   }
 }

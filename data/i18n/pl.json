@@ -1,0 +1,67 @@
+{
+  "catalog": {
+    "title": "Katalog gier, eksperymentów, narzędzi i wiedzy",
+    "subtitle": "Mikroformaty do nauki, gry i odkrywania",
+    "back": "← katalog"
+  },
+  "categories": {
+    "all": "Wszystko",
+    "games": "Gry",
+    "experiments": "Eksperymenty",
+    "tools": "Narzędzia",
+    "knowledge": "Wiedza",
+    "creative": "Kreatywne"
+  },
+  "hub": {
+    "doc_title": "micr.fun — Katalog mikroaplikacji",
+    "search_placeholder": "Znajdź aplikację…",
+    "search_open": "Search catalog",
+    "empty": "Brak wyników",
+    "open_app": "Otwórz {name}",
+    "preview_missing": "Podgląd niedostępny"
+  },
+  "settings": {
+    "open": "Ustawienia",
+    "theme": "Motyw",
+    "theme_dark": "Ciemny",
+    "theme_light": "Jasny",
+    "language": "Język"
+  },
+  "nav": {
+    "catalog": "Katalog",
+    "open": "Catalog navigation",
+    "menu": "Navigation",
+    "prev_app": "← {name}",
+    "next_app": "{name} →",
+    "category_hub": "Kategoria",
+    "previous": "Poprzedni",
+    "next": "Następny",
+    "install": "Zainstaluj",
+    "install_app": "Zainstaluj tę aplikację"
+  },
+  "apps": {
+    "laziness": {
+      "name": "Lenistwo",
+      "description": "Model blokady działania i konfliktu wewnętrznego"
+    },
+    "mapmapmaps": {
+      "name": "MapMapMaps",
+      "description": "Zgadnij miejsce po panoramie ulicy"
+    },
+    "cameravox": {
+      "name": "Cameravox",
+      "description": "Wizualny theremin: graj ruchem dłoni"
+    }
+  },
+  "ui": {
+    "feedback": "Opinie",
+    "language": "Język",
+    "referenced_in": "Wspomniane w",
+    "links_to": "Linki do",
+    "loading": "Ładowanie…",
+    "page_not_found": "Nie znaleziono strony"
+  },
+  "cell": {
+    "about": "O tej stronie"
+  }
+}

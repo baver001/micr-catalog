@@ -1,62 +1,87 @@
-#!/bin/bash
-# micr.fun — Deploy to local Nginx server
-set -e
+#!/usr/bin/env bash
+# micr.fun — deploy the catalog checkout to the VPS web root.
+set -Eeuo pipefail
 
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
-RED='\033[0;31m'
 NC='\033[0m'
-PROJECT_DIR="/root/projects/micr.fun"
-TARGET="/var/www/micr.fun"
+PROJECT_DIR="${PROJECT_DIR:-/root/projects/micr.fun}"
+TARGET="${TARGET:-/var/www/micr.fun}"
+STATE_DIR="${STATE_DIR:-/var/lib/micr.fun}"
+FEEDBACK_FILE="${FEEDBACK_FILE:-$STATE_DIR/feedback.json}"
+RELEASE_SHA="${RELEASE_SHA:-$(git -C "$PROJECT_DIR" rev-parse HEAD)}"
+RELEASE_FILE="$STATE_DIR/release.commit"
+RELEASE_JSON="$STATE_DIR/release.json"
 
-echo -e "${BLUE}📤 Deploying micr.fun...${NC}"
+echo -e "${BLUE}📤 Deploying micr.fun ${RELEASE_SHA}...${NC}"
 
 cd "$PROJECT_DIR"
+umask 027
+mkdir -p "$TARGET" "$STATE_DIR"
 
-# 1. Copy index.html
-echo -e "${BLUE}📄 Copying index.html...${NC}"
-cp index.html "$TARGET/"
+if [ -n "$(git status --porcelain)" ]; then
+  echo "VPS checkout is not clean; refusing to deploy over local changes."
+  exit 1
+fi
 
-# 2. Copy apps
-echo -e "${BLUE}📦 Copying apps...${NC}"
-cp -r apps "$TARGET/"
+# Migrate the old feedback location once, then keep mutable data outside the
+# disposable static web-root tree. The API receives the same path via PM2 env.
+if [ -f "$TARGET/data/feedback.json" ] && [ ! -f "$FEEDBACK_FILE" ]; then
+  cp "$TARGET/data/feedback.json" "$FEEDBACK_FILE"
+fi
 
-# 3. Copy static pages and cell source tree
-echo -e "${BLUE}📋 Copying static pages and cells...${NC}"
-cp laziness.html "$TARGET/" 2>/dev/null || echo "  laziness.html not found, skipping"
-cp favicon.svg "$TARGET/" 2>/dev/null || echo "  favicon.svg not found, skipping"
-cp icon.svg "$TARGET/" 2>/dev/null || echo "  icon.svg not found, skipping"
-cp manifest.json "$TARGET/" 2>/dev/null || echo "  manifest.json not found, skipping"
-rm -rf "$TARGET/cells" "$TARGET/data"
-cp -r cells data "$TARGET"
+echo -e "${BLUE}📦 Syncing public files...${NC}"
+rm -rf "$TARGET/apps" "$TARGET/admin" "$TARGET/cells" "$TARGET/data" "$TARGET/locales" "$TARGET/play"
+cp -r apps admin cells data locales play "$TARGET/"
+cp index.html laziness.html manifest.json sw.js "$TARGET/"
+
+for asset in favicon.svg icon.svg logo-sm.png logo.png logo.svg; do
+  if [ -f "$asset" ]; then
+    cp "$asset" "$TARGET/"
+  fi
+done
 
 # Public static assets must be readable by nginx/www-data. Source files may be private (0600).
-find "$TARGET/data" "$TARGET/cells" -type d -exec chmod 755 {} +
-find "$TARGET/data" "$TARGET/cells" -type f -exec chmod 644 {} +
+for directory in apps admin cells data locales play; do
+  find "$TARGET/$directory" -type d -exec chmod 755 {} +
+  find "$TARGET/$directory" -type f -exec chmod 644 {} +
+done
+chmod 644 "$TARGET"/*.html "$TARGET"/*.json "$TARGET"/*.js 2>/dev/null || true
 
 # Public URLs stay flat; categories exist only in the source tree.
 declare -A CELL_CATEGORIES=(
   [breathing]=tools [focus]=tools [palette]=tools
   [dice]=games [reaction]=games
-  [elon]=knowledge [habits]=knowledge [laziness]=.
+  [elon]=knowledge [habits]=knowledge [laziness]=knowledge
 )
 for slug in "${!CELL_CATEGORIES[@]}"; do
-  ln -sfn "cells/${CELL_CATEGORIES[$slug]}/$slug" "$TARGET/$slug"
+  link="$TARGET/$slug"
+  if [ -e "$link" ] && [ ! -L "$link" ]; then
+    rm -rf "$link"
+  fi
+  ln -sfn "cells/${CELL_CATEGORIES[$slug]}/$slug" "$link"
 done
 
-# 4. Verify
-echo -e "${BLUE}✅ Verifying...${NC}"
-ls -la "$TARGET/index.html"
+echo -e "${BLUE}✅ Verifying deployed tree...${NC}"
+test -s "$TARGET/index.html"
+test -s "$TARGET/sw.js"
+test -s "$TARGET/data/i18n/locales.json"
+test -s "$TARGET/play/mapmapmaps/index.html"
+for slug in "${!CELL_CATEGORIES[@]}"; do
+  test -L "$TARGET/$slug"
+done
 
-# 5. Restart API
-if [ -f "server/api/index.js" ]; then
-    echo -e "${BLUE}🔄 Restarting API...${NC}"
-    cd "$PROJECT_DIR/server/api"
-    pm2 restart micr-api 2>/dev/null || pm2 start index.js --name micr-api --cwd "$PROJECT_DIR/server/api"
-    pm2 save > /dev/null
+if [ -f "$PROJECT_DIR/server/api/index.js" ]; then
+  echo -e "${BLUE}🔄 Restarting API...${NC}"
+  pm2 startOrRestart "$PROJECT_DIR/infra/pm2.config.json" --update-env
+  pm2 save > /dev/null
 fi
 
-echo ""
+printf '%s\n' "$RELEASE_SHA" > "$RELEASE_FILE"
+printf '{"commit":"%s","deployedAt":"%s"}\n' "$RELEASE_SHA" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > "$RELEASE_JSON"
+chmod 640 "$RELEASE_FILE" "$RELEASE_JSON"
+
 echo -e "${GREEN}🎉 Deploy complete!${NC}"
 echo -e "  🌐 https://micr.fun"
 echo -e "  🔌 http://localhost:3000/api/catalog"
+echo -e "  🧾 release: $RELEASE_FILE"

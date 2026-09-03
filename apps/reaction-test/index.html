@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reaction Test — micr.fun</title>
     <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="/data/styles/mascot.css">
     <script src="/apps-pwa-bridge.js"></script>
     <style>
         * {
@@ -225,6 +226,12 @@
                     break;
             }
         });
+    </script>
+    <script src="/data/js/mascot.js"></script>
+    <script>
+      if (window.MicrMascot) {
+        MicrMascot.bootMiniappWatermark({ slug: 'reaction-test', categoryId: 'games' });
+      }
     </script>
 </body>
 

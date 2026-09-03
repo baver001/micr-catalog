@@ -1,0 +1,87 @@
+name: Deploy production
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+jobs:
+  quality:
+    name: Quality gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm run check:static
+      - run: npm run check:i18n
+      - run: npm run check:deploy
+      - name: Check JavaScript syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS= read -r -d '' file; do
+            node --check "$file"
+          done < <(find data server scripts -type f \( -name '*.js' -o -name '*.mjs' \) -print0)
+
+  deploy:
+    name: Deploy to VPS
+    needs: quality
+    if: ${{ vars.DEPLOY_ENABLED == 'true' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://micr.fun
+    steps:
+      - name: Install SSH trust material
+        shell: bash
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          set -euo pipefail
+          test -n "$DEPLOY_HOST"
+          test -n "$DEPLOY_SSH_KEY"
+          test -n "$DEPLOY_KNOWN_HOSTS"
+          install -m 700 -d "$HOME/.ssh"
+          printf '%s\n' "$DEPLOY_SSH_KEY" > "$HOME/.ssh/id_ed25519"
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+          chmod 600 "$HOME/.ssh/id_ed25519" "$HOME/.ssh/known_hosts"
+
+      - name: Fast-forward VPS checkout and deploy
+        shell: bash
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PORT: ${{ secrets.DEPLOY_PORT || '22' }}
+          RELEASE_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          test -n "$DEPLOY_USER"
+          ssh -p "$DEPLOY_PORT" -o BatchMode=yes -o StrictHostKeyChecking=yes \
+            "$DEPLOY_USER@$DEPLOY_HOST" bash -s -- "$RELEASE_SHA" <<'REMOTE'
+          set -euo pipefail
+          release_sha="$1"
+          cd /root/projects/micr.fun
+          test -z "$(git status --porcelain)"
+          git fetch origin main
+          test "$(git rev-parse origin/main)" = "$release_sha"
+          git pull --ff-only origin main
+          test "$(git rev-parse HEAD)" = "$release_sha"
+          RELEASE_SHA="$release_sha" ./infra/deploy.sh
+          test "$(cat /var/lib/micr.fun/release.commit)" = "$release_sha"
+          curl -fsS --max-time 20 https://micr.fun/ > /dev/null
+          curl -fsS --max-time 20 https://micr.fun/api/catalog > /dev/null
+          REMOTE
+
+# This workflow deploys only after the quality gate and only when the
+# production repository variable DEPLOY_ENABLED=true is explicitly configured.

@@ -4,27 +4,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title id="page-title">micr.fun</title>
+<script>
+(function () {
+  var theme = localStorage.getItem('micrfun_theme');
+  if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme;
+})();
+</script>
 <link rel="stylesheet" href="/data/styles/cells.css">
+<link rel="stylesheet" href="/data/styles/mascot.css">
+<link rel="stylesheet" href="/data/styles/cross-nav.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 </head>
 <body>
 
-<header class="site-header">
-  <div class="container">
-    <a href="/" class="back-link" data-i18n="catalog.back">← catalog</a>
-    <div class="lang-switcher">
-      <button class="lang-btn" data-lang="en">EN</button>
-      <button class="lang-btn" data-lang="ru">RU</button>
-    </div>
-  </div>
-</header>
-
 <main class="container">
   <article>
     <header class="cell-header">
-      <div class="breadcrumbs" id="breadcrumbs">
-        <a href="/" data-i18n="catalog.back">catalog</a>
-      </div>
       <h1 class="cell-title-lg" id="cell-title">—</h1>
     </header>
 
@@ -46,7 +41,6 @@
   </div>
 </footer>
 
-<!-- Feedback Modal -->
 <div class="feedback-modal" id="feedback-modal">
   <div class="feedback-modal-content">
     <button class="close-btn feedback-close">&times;</button>
@@ -63,40 +57,39 @@
   </div>
 </div>
 
+<div id="micr-cross-nav-root"></div>
+
+<script src="/data/js/i18n-core.js"></script>
+<script src="/data/js/mascot.js"></script>
+<script src="/data/js/pwa-install.js"></script>
+<script src="/data/js/cross-nav.js"></script>
 <script src="/data/js/cells.js"></script>
 <script>
 (function(){
   const SLUG = 'CELL_SLUG';
   const CAT = 'CELL_CATEGORY';
-  const LANG_KEY = 'micrfun_lang';
+  const HUB_CAT = 'CELL_HUB_CATEGORY';
 
-  function currentLang() {
-    return localStorage.getItem(LANG_KEY) || (navigator.language || '').split('-')[0] === 'ru' ? 'ru' : 'en';
-  }
+  MicrCrossNav.mountNav(document.getElementById('micr-cross-nav-root'), {
+    slug: SLUG,
+    hubCategory: HUB_CAT || CAT,
+    category: CAT
+  });
 
   function loadCell() {
-    const lang = currentLang();
+    const lang = window.micrfun ? window.micrfun.lang() : 'en';
     const titleEl = document.getElementById('cell-title');
     const contentEl = document.getElementById('cell-content');
     const feedbackBtn = document.getElementById('feedback-btn');
-    const breadcrumbs = document.getElementById('breadcrumbs');
 
-    // Load metadata
     fetch('/data/graph.json').then(r => r.json()).then(data => {
       const cell = data.cells[SLUG];
       if (!cell) { contentEl.innerHTML = '<div class="empty-state">Cell not found</div>'; return; }
 
-      const title = cell.title[lang] || cell.title.en;
+      const title = window.MicrI18n ? MicrI18n.resolveCellTitle(cell) : (cell.title[lang] || cell.title.en);
       titleEl.textContent = (cell.icon || '') + ' ' + title;
       document.title = title + ' — micr.fun';
       feedbackBtn.dataset.cell = SLUG;
-
-      const catLabel = (window.micrfun && window.micrfun.t) ?
-        window.micrfun.t('categories.' + CAT) : CAT;
-      breadcrumbs.innerHTML = '<a href="/">' + (window.micrfun ? window.micrfun.t('catalog.back') : '← catalog') + '</a>' +
-        ' / <a href="/">' + catLabel + '</a>';
-
-      // Load content
       loadContent(lang, cell);
     }).catch(() => {
       contentEl.innerHTML = '<div class="empty-state" data-i18n="ui.page_not_found">Page not found</div>';
@@ -105,7 +98,6 @@
 
   function loadContent(lang, cell) {
     const contentEl = document.getElementById('cell-content');
-    // Try content.{lang}.html, fall back to content.en.html
     fetch('/cells/' + CAT + '/' + SLUG + '/content.' + lang + '.html')
       .then(r => { if (!r.ok) throw new Error(); return r.text(); })
       .then(html => {
@@ -114,7 +106,6 @@
         if (window.micrfun) window.micrfun.renderBacklinks(document.getElementById('backlinks-root'), SLUG);
       })
       .catch(() => {
-        // Fallback to English
         fetch('/cells/' + CAT + '/' + SLUG + '/content.en.html')
           .then(r => { if (!r.ok) throw new Error(); return r.text(); })
           .then(html => {
@@ -128,14 +119,8 @@
       });
   }
 
-  loadCell();
-
-  // Re-load on language change
-  window.addEventListener('storage', function(e) {
-    if (e.key === LANG_KEY) loadCell();
-  });
-  // Also listen via custom event from cells.js lang switch
-  document.addEventListener('langchange', function() { loadCell(); });
+  document.addEventListener('langchange', loadCell);
+  window.micrfun && window.micrfun.whenReady && window.micrfun.whenReady(loadCell);
 })();
 </script>
 </body>

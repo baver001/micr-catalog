@@ -1,0 +1,67 @@
+{
+  "catalog": {
+    "title": "Catalogo di giochi, esperimenti, strumenti e conoscenza",
+    "subtitle": "Micro-formati per imparare, giocare ed esplorare",
+    "back": "← catalogo"
+  },
+  "categories": {
+    "all": "Tutto",
+    "games": "Giochi",
+    "experiments": "Esperimenti",
+    "tools": "Strumenti",
+    "knowledge": "Conoscenza",
+    "creative": "Creativo"
+  },
+  "hub": {
+    "doc_title": "micr.fun — Catalogo micro-app",
+    "search_placeholder": "Trova un’app…",
+    "search_open": "Search catalog",
+    "empty": "Nessun risultato",
+    "open_app": "Apri {name}",
+    "preview_missing": "Anteprima non disponibile"
+  },
+  "settings": {
+    "open": "Impostazioni",
+    "theme": "Tema",
+    "theme_dark": "Scuro",
+    "theme_light": "Chiaro",
+    "language": "Lingua"
+  },
+  "nav": {
+    "catalog": "Catalogo",
+    "open": "Catalog navigation",
+    "menu": "Navigation",
+    "prev_app": "← {name}",
+    "next_app": "{name} →",
+    "category_hub": "Categoria",
+    "previous": "Precedente",
+    "next": "Successivo",
+    "install": "Installa",
+    "install_app": "Installa questa app"
+  },
+  "apps": {
+    "laziness": {
+      "name": "Pigrizia",
+      "description": "Modello di blocco d’azione e conflitto interiore"
+    },
+    "mapmapmaps": {
+      "name": "MapMapMaps",
+      "description": "Indovina il luogo da un panorama stradale"
+    },
+    "cameravox": {
+      "name": "Cameravox",
+      "description": "Theremin visivo: suona con il movimento delle mani"
+    }
+  },
+  "ui": {
+    "feedback": "Feedback",
+    "language": "Lingua",
+    "referenced_in": "Citato in",
+    "links_to": "Collegamenti a",
+    "loading": "Caricamento…",
+    "page_not_found": "Pagina non trovata"
+  },
+  "cell": {
+    "about": "Informazioni su questa pagina"
+  }
+}

@@ -1,8 +1,8 @@
 # micr.fun — Micro-App Catalog
 
-[![Engine: micrfun/micr](https://img.shields.io/badge/Engine-micrfun%2Fmicr-000?logo=github)](https://github.com/micrfun/micr)
+Personal production instance for [micr.fun](https://micr.fun), maintained in `baver001/micr-catalog`.
 
-Self-hosted micro-app portal. Single-page catalog with a sidebar and iframe embed. Zero external backend dependencies.
+Self-hosted micro-app portal. Single-page catalog with discovery, cells, standalone apps, external play surfaces and an optional Express API.
 
 ```
 ┌──────────────┐ ┌────────────────────┐
@@ -22,13 +22,15 @@ Self-hosted micro-app portal. Single-page catalog with a sidebar and iframe embe
 
 ```
 ├── index.html              # Main catalog UI (sidebar + iframe)
-├── laziness.html           # Static content page ("Work #1")
+├── cells/<category>/<slug>/ # Categorized source cells
+├── data/                   # Graph, surfaces, i18n, shared JS/CSS and previews
+├── play/                   # Embedded external surfaces
+├── laziness.html           # Preserved direct article route
 ├── apps/                   # Micro-applications
 │   ├── breathing/
 │   ├── color-palette/
 │   ├── dice/
-│   ├── reaction-test/
-│   └── spend-elons-money/
+│   └── reaction-test/
 ├── server/api/             # Express API + MCP server
 │   ├── index.js            # /api/catalog endpoint
 │   ├── mcp-server.js       # MCP for agent integration
@@ -38,10 +40,8 @@ Self-hosted micro-app portal. Single-page catalog with a sidebar and iframe embe
 │   ├── deploy.sh           # Deploy script
 │   ├── nginx-micr.fun.conf # Nginx config
 │   └── pm2.config.json     # PM2 process config
-├── styles/                 # CSS
-├── js/                     # Client JS (api client, i18n)
 ├── admin/                  # Admin panel
-└── locales/                # Translations (ru, en)
+└── locales/                # API/UI translations
 ```
 
 ## Stack
@@ -57,16 +57,18 @@ Self-hosted micro-app portal. Single-page catalog with a sidebar and iframe embe
 
 ## Quick Start
 
-### 1. Clone the engine
+### 1. Run the personal catalog locally
 
-For your own catalog, fork the engine:
+From the Micr workspace:
 
-```bash
-git clone https://github.com/micrfun/micr.git my-catalog
-cd my-catalog
+```powershell
+cd D:\02_Projects\Micr\catalog
+npm run dev
 ```
 
-### 2. Configure
+The local static server uses the same source tree that is pushed to `baver001/micr-catalog`.
+
+### 2. Configure or add an app
 
 Edit `config/catalog.json`:
 
@@ -80,20 +82,7 @@ Edit `config/catalog.json`:
 }
 ```
 
-### 3. Add an app
-
-```bash
-mkdir apps/my-app
-cat > apps/my-app/index.html << 'EOF'
-<!DOCTYPE html>
-<html>
-<head><title>My App</title></head>
-<body><h1>Hello!</h1></body>
-</html>
-EOF
-```
-
-### 4. Deploy to your server
+### 3. Deploy to the server
 
 See [DEPLOYMENT.md](DEPLOYMENT.md) for full server setup or use the deploy script:
 
@@ -101,15 +90,17 @@ See [DEPLOYMENT.md](DEPLOYMENT.md) for full server setup or use the deploy scrip
 ./infra/deploy.sh
 ```
 
+Pushes to `main` run the quality gate and, after the `production` environment is configured with `DEPLOY_ENABLED=true`, deploy automatically to the VPS. `workflow_dispatch` remains available for an explicit run; root control pushes never deploy this catalog.
+
 ## This Repository
 
-This specific repo (`baver001/micr-catalog`) is the **live deployment** for [micr.fun](https://micr.fun). It contains:
+This specific repo (`baver001/micr-catalog`) is the **live deployment source** for [micr.fun](https://micr.fun). It contains:
 
 - Personal branding and copy (Russian language, "Лень", etc.)
 - 5 custom micro-apps
 - The running production configuration
 
-The clean open-source engine lives at [`micrfun/micr`](https://github.com/micrfun/micr). Fork that if you want your own catalog.
+The previously documented `micrfun/micr` engine upstream is not currently verified. Do not treat this personal repository as a generic engine or fork it for unrelated catalogs until a canonical engine repository is confirmed.
 
 ## Architecture
 
@@ -122,6 +113,8 @@ See [API.md](API.md)
 ## Deployment
 
 See [DEPLOYMENT.md](DEPLOYMENT.md)
+
+Repository roles and the control workflow are documented in the parent control repository: [repository strategy](../docs/repository-strategy.md), [development workflow](../docs/development-workflow.md), and [deployment boundary](../docs/deployment.md).
 
 ## License
 

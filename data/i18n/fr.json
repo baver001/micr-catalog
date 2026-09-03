@@ -1,0 +1,67 @@
+{
+  "catalog": {
+    "title": "Catalogue de jeux, expériences, outils et savoirs",
+    "subtitle": "Micro-formats pour apprendre, jouer et explorer",
+    "back": "← catalogue"
+  },
+  "categories": {
+    "all": "Tout",
+    "games": "Jeux",
+    "experiments": "Expériences",
+    "tools": "Outils",
+    "knowledge": "Savoir",
+    "creative": "Créatif"
+  },
+  "hub": {
+    "doc_title": "micr.fun — Catalogue de micro-apps",
+    "search_placeholder": "Trouver une app…",
+    "search_open": "Search catalog",
+    "empty": "Aucun résultat",
+    "open_app": "Ouvrir {name}",
+    "preview_missing": "Aperçu indisponible"
+  },
+  "settings": {
+    "open": "Réglages",
+    "theme": "Thème",
+    "theme_dark": "Sombre",
+    "theme_light": "Clair",
+    "language": "Langue"
+  },
+  "nav": {
+    "catalog": "Catalogue",
+    "open": "Catalog navigation",
+    "menu": "Navigation",
+    "prev_app": "← {name}",
+    "next_app": "{name} →",
+    "category_hub": "Catégorie",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "install": "Installer",
+    "install_app": "Installer cette app"
+  },
+  "apps": {
+    "laziness": {
+      "name": "Paresse",
+      "description": "Modèle de blocage d’action et de conflit intérieur"
+    },
+    "mapmapmaps": {
+      "name": "MapMapMaps",
+      "description": "Devine le lieu via une panorama de rue"
+    },
+    "cameravox": {
+      "name": "Cameravox",
+      "description": "Thérémine visuel : joue avec tes mains"
+    }
+  },
+  "ui": {
+    "feedback": "Retour",
+    "language": "Langue",
+    "referenced_in": "Référencé dans",
+    "links_to": "Liens vers",
+    "loading": "Chargement…",
+    "page_not_found": "Page introuvable"
+  },
+  "cell": {
+    "about": "À propos de cette page"
+  }
+}
