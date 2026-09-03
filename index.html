@@ -71,6 +71,51 @@ body {
 .logo-link { display: flex; align-items: center; text-decoration: none; }
 .logo-link:hover { opacity: 0.85; }
 
+/* Catalog mascot */
+.mascot {
+  width: 72px;
+  height: 52px;
+  padding: 0;
+  border: 1px solid rgba(45,212,191,0.2);
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(45,212,191,0.12), rgba(59,130,246,0.08));
+  color: var(--accent-teal);
+  cursor: pointer;
+  display: block;
+  flex: 0 0 auto;
+  transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
+}
+
+.mascot:hover,
+.mascot:focus-visible {
+  border-color: rgba(45,212,191,0.55);
+  background: linear-gradient(145deg, rgba(45,212,191,0.2), rgba(59,130,246,0.12));
+  transform: translateY(-1px);
+}
+
+.mascot:focus-visible {
+  outline: 2px solid var(--accent-teal);
+  outline-offset: 3px;
+}
+
+.mascot svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.mascot-pupil { transition: transform 0.16s ease-out; transform-box: fill-box; transform-origin: center; }
+.mascot-eye { transition: transform 0.12s ease; transform-box: fill-box; transform-origin: center; }
+.mascot-mouth { transition: d 0.18s ease; }
+.mascot:hover .mascot-eye,
+.mascot:focus-visible .mascot-eye,
+.mascot.is-happy .mascot-eye { transform: scaleY(0.72); }
+.mascot:hover .mascot-mouth,
+.mascot:focus-visible .mascot-mouth,
+.mascot.is-happy .mascot-mouth { d: path('M 40 48 Q 48 56 56 48'); }
+.mascot.is-blinking .mascot-eye { transform: scaleY(0.1); }
+
+@keyframes mascotGlow {
+  50% { filter: drop-shadow(0 0 5px rgba(45,212,191,0.24)); }
+}
+
+.mascot { animation: mascotGlow 4.2s ease-in-out infinite; }
+
 /* Controls */
 .controls {
   display: flex;
@@ -142,6 +187,45 @@ body {
   border-color: var(--btn-color, var(--accent));
   color: #fff;
   box-shadow: 0 0 12px color-mix(in srgb, var(--btn-color, var(--accent)) 40%, transparent);
+}
+
+/* Lang switch */
+.lang-switch {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 2px;
+  flex: 0 0 auto;
+}
+
+.lang-btn {
+  padding: 4px 10px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.lang-btn:hover {
+  color: var(--text-primary);
+}
+
+.lang-btn.active {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--text-primary);
+}
+
+.lang-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
 }
 
 /* Grid */
@@ -388,6 +472,8 @@ body {
     margin-bottom: 14px;
   }
 
+  .mascot { width: 64px; height: 48px; }
+
   .controls {
     display: flex;
     flex-direction: column;
@@ -469,6 +555,9 @@ body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
   }
+
+  .mascot { animation: none; }
+  .mascot-pupil, .mascot-eye, .mascot-mouth { transition: none; }
 }
 </style>
 </head>
@@ -480,6 +569,19 @@ body {
       <a href="/" class="logo-link">
         <img src="/logo-sm.png" alt="micr.fun" height="16" style="display:block">
       </a>
+      <button class="mascot" id="mascot" type="button" aria-label="Маскот micr.fun" title="Привет!">
+        <svg viewBox="0 0 96 72" aria-hidden="true" focusable="false">
+          <path d="M 18 37 Q 17 18 34 14 Q 48 5 62 14 Q 79 18 78 37 Q 77 59 48 61 Q 19 59 18 37Z" fill="#171f25" stroke="currentColor" stroke-width="2"/>
+          <path d="M 24 25 Q 29 16 38 16" fill="none" stroke="#2dd4bf" stroke-linecap="round" stroke-width="2" opacity=".7"/>
+          <ellipse class="mascot-eye" cx="35" cy="32" rx="8" ry="7" fill="#f8fafc"/>
+          <ellipse class="mascot-eye" cx="61" cy="32" rx="8" ry="7" fill="#f8fafc"/>
+          <circle class="mascot-pupil" data-mascot-pupil cx="35" cy="32" r="3" fill="#121212"/>
+          <circle class="mascot-pupil" data-mascot-pupil cx="61" cy="32" r="3" fill="#121212"/>
+          <path class="mascot-mouth" d="M 40 49 Q 48 45 56 49" fill="none" stroke="#f8fafc" stroke-linecap="round" stroke-width="2"/>
+          <circle cx="25" cy="44" r="2" fill="#ef5b73" opacity=".65"/>
+          <circle cx="71" cy="44" r="2" fill="#ef5b73" opacity=".65"/>
+        </svg>
+      </button>
     </div>
     <div class="controls">
       <div class="search-wrap">
@@ -492,6 +594,10 @@ body {
         <button class="filter-btn" data-filter="tools">Инструменты</button>
         <button class="filter-btn" data-filter="experiments">Эксперименты</button>
         <button class="filter-btn" data-filter="knowledge">Знания</button>
+      </div>
+      <div class="lang-switch" id="langSwitch" role="group" aria-label="Выбор языка">
+        <button type="button" class="lang-btn active" data-lang="ru">RU</button>
+        <button type="button" class="lang-btn" data-lang="en">EN</button>
       </div>
     </div>
   </div>
@@ -506,6 +612,7 @@ body {
   micr.fun · 2026
 </footer>
 
+<script src="/assets/js/mascot.js"></script>
 <script src="/js/catalog.js"></script>
 <script>
 const FILTER_COLORS = {
@@ -520,10 +627,31 @@ const grid = document.getElementById('appGrid');
 const empty = document.getElementById('emptyState');
 const search = document.getElementById('search');
 const filterBtns = document.querySelectorAll('.filter-btn');
+const langBtns = document.querySelectorAll('.lang-btn');
 
 let APPS = [];
 let activeFilter = 'all';
 let activeQuery = '';
+let currentLang = window.MicrCatalog ? window.MicrCatalog.getLang() : 'ru';
+
+function updateTexts(lang) {
+  if (!window.MicrCatalog) return;
+  document.title = window.MicrCatalog.t('docTitle', lang);
+  if (search) search.placeholder = window.MicrCatalog.t('searchPlaceholder', lang);
+  filterBtns.forEach(btn => {
+    const f = btn.dataset.filter;
+    btn.textContent = window.MicrCatalog.getCategoryLabel(f, lang);
+  });
+  if (empty) empty.textContent = window.MicrCatalog.t('emptyState', lang);
+  langBtns.forEach(btn => {
+    const isActive = btn.dataset.lang === lang;
+    btn.classList.toggle('active', isActive);
+    btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+  });
+  if (typeof window.updateMascotLang === 'function') {
+    window.updateMascotLang(lang);
+  }
+}
 
 function paintFilters() {
   filterBtns.forEach(btn => {
@@ -532,21 +660,29 @@ function paintFilters() {
 }
 
 function render() {
-  MicrCatalog.render({ apps: APPS, gridEl: grid, emptyEl: empty, filter: activeFilter, query: activeQuery });
+  if (!window.MicrCatalog) return;
+  window.MicrCatalog.render({
+    apps: APPS,
+    gridEl: grid,
+    emptyEl: empty,
+    filter: activeFilter,
+    query: activeQuery,
+    lang: currentLang
+  });
 }
 
-async function init() {
-  try {
-    APPS = await MicrCatalog.load();
-  } catch (err) {
-    console.error('Failed to load graph.json:', err);
-    empty.textContent = 'Не удалось загрузить каталог';
-    empty.style.display = 'block';
-    return;
-  }
-  paintFilters();
+function setLanguage(lang) {
+  if (!window.MicrCatalog) return;
+  currentLang = window.MicrCatalog.setLang(lang);
+  updateTexts(currentLang);
   render();
 }
+
+langBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    setLanguage(btn.dataset.lang);
+  });
+});
 
 search.addEventListener('input', (e) => {
   activeQuery = e.target.value;
@@ -561,6 +697,22 @@ filterBtns.forEach(btn => {
     render();
   });
 });
+
+async function init() {
+  updateTexts(currentLang);
+  paintFilters();
+  try {
+    APPS = await window.MicrCatalog.load();
+  } catch (err) {
+    console.error('Failed to load graph.json:', err);
+    if (empty) {
+      empty.textContent = window.MicrCatalog ? window.MicrCatalog.t('loadError', currentLang) : 'Не удалось загрузить каталог';
+      empty.style.display = 'block';
+    }
+    return;
+  }
+  render();
+}
 
 init();
 

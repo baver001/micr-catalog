@@ -21,14 +21,14 @@ cp index.html "$TARGET/"
 echo -e "${BLUE}📦 Copying legacy apps (if present)...${NC}"
 if [ -d apps ]; then cp -r apps "$TARGET/"; fi
 
-# 3. Copy static pages and cell source tree
-echo -e "${BLUE}📋 Copying static pages and cells...${NC}"
+# 3. Copy static pages, shared scripts, assets, and cell source tree
+echo -e "${BLUE}📋 Copying static pages, scripts, assets, and cells...${NC}"
 cp laziness.html "$TARGET/" 2>/dev/null || echo "  laziness.html not found, skipping"
-cp favicon.svg "$TARGET/" 2>/dev/null || echo "  favicon.svg not found, skipping"
-cp icon.svg "$TARGET/" 2>/dev/null || echo "  icon.svg not found, skipping"
-cp manifest.json "$TARGET/" 2>/dev/null || echo "  manifest.json not found, skipping"
-rm -rf "$TARGET/cells" "$TARGET/data"
-cp -r cells data "$TARGET"
+for asset in favicon.svg icon.svg logo.svg logo.png logo-sm.png manifest.json sw.js; do
+  cp "$asset" "$TARGET/" 2>/dev/null || echo "  $asset not found, skipping"
+done
+rm -rf "$TARGET/cells" "$TARGET/data" "$TARGET/js" "$TARGET/assets"
+cp -r cells data js assets "$TARGET"
 
 # Public static assets must be readable by nginx/www-data. Source files may be private (0600).
 find "$TARGET/data" "$TARGET/cells" -type d -exec chmod 755 {} +
@@ -42,6 +42,9 @@ declare -A CELL_CATEGORIES=(
 )
 for slug in "${!CELL_CATEGORIES[@]}"; do
   ln -sfn "cells/${CELL_CATEGORIES[$slug]}/$slug" "$TARGET/$slug"
+done
+for category in games tools knowledge experiments; do
+  ln -sfn "cells/$category" "$TARGET/$category"
 done
 
 # 4. Verify

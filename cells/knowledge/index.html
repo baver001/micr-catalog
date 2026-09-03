@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>micr.fun — Knowledge</title>
+<title>micr.fun — Знания</title>
 <meta name="theme-color" content="#0d0c0a">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="manifest" href="/manifest.json">
@@ -15,7 +15,28 @@
 <body data-category="knowledge">
 
 <header class="cat-header">
-  <a href="/" class="back-link">← micr.fun</a>
+  <div class="cat-header-top">
+    <div class="cat-header-left">
+      <a href="/" class="back-link">← micr.fun</a>
+      <button class="mascot" id="mascot" type="button" aria-label="Маскот micr.fun" title="Привет!">
+        <svg viewBox="0 0 96 72" aria-hidden="true" focusable="false">
+          <path d="M 18 37 Q 17 18 34 14 Q 48 5 62 14 Q 79 18 78 37 Q 77 59 48 61 Q 19 59 18 37Z" fill="#171f25" stroke="currentColor" stroke-width="2"/>
+          <path d="M 24 25 Q 29 16 38 16" fill="none" stroke="#2dd4bf" stroke-linecap="round" stroke-width="2" opacity=".7"/>
+          <ellipse class="mascot-eye" cx="35" cy="32" rx="8" ry="7" fill="#f8fafc"/>
+          <ellipse class="mascot-eye" cx="61" cy="32" rx="8" ry="7" fill="#f8fafc"/>
+          <circle class="mascot-pupil" data-mascot-pupil cx="35" cy="32" r="3" fill="#121212"/>
+          <circle class="mascot-pupil" data-mascot-pupil cx="61" cy="32" r="3" fill="#121212"/>
+          <path class="mascot-mouth" d="M 40 49 Q 48 45 56 49" fill="none" stroke="#f8fafc" stroke-linecap="round" stroke-width="2"/>
+          <circle cx="25" cy="44" r="2" fill="#ef5b73" opacity=".65"/>
+          <circle cx="71" cy="44" r="2" fill="#ef5b73" opacity=".65"/>
+        </svg>
+      </button>
+    </div>
+    <div class="lang-switch" id="langSwitch" role="group" aria-label="Выбор языка">
+      <button type="button" class="lang-btn active" data-lang="ru">RU</button>
+      <button type="button" class="lang-btn" data-lang="en">EN</button>
+    </div>
+  </div>
   <h1 id="catTitle">…</h1>
 </header>
 
@@ -26,6 +47,7 @@
 
 <footer class="footer">micr.fun · 2026</footer>
 
+<script src="/js/mascot.js"></script>
 <script src="/js/catalog.js"></script>
 <script src="/js/category.js"></script>
 </body>
