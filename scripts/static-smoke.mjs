@@ -50,9 +50,22 @@ for (const match of hub.matchAll(/(?:src|href)=["']([^"']+)["']/g)) {
   if (!fs.existsSync(candidate)) failures.push(`broken hub asset reference: ${reference}`);
 }
 
-const lazinessLink = fs.readFileSync(path.join(root, 'laziness'), 'utf8').trim();
-if (lazinessLink !== 'cells/knowledge/laziness') {
-  failures.push(`unexpected laziness route target: ${lazinessLink}`);
+const lazinessRoute = path.join(root, 'laziness');
+if (fs.existsSync(lazinessRoute)) {
+  const routeStat = fs.lstatSync(lazinessRoute);
+  if (routeStat.isSymbolicLink()) {
+    const lazinessLink = fs.readlinkSync(lazinessRoute);
+    if (lazinessLink !== 'cells/knowledge/laziness') {
+      failures.push(`unexpected laziness route target: ${lazinessLink}`);
+    }
+  } else {
+    const lazinessLink = fs.readFileSync(lazinessRoute, 'utf8').trim();
+    if (lazinessLink !== 'cells/knowledge/laziness') {
+      failures.push(`unexpected laziness route target: ${lazinessLink}`);
+    }
+  }
+} else if (!fs.existsSync(path.join(root, 'cells/knowledge/laziness/index.html'))) {
+  failures.push('missing laziness route and canonical cell page');
 }
 
 if (failures.length) {
