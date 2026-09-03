@@ -53,7 +53,7 @@
       "description": "विज़ुअल theremin: हाथ से बजाएं"
     },
     "mask-clock": {
-      "name": "Mask Clock",
+      "name": "Math Clock",
       "description": "Time hidden inside changing arithmetic expressions"
     },
     "color-life": {

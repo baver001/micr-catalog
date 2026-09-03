@@ -53,7 +53,7 @@
       "description": "Theremin visual: main dengan gerakan tangan"
     },
     "mask-clock": {
-      "name": "Mask Clock",
+      "name": "Math Clock",
       "description": "Time hidden inside changing arithmetic expressions"
     },
     "color-life": {

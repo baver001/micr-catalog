@@ -53,7 +53,7 @@
       "description": "비주얼 테레민: 손 움직임으로 연주"
     },
     "mask-clock": {
-      "name": "Mask Clock",
+      "name": "Math Clock",
       "description": "Time hidden inside changing arithmetic expressions"
     },
     "color-life": {

@@ -53,7 +53,7 @@
       "description": "Theremin trực quan: chơi bằng cử chỉ tay"
     },
     "mask-clock": {
-      "name": "Mask Clock",
+      "name": "Math Clock",
       "description": "Time hidden inside changing arithmetic expressions"
     },
     "color-life": {
