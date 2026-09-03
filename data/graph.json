@@ -88,6 +88,17 @@
       "links_to": [],
       "linked_from": []
     },
+    "mask-clock": {
+      "slug": "mask-clock",
+      "category": "tools",
+      "url": "/mask-clock/",
+      "color": "#b99cff",
+      "title": { "en": "Mask Clock", "ru": "Математические часы" },
+      "description": { "en": "Time hidden inside changing arithmetic expressions", "ru": "Время, спрятанное в меняющихся математических выражениях" },
+      "icon": "🧮",
+      "links_to": [],
+      "linked_from": []
+    },
     "color-life": {
       "slug": "color-life",
       "category": "experiments",

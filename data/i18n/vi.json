@@ -52,6 +52,10 @@
       "name": "Cameravox",
       "description": "Theremin trực quan: chơi bằng cử chỉ tay"
     },
+    "mask-clock": {
+      "name": "Mask Clock",
+      "description": "Time hidden inside changing arithmetic expressions"
+    },
     "color-life": {
       "name": "Color Life",
       "description": "Conway Life with RGB cells that mix into colonies"

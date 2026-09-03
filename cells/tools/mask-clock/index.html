@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0a12">
+<title>Mask Clock — micr.fun</title>
+<link rel="icon" href="/favicon.svg">
+<style>
+:root{color-scheme:dark;--bg:#0b0a12;--panel:rgba(23,20,37,.76);--line:rgba(255,255,255,.12);--text:#f7f4ff;--muted:#9d97ae;--violet:#b99cff;--pink:#ff8ec7;--cyan:#75e4ff;--shadow:0 22px 80px rgba(0,0,0,.35)}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font:15px/1.4 ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}body{overflow-x:hidden}body:before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(circle at 50% 34%,rgba(185,156,255,.14),transparent 34%),radial-gradient(circle at 88% 12%,rgba(255,142,199,.1),transparent 25%),linear-gradient(145deg,#0b0a12,#12101e 54%,#0c111b)}button{font:inherit}.shell{width:min(1060px,calc(100% - 32px));margin:auto;padding:24px 0 38px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:inline-flex;align-items:center;gap:10px;color:var(--text);text-decoration:none}.brand-mark{width:11px;height:11px;border-radius:4px;background:var(--violet);box-shadow:0 0 22px var(--violet)}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:.15em;text-transform:uppercase}.brand strong{display:block;font-size:15px;letter-spacing:-.02em}.back{color:var(--muted);font-size:12px;text-decoration:none}.back:hover{color:var(--text)}.intro{text-align:center;margin:clamp(68px,12vh,132px) auto 32px}.eyebrow{color:var(--violet);font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase}.intro h1{margin:12px 0 10px;font-size:clamp(42px,8vw,82px);line-height:.95;letter-spacing:-.075em}.intro p{margin:0 auto;color:var(--muted);max-width:460px;font-size:15px}.clock-card{position:relative;margin:auto;padding:clamp(24px,5vw,54px);border:1px solid var(--line);border-radius:30px;background:linear-gradient(145deg,rgba(255,255,255,.09),rgba(255,255,255,.025));box-shadow:var(--shadow);overflow:hidden}.clock-card:after{content:"";position:absolute;inset:auto 10% -65%;height:180px;background:var(--violet);filter:blur(80px);opacity:.13;pointer-events:none}.time-labels{display:flex;justify-content:space-between;color:var(--muted);font-size:11px;letter-spacing:.13em;text-transform:uppercase}.time-labels span:last-child{color:var(--pink)}.time-row{position:relative;z-index:1;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:clamp(12px,3vw,34px);margin:clamp(30px,6vw,68px) auto;max-width:850px}.expression{font-size:clamp(28px,6vw,72px);font-weight:650;letter-spacing:-.07em;line-height:1;white-space:nowrap;text-align:center;text-shadow:0 0 34px rgba(185,156,255,.16)}.expression small{display:block;margin-top:15px;color:var(--muted);font-size:11px;font-weight:500;letter-spacing:.16em;text-transform:uppercase}.colon{font-size:clamp(32px,5vw,64px);color:var(--pink);font-weight:300;line-height:1;transform:translateY(-6px);transition:opacity .15s ease}.colon.dim{opacity:.22}.accessibility-note{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.card-foot{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center;gap:16px;color:var(--muted);font-size:12px}.status{display:inline-flex;align-items:center;gap:8px}.status:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 14px var(--cyan)}.controls{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:end;margin:18px auto 0}.control{padding:18px;border:1px solid var(--line);border-radius:20px;background:rgba(18,15,30,.7)}.control-title{display:block;margin-bottom:12px;color:var(--muted);font-size:10px;letter-spacing:.15em;text-transform:uppercase}.choices{display:flex;flex-wrap:wrap;gap:7px}.choice{min-height:36px;padding:0 12px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.045);color:var(--muted);cursor:pointer;transition:.18s ease}.choice:hover{background:rgba(255,255,255,.1);color:var(--text)}.choice:focus-visible{outline:2px solid var(--violet);outline-offset:2px}.choice[aria-pressed="true"]{border-color:rgba(185,156,255,.7);background:rgba(185,156,255,.16);color:var(--text);box-shadow:0 0 18px rgba(185,156,255,.12)}.format-control{min-width:180px}.format-control .choice{width:100%}.tip{margin:18px auto 0;color:var(--muted);font-size:12px;text-align:center}.tip kbd{padding:2px 6px;border:1px solid var(--line);border-radius:5px;color:var(--text)}footer{margin-top:38px;text-align:center;color:var(--muted);font-size:11px}footer a{color:var(--muted);text-decoration:none}footer a:hover{color:var(--text)}
+@media(max-width:680px){.shell{width:min(100% - 20px,520px);padding-top:14px}.topbar{align-items:flex-start}.intro{margin-top:72px}.clock-card{border-radius:24px;padding:22px 16px}.time-row{gap:7px}.expression{font-size:clamp(21px,7vw,40px);letter-spacing:-.08em}.expression small{margin-top:10px;font-size:9px}.colon{font-size:34px}.card-foot{align-items:flex-start;flex-direction:column;gap:8px}.controls{grid-template-columns:1fr;gap:10px}.control{padding:14px}.format-control{min-width:0}.choice{flex:1}.format-control .choice{width:auto}.tip{display:none}}
+</style>
+</head>
+<body>
+<main class="shell">
+  <header class="topbar">
+    <a class="brand" href="/"><i class="brand-mark"></i><span><small>micr.fun / tools</small><strong>Mask Clock</strong></span></a>
+    <a class="back" href="/">← каталог</a>
+  </header>
+
+  <section class="intro" aria-labelledby="page-title">
+    <span class="eyebrow">инструмент 02</span>
+    <h1 id="page-title">Mask Clock</h1>
+    <p>Время прячется в простых математических выражениях. Смотри на часы чуть внимательнее.</p>
+  </section>
+
+  <section class="clock-card" aria-label="Математические часы">
+    <div class="time-labels"><span>часы</span><span id="period">24 h</span></div>
+    <div class="time-row">
+      <div class="expression" id="hours-expression">—<small>час</small></div>
+      <div class="colon" id="colon" aria-hidden="true">:</div>
+      <div class="expression" id="minutes-expression">—<small>минуты</small></div>
+    </div>
+    <p class="accessibility-note" id="spoken-time" aria-live="polite"></p>
+    <div class="card-foot"><span class="status" id="status">обновляется автоматически</span><span id="updated">—</span></div>
+  </section>
+
+  <section class="controls" aria-label="Настройки Mask Clock">
+    <div class="control">
+      <span class="control-title">маска выражения</span>
+      <div class="choices" role="group" aria-label="Математическая операция">
+        <button class="choice" data-mode="random" aria-pressed="true">случайно</button>
+        <button class="choice" data-mode="add" aria-pressed="false">сложение</button>
+        <button class="choice" data-mode="subtract" aria-pressed="false">вычитание</button>
+        <button class="choice" data-mode="multiply" aria-pressed="false">умножение</button>
+        <button class="choice" data-mode="divide" aria-pressed="false">деление</button>
+      </div>
+    </div>
+    <div class="control format-control">
+      <span class="control-title">формат времени</span>
+      <div class="choices"><button class="choice" id="format" aria-pressed="true">24 часа</button></div>
+    </div>
+  </section>
+  <p class="tip"><kbd>маска</kbd> меняется каждую минуту · двоеточие мигает как обычные часы</p>
+  <footer><a href="/">micr.fun</a> · маленький инструмент для любопытных</footer>
+</main>
+
+<script id="clock-core">(function(){const MODES=['add','subtract','multiply','divide'];function pick(max){return Math.floor(Math.random()*(max+1))}function addition(target){if(target===0)return{left:0,operator:'+',right:0};const left=pick(target);return{left,operator:'+',right:target-left}}function subtraction(target){if(target===0){const right=1+pick(8);return{left:right,operator:'−',right}}const right=1+pick(8);return{left:target+right,operator:'−',right}}function factors(target){if(target===0)return[2,3,4,5,6,7,8,9];const values=[];for(let n=1;n<=target;n++)if(target%n===0&&target/n<=12)values.push(n);return values.length?values:[1]}function multiplication(target){const divisor=factors(target)[pick(factors(target).length-1)];return target===0?{left:0,operator:'×',right:divisor}:{left:target/divisor,operator:'×',right:divisor}}function division(target){const divisor=1+pick(5);return{left:target*divisor,operator:'÷',right:divisor}}function generateExpression(target,mode='random'){const actual=mode==='random'?MODES[pick(MODES.length-1)]:mode;let expression;if(actual==='add')expression=addition(target);else if(actual==='subtract')expression=subtraction(target);else if(actual==='multiply')expression=multiplication(target);else expression=division(target);return{...expression,mode:actual,value:target,text:`${expression.left} ${expression.operator} ${expression.right}`}}function timeTargets(date=new Date(),use24=true){const actualHours=date.getHours(),hours=use24?actualHours:(actualHours%12||12);return{hours,minutes:date.getMinutes(),actualHours,actualMinutes:date.getMinutes(),period:actualHours>=12?'PM':'AM'}}window.maskClockCore={MODES,pick,addition,subtraction,factors,multiplication,division,generateExpression,timeTargets}})();</script>
+<script>(function(){const core=window.maskClockCore,$=id=>document.getElementById(id),state={mode:'random',use24:true,lastKey:''};function pad(value){return String(value).padStart(2,'0')}function render(now=new Date()){const time=core.timeTargets(now,state.use24),key=[time.hours,time.minutes,state.mode,state.use24].join(':');if(key!==state.lastKey){const hours=core.generateExpression(time.hours,state.mode),minutes=core.generateExpression(time.minutes,state.mode);$('hours-expression').innerHTML=`${hours.text}<small>час</small>`;$('minutes-expression').innerHTML=`${minutes.text}<small>минуты</small>`;$('period').textContent=state.use24?'24 h':time.period;$('spoken-time').textContent=`Текущее время ${pad(time.actualHours)}:${pad(time.actualMinutes)}`;$('updated').textContent=`${pad(time.actualHours)}:${pad(time.actualMinutes)}`;state.lastKey=key}$('colon').classList.toggle('dim',Math.floor(Date.now()/500)%2===0)}function setMode(mode){state.mode=mode;document.querySelectorAll('[data-mode]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.mode===mode)));state.lastKey='';render()}document.querySelectorAll('[data-mode]').forEach(button=>button.addEventListener('click',()=>setMode(button.dataset.mode)));$('format').addEventListener('click',()=>{state.use24=!state.use24;$('format').textContent=state.use24?'24 часа':'12 часов';$('format').setAttribute('aria-pressed',String(state.use24));state.lastKey='';render()});render();setInterval(()=>render(new Date()),250)})()</script>
+</body>
+</html>

@@ -57,7 +57,7 @@ chmod 644 "$TARGET"/*.html "$TARGET"/*.json "$TARGET"/*.js 2>/dev/null || true
 # Public URLs stay flat; categories exist only in the source tree.
 declare -A CELL_CATEGORIES=(
   [breathing]=tools [focus]=tools [palette]=tools
-  [dice]=games [reaction]=games [color-life]=games [life-3d]=games
+  [dice]=games [reaction]=games [color-life]=games [life-3d]=games [mask-clock]=tools
   [elon]=knowledge [habits]=knowledge [laziness]=knowledge
 )
 for slug in "${!CELL_CATEGORIES[@]}"; do

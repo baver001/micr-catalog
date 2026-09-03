@@ -14,7 +14,8 @@ const required = [
   'data/i18n/en.json',
   'infra/deploy.sh',
   'server/api/index.js',
-  'cells/knowledge/laziness/index.html'
+  'cells/knowledge/laziness/index.html',
+  'cells/tools/mask-clock/index.html'
 ];
 
 const failures = [];

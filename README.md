@@ -97,7 +97,7 @@ Pushes to `main` run the quality gate and, after the `production` environment is
 This specific repo (`baver001/micr-catalog`) is the **live deployment source** for [micr.fun](https://micr.fun). It contains:
 
 - Personal branding and copy (Russian language, "Лень", etc.)
-- 5 custom micro-apps
+- 6 custom micro-apps
 - The running production configuration
 
 The previously documented `micrfun/micr` engine upstream is not currently verified. Do not treat this personal repository as a generic engine or fork it for unrelated catalogs until a canonical engine repository is confirmed.

@@ -1,5 +1,5 @@
 {
-  "hubCatalog": ["laziness", "mapmapmaps", "cameravox", "color-life", "life-3d"],
+  "hubCatalog": ["laziness", "mapmapmaps", "cameravox", "color-life", "life-3d", "mask-clock"],
   "surfaces": {
     "laziness": {
       "type": "cell",
@@ -26,6 +26,13 @@
       "mascot": { "rx": 16, "face": "#38bdf8" },
       "pwa": { "scope": "https://cameravox.micr.fun/", "start_url": "https://cameravox.micr.fun/" }
     },
+    "mask-clock": {
+      "type": "cell",
+      "category": "tools",
+      "hubCategory": "tools",
+      "mascot": { "rx": 16, "face": "#b99cff" },
+      "pwa": { "scope": "/mask-clock/", "start_url": "/mask-clock/" }
+    },
     "color-life": {
       "type": "cell",
       "category": "experiments",
@@ -51,7 +58,7 @@
   "hubFilters": {
     "games": ["mapmapmaps"],
     "experiments": ["color-life", "life-3d"],
-    "tools": ["cameravox"],
+    "tools": ["cameravox", "mask-clock"],
     "knowledge": ["laziness"]
   }
 }

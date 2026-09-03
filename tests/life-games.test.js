@@ -20,6 +20,14 @@ for (const file of ['cells/games/color-life/index.html', 'cells/games/life-3d/in
   assert.strictEqual(core.worldKey(-2, 7), '-2,7');
   assert.strictEqual(core.mixColors([[255,0,0],[0,255,0]]).saturation > 0.7, true);
   assert.strictEqual(core.mixColors([[255,0,0],[0,255,0]]).value > 0.8, true);
+  if (file.endsWith('color-life/index.html')) {
+    assert.strictEqual(Math.max(...core.mixColors([[255,0,0],[0,255,0]], true).rgb), 255);
+    const palette = [[255,89,100], [98,237,154], [109,168,255]];
+    assert.strictEqual(JSON.stringify(core.cycleColor(null, palette)), '[255,89,100]');
+    assert.strictEqual(JSON.stringify(core.cycleColor(palette[0], palette)), '[98,237,154]');
+    assert.strictEqual(JSON.stringify(core.cycleColor(palette[1], palette)), '[109,168,255]');
+    assert.strictEqual(core.cycleColor(palette[2], palette), null);
+  }
   const sparse = new Map([['0,0',[255,0,0]], ['1,0',[255,0,0]], ['2,0',[255,0,0]]]);
   assert.strictEqual(core.stepSparse(sparse).has('1,-1'), true);
   if (file.endsWith('life-3d/index.html')) {
