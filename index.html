@@ -720,6 +720,7 @@ body {
     <div class="catalog-toolbar__filters" id="filters">
       <button class="filter-btn active" type="button" data-filter="all" data-i18n="categories.all">Все</button>
       <button class="filter-btn" type="button" data-filter="games" data-i18n="categories.games">Игры</button>
+      <button class="filter-btn" type="button" data-filter="experiments" data-i18n="categories.experiments">Эксперименты</button>
       <button class="filter-btn" type="button" data-filter="tools" data-i18n="categories.tools">Инструменты</button>
       <button class="filter-btn" type="button" data-filter="knowledge" data-i18n="categories.knowledge">Знания</button>
     </div>
@@ -754,12 +755,15 @@ body {
 const APPS = [
   { id: 'laziness', category: 'knowledge', color: '#2da87a', views: 9200, url: '/laziness/', icon: 'coffee' },
   { id: 'mapmapmaps', category: 'games', color: '#22c55e', views: 0, url: '/play/mapmapmaps/', icon: 'map' },
-  { id: 'cameravox', category: 'tools', color: '#38bdf8', views: 0, url: '/play/cameravox/', icon: 'camera' }
+  { id: 'cameravox', category: 'tools', color: '#38bdf8', views: 0, url: '/play/cameravox/', icon: 'camera' },
+  { id: 'color-life', category: 'experiments', color: '#ef5b73', views: 0, url: '/color-life/', icon: 'rainbow' },
+  { id: 'life-3d', category: 'experiments', color: '#66a8ff', views: 0, url: '/life-3d/', icon: 'cube' }
 ];
 
 const FILTER_COLORS = {
   all: '#3b82f6',
   games: '#f59e0b',
+  experiments: '#ef5b73',
   tools: '#3b82f6',
   knowledge: '#2da87a'
 };

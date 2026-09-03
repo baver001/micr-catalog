@@ -1,5 +1,5 @@
 {
-  "hubCatalog": ["laziness", "mapmapmaps", "cameravox"],
+  "hubCatalog": ["laziness", "mapmapmaps", "cameravox", "color-life", "life-3d"],
   "surfaces": {
     "laziness": {
       "type": "cell",
@@ -26,6 +26,20 @@
       "mascot": { "rx": 16, "face": "#38bdf8" },
       "pwa": { "scope": "https://cameravox.micr.fun/", "start_url": "https://cameravox.micr.fun/" }
     },
+    "color-life": {
+      "type": "cell",
+      "category": "experiments",
+      "hubCategory": "experiments",
+      "mascot": { "rx": 14, "face": "#ef5b73" },
+      "pwa": { "scope": "/color-life/", "start_url": "/color-life/" }
+    },
+    "life-3d": {
+      "type": "cell",
+      "category": "experiments",
+      "hubCategory": "experiments",
+      "mascot": { "rx": 14, "face": "#66a8ff" },
+      "pwa": { "scope": "/life-3d/", "start_url": "/life-3d/" }
+    },
     "breathing": { "type": "cell", "category": "tools", "mascot": { "rx": 20, "face": "#2da87a" } },
     "focus": { "type": "cell", "category": "tools", "mascot": { "rx": 9, "face": "#3d6fd4" } },
     "dice": { "type": "cell", "category": "games", "mascot": { "rx": 8, "face": "#c4922a" } },
@@ -36,6 +50,7 @@
   },
   "hubFilters": {
     "games": ["mapmapmaps"],
+    "experiments": ["color-life", "life-3d"],
     "tools": ["cameravox"],
     "knowledge": ["laziness"]
   }

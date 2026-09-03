@@ -31,8 +31,12 @@ if [ -f "$TARGET/data/feedback.json" ] && [ ! -f "$FEEDBACK_FILE" ]; then
 fi
 
 echo -e "${BLUE}📦 Syncing public files...${NC}"
-rm -rf "$TARGET/apps" "$TARGET/admin" "$TARGET/cells" "$TARGET/data" "$TARGET/locales" "$TARGET/play"
-cp -r apps admin cells data locales play "$TARGET/"
+rm -rf "$TARGET/apps" "$TARGET/admin" "$TARGET/assets" "$TARGET/cells" "$TARGET/data" "$TARGET/js" "$TARGET/locales" "$TARGET/play"
+for directory in apps admin assets cells data js locales play; do
+  if [ -d "$directory" ]; then
+    cp -r "$directory" "$TARGET/"
+  fi
+done
 cp index.html laziness.html manifest.json sw.js "$TARGET/"
 
 for asset in favicon.svg icon.svg logo-sm.png logo.png logo.svg; do
@@ -42,16 +46,18 @@ for asset in favicon.svg icon.svg logo-sm.png logo.png logo.svg; do
 done
 
 # Public static assets must be readable by nginx/www-data. Source files may be private (0600).
-for directory in apps admin cells data locales play; do
-  find "$TARGET/$directory" -type d -exec chmod 755 {} +
-  find "$TARGET/$directory" -type f -exec chmod 644 {} +
+for directory in apps admin assets cells data js locales play; do
+  if [ -d "$TARGET/$directory" ]; then
+    find "$TARGET/$directory" -type d -exec chmod 755 {} +
+    find "$TARGET/$directory" -type f -exec chmod 644 {} +
+  fi
 done
 chmod 644 "$TARGET"/*.html "$TARGET"/*.json "$TARGET"/*.js 2>/dev/null || true
 
 # Public URLs stay flat; categories exist only in the source tree.
 declare -A CELL_CATEGORIES=(
   [breathing]=tools [focus]=tools [palette]=tools
-  [dice]=games [reaction]=games
+  [dice]=games [reaction]=games [color-life]=games [life-3d]=games
   [elon]=knowledge [habits]=knowledge [laziness]=knowledge
 )
 for slug in "${!CELL_CATEGORIES[@]}"; do

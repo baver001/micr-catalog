@@ -51,6 +51,14 @@
     "cameravox": {
       "name": "Cameravox",
       "description": "Theremín visual: toca con el movimiento de las manos"
+    },
+    "color-life": {
+      "name": "Color Life",
+      "description": "Conway Life with RGB cells that mix into colonies"
+    },
+    "life-3d": {
+      "name": "Life 3D",
+      "description": "Colored Conway generations rising as layers"
     }
   },
   "ui": {
