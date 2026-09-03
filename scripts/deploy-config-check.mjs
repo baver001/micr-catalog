@@ -28,7 +28,7 @@ for (const relativePath of requiredFiles) {
 }
 
 const deployScript = read('infra/deploy.sh');
-for (const token of ['sw.js', 'admin', 'locales', 'release.commit', 'FEEDBACK_FILE', 'git status --porcelain', 'pm2']) {
+for (const token of ['sw.js', 'admin', 'locales', 'release.commit', 'FEEDBACK_FILE', 'git status --porcelain', 'npm ci --omit=dev', 'pm2']) {
   assert(deployScript.includes(token), `deploy script does not cover: ${token}`);
 }
 assert(!deployScript.includes('reset --hard'), 'deploy script must not reset the VPS checkout');

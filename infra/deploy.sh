@@ -77,6 +77,11 @@ for slug in "${!CELL_CATEGORIES[@]}"; do
   test -L "$TARGET/$slug"
 done
 
+if [ -f "$PROJECT_DIR/server/api/package-lock.json" ]; then
+  echo -e "${BLUE}📚 Installing API dependencies...${NC}"
+  (cd "$PROJECT_DIR/server/api" && npm ci --omit=dev --ignore-scripts)
+fi
+
 if [ -f "$PROJECT_DIR/server/api/index.js" ]; then
   echo -e "${BLUE}🔄 Restarting API...${NC}"
   pm2 startOrRestart "$PROJECT_DIR/infra/pm2.config.json" --update-env
