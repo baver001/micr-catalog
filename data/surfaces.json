@@ -4,6 +4,7 @@
     "laziness": {
       "type": "cell",
       "mascot": { "rx": 18, "face": "#2da87a" },
+      "preview": { "mode": "tile" },
       "pwa": { "scope": "/laziness/", "start_url": "/laziness/" }
     },
     "mapmapmaps": {
@@ -35,12 +36,12 @@
       "mascot": { "rx": 14, "face": "#66a8ff" },
       "pwa": { "scope": "/life-3d/", "start_url": "/life-3d/" }
     },
-    "breathing": { "type": "cell", "mascot": { "rx": 20, "face": "#2da87a" } },
-    "focus": { "type": "cell", "mascot": { "rx": 9, "face": "#3d6fd4" } },
-    "dice": { "type": "cell", "mascot": { "rx": 8, "face": "#c4922a" } },
-    "reaction": { "type": "cell", "mascot": { "rx": 10, "face": "#e11d58" } },
-    "palette": { "type": "cell", "mascot": { "rx": 17, "face": "#7c4dff" } },
-    "habits": { "type": "cell", "mascot": { "rx": 15, "face": "#2da87a" } },
-    "elon": { "type": "cell", "mascot": { "rx": 12, "face": "#0891b2" } }
+    "breathing": { "type": "cell", "mascot": { "rx": 20, "face": "#2da87a" }, "preview": { "mode": "tile" } },
+    "focus": { "type": "cell", "mascot": { "rx": 9, "face": "#3d6fd4" }, "preview": { "mode": "tile" } },
+    "dice": { "type": "cell", "mascot": { "rx": 8, "face": "#c4922a" }, "preview": { "mode": "tile" } },
+    "reaction": { "type": "cell", "mascot": { "rx": 10, "face": "#e11d58" }, "preview": { "mode": "tile" } },
+    "palette": { "type": "cell", "mascot": { "rx": 17, "face": "#7c4dff" }, "preview": { "mode": "tile" } },
+    "habits": { "type": "cell", "mascot": { "rx": 15, "face": "#2da87a" }, "preview": { "mode": "tile" } },
+    "elon": { "type": "cell", "mascot": { "rx": 12, "face": "#0891b2" }, "preview": { "mode": "tile" } }
   }
 }
