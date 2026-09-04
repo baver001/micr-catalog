@@ -40,7 +40,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          nohup npx --yes serve . -l 4174 --no-port-switching > /tmp/micr-serve.log 2>&1 &
+          nohup python3 -m http.server 4174 --bind 127.0.0.1 > /tmp/micr-serve.log 2>&1 &
           for attempt in {1..20}; do
             if curl --fail --silent http://127.0.0.1:4174/ > /dev/null; then break; fi
             sleep 1
