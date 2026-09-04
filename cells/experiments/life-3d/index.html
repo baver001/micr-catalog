@@ -54,5 +54,5 @@ $("play").onclick=()=>setRunning(!running);$("back").onclick=previous;$("forward
 function resize(){camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2))}addEventListener('resize',resize);seed();updateCam();function animate(now){requestAnimationFrame(animate);if(!autoRotate&&now-lastInteraction>=5000)autoRotate=true;if(autoRotate&&!dragging&&!painting)theta+=.0018;updateCam();renderer.render(scene,camera)}requestAnimationFrame(animate);
 })();
 </script>
-<script src="/data/js/mascot.js"></script><script src="/data/js/pwa-install.js"></script><script src="/data/js/micr-shell.js"></script><script src="/data/js/app-pwa.js"></script><script>MicrShell.mount({slug:'life-3d'});</script>
+<script src="/data/js/mascot.js"></script><script src="/data/js/pwa-install.js"></script><script src="/data/js/micr-shell.js"></script><script src="/data/js/app-pwa.js?v=20260904"></script><script>MicrShell.mount({slug:'life-3d'});</script>
 </body></html>
