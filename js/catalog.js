@@ -40,8 +40,8 @@
       surfaces = await surfaceResponse.json();
       return Object.values(graph.cells || {});
     },
-    getPreviewSrc(slug, lang) { return '/data/previews/' + encodeURIComponent(slug) + '.' + (lang || currentLang) + '.png'; },
-    getFallbackPreviewSrc(slug) { return '/data/previews/' + encodeURIComponent(slug) + '.png'; },
+    getPreviewSrc(slug, lang) { return '/data/previews/' + encodeURIComponent(slug) + '.' + (lang || currentLang) + '.png?v=20260904'; },
+    getFallbackPreviewSrc(slug) { return '/data/previews/' + encodeURIComponent(slug) + '.png?v=20260904'; },
     card(app, lang) {
       const locale = lang || currentLang;
       const surface = surfaces.surfaces && surfaces.surfaces[app.slug] || {};

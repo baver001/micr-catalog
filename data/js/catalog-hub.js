@@ -3,7 +3,7 @@
   const labels={games:'игры',tools:'инструменты',experiments:'эксперименты',knowledge:'знания',creative:'творчество',fun:'развлечения'};
   const copy=(value)=>{if(!value)return '';if(typeof value==='string')return value;const locale=document.documentElement.lang&&document.documentElement.lang.toLowerCase().startsWith('en')?'en':'ru';return value[locale]||value.ru||value.en||Object.values(value)[0]||'';};
   const escape=(value)=>String(value||'').replace(/[&<>\"]/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','\\':'&#92;','"':'&quot;'}[char]));
-  const preview=(id)=>global.micrfun&&global.micrfun.localizedPreviewUrl?global.micrfun.localizedPreviewUrl(id):'/data/previews/'+encodeURIComponent(id)+'.png?v=20260723';
+  const preview=(id)=>global.micrfun&&global.micrfun.localizedPreviewUrl?global.micrfun.localizedPreviewUrl(id,'20260904'):'/data/previews/'+encodeURIComponent(id)+'.png?v=20260904';
   const fallback=(id)=>global.micrfun&&global.micrfun.defaultPreviewUrl?global.micrfun.defaultPreviewUrl(id):'/data/previews/default.png';
   const openUrl=(cell,surface)=>cell&&cell.url||(surface&&surface.url)||'/';
   const grid=document.getElementById('appGrid'),empty=document.getElementById('emptyState'),search=document.getElementById('search'),buttons=document.querySelectorAll('.filter-btn');

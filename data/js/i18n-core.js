@@ -126,13 +126,13 @@
   }
 
   function localizedPreviewUrl(appId, version) {
-    const v = version || '20260723';
+    const v = version || '20260904';
     const lang = currentLang;
     return '/data/previews/' + appId + '.' + lang + '.png?v=' + v;
   }
 
   function defaultPreviewUrl(appId, version) {
-    const v = version || '20260723';
+    const v = version || '20260904';
     return '/data/previews/' + appId + '.png?v=' + v;
   }
 
