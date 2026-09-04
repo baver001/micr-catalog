@@ -15,7 +15,15 @@ const required = [
   'infra/deploy.sh',
   'server/api/index.js',
   'cells/knowledge/laziness/index.html',
-  'cells/tools/mask-clock/index.html'
+  'cells/tools/mask-clock/index.html',
+  'cells/games/index.html',
+  'cells/tools/index.html',
+  'cells/experiments/index.html',
+  'cells/knowledge/index.html',
+  'data/js/micr-shell.js',
+  'data/styles/micr-shell.css',
+  'scripts/generate-previews.mjs',
+  'scripts/preview-check.mjs'
 ];
 
 const failures = [];
@@ -37,6 +45,11 @@ const surfaces = readJson('data/surfaces.json');
 if (graph?.cells && surfaces?.surfaces) {
   for (const slug of Object.keys(graph.cells)) {
     if (!surfaces.surfaces[slug]) failures.push(`graph cell has no surface entry: ${slug}`);
+    const cell = graph.cells[slug];
+    if (cell.url?.startsWith('/') && surfaces.surfaces[slug]?.type === 'cell') {
+      const canonical = path.join(root, 'cells', cell.category, slug, 'index.html');
+      if (!fs.existsSync(canonical)) failures.push(`missing canonical cell page: ${slug}`);
+    }
   }
 }
 
@@ -56,7 +69,9 @@ if (fs.existsSync(lazinessRoute)) {
   const routeStat = fs.lstatSync(lazinessRoute);
   if (routeStat.isSymbolicLink()) {
     const lazinessLink = fs.readlinkSync(lazinessRoute);
-    if (lazinessLink !== 'cells/knowledge/laziness') {
+    const expected = path.resolve(root, 'cells/knowledge/laziness');
+    const resolved = path.resolve(path.dirname(lazinessRoute), lazinessLink);
+    if (resolved !== expected && fs.realpathSync(lazinessRoute) !== expected) {
       failures.push(`unexpected laziness route target: ${lazinessLink}`);
     }
   } else {

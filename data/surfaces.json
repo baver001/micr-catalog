@@ -1,47 +1,51 @@
 {
-  "hubCatalog": ["laziness", "mapmapmaps", "cameravox", "color-life", "life-3d", "mask-clock"],
+  "hubCatalog": ["laziness", "mapmapmaps", "cameravox", "color-life", "life-3d", "mask-clock", "breathing", "focus", "palette", "dice", "reaction", "habits", "elon"],
   "surfaces": {
     "laziness": {
       "type": "cell",
       "mascot": { "rx": 18, "face": "#2da87a" },
       "preview": { "mode": "tile" },
-      "pwa": { "scope": "/laziness/", "start_url": "/laziness/" }
+      "pwa": { "scope": "/laziness/", "start_url": "/laziness/" },
+      "shell": { "enabled": true, "version": "0.2.0" }
     },
     "mapmapmaps": {
       "type": "external",
       "embedUrl": "/play/mapmapmaps/",
       "mascot": { "rx": 12, "face": "#22c55e", "shape": "pin" },
-      "pwa": { "scope": "https://mapmapmaps.micr.fun/", "start_url": "https://mapmapmaps.micr.fun/" }
+      "pwa": { "scope": "https://mapmapmaps.micr.fun/", "start_url": "https://mapmapmaps.micr.fun/" },
+      "shell": { "enabled": false, "version": "0.2.0", "exception": "external-origin app owns its runtime; catalog wrapper remains the navigation host" }
     },
     "cameravox": {
       "type": "external",
       "embedUrl": "/play/cameravox/",
       "mascot": { "rx": 16, "face": "#38bdf8" },
-      "pwa": { "scope": "https://cameravox.micr.fun/", "start_url": "https://cameravox.micr.fun/" }
+      "pwa": { "scope": "https://cameravox.micr.fun/", "start_url": "https://cameravox.micr.fun/" },
+      "shell": { "enabled": false, "version": "0.2.0", "exception": "external-origin app owns its runtime; catalog wrapper remains the navigation host" }
     },
     "mask-clock": {
       "type": "cell",
       "mascot": { "rx": 16, "face": "#b99cff" },
       "pwa": { "scope": "/mask-clock/", "start_url": "/mask-clock/" },
-      "shell": { "enabled": true, "version": "0.1.0" }
+      "shell": { "enabled": true, "version": "0.2.0" }
     },
     "color-life": {
       "type": "cell",
       "mascot": { "rx": 14, "face": "#ef5b73" },
       "pwa": { "scope": "/color-life/", "start_url": "/color-life/" },
-      "shell": { "enabled": true, "version": "0.1.0" }
+      "shell": { "enabled": true, "version": "0.2.0" }
     },
     "life-3d": {
       "type": "cell",
       "mascot": { "rx": 14, "face": "#66a8ff" },
-      "pwa": { "scope": "/life-3d/", "start_url": "/life-3d/" }
+      "pwa": { "scope": "/life-3d/", "start_url": "/life-3d/" },
+      "shell": { "enabled": true, "version": "0.2.0" }
     },
-    "breathing": { "type": "cell", "mascot": { "rx": 20, "face": "#2da87a" }, "preview": { "mode": "tile" } },
-    "focus": { "type": "cell", "mascot": { "rx": 9, "face": "#3d6fd4" }, "preview": { "mode": "tile" } },
-    "dice": { "type": "cell", "mascot": { "rx": 8, "face": "#c4922a" }, "preview": { "mode": "tile" } },
-    "reaction": { "type": "cell", "mascot": { "rx": 10, "face": "#e11d58" }, "preview": { "mode": "tile" } },
-    "palette": { "type": "cell", "mascot": { "rx": 17, "face": "#7c4dff" }, "preview": { "mode": "tile" } },
-    "habits": { "type": "cell", "mascot": { "rx": 15, "face": "#2da87a" }, "preview": { "mode": "tile" } },
-    "elon": { "type": "cell", "mascot": { "rx": 12, "face": "#0891b2" }, "preview": { "mode": "tile" } }
+    "breathing": { "type": "cell", "mascot": { "rx": 20, "face": "#2da87a" }, "preview": { "mode": "tile" }, "pwa": { "scope": "/breathing/", "start_url": "/breathing/" }, "shell": { "enabled": true, "version": "0.2.0" } },
+    "focus": { "type": "cell", "mascot": { "rx": 9, "face": "#3d6fd4" }, "preview": { "mode": "tile" }, "pwa": { "scope": "/focus/", "start_url": "/focus/" }, "shell": { "enabled": true, "version": "0.2.0" } },
+    "dice": { "type": "cell", "mascot": { "rx": 8, "face": "#c4922a" }, "preview": { "mode": "tile" }, "pwa": { "scope": "/dice/", "start_url": "/dice/" }, "shell": { "enabled": true, "version": "0.2.0" } },
+    "reaction": { "type": "cell", "mascot": { "rx": 10, "face": "#e11d58" }, "preview": { "mode": "tile" }, "pwa": { "scope": "/reaction/", "start_url": "/reaction/" }, "shell": { "enabled": true, "version": "0.2.0" } },
+    "palette": { "type": "cell", "mascot": { "rx": 17, "face": "#7c4dff" }, "preview": { "mode": "tile" }, "pwa": { "scope": "/palette/", "start_url": "/palette/" }, "shell": { "enabled": true, "version": "0.2.0" } },
+    "habits": { "type": "cell", "mascot": { "rx": 15, "face": "#2da87a" }, "preview": { "mode": "tile" }, "pwa": { "scope": "/habits/", "start_url": "/habits/" }, "shell": { "enabled": true, "version": "0.2.0" } },
+    "elon": { "type": "cell", "mascot": { "rx": 12, "face": "#0891b2" }, "preview": { "mode": "tile" }, "pwa": { "scope": "/elon/", "start_url": "/elon/" }, "shell": { "enabled": true, "version": "0.2.0" } }
   }
 }

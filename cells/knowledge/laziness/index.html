@@ -26,7 +26,8 @@
 
 <link rel="stylesheet" href="/data/styles/mascot.css">
 
-<link rel="stylesheet" href="/data/styles/cross-nav.css">
+<link rel="stylesheet" href="/data/styles/micr-shell.css">
+<link rel="manifest" href="manifest.webmanifest">
 
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 
@@ -116,20 +117,17 @@
 
 
 
-<div id="micr-cross-nav-root"></div>
-
-
-
 <script src="/data/js/i18n-core.js"></script>
 
 <script src="/data/js/mascot.js"></script>
 
 <script src="/data/js/pwa-install.js"></script>
-
-<script src="/data/js/cross-nav.js"></script>
+<script src="/data/js/micr-shell.js"></script>
+<script src="/data/js/app-pwa.js"></script>
 
 <script src="/data/js/cells.js"></script>
 
+<script>MicrShell.mount({slug:'laziness'});</script>
 <script>
 
 (function(){

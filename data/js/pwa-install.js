@@ -1,42 +1,38 @@
-/* Per-surface PWA install helpers (manifest route TBD per app) */
+/* Lightweight per-surface install contract. */
 (function (global) {
   'use strict';
 
   let deferredPrompt = null;
+  const announce = () => global.dispatchEvent(new CustomEvent('micr:pwa-installable'));
 
-  global.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
+  global.addEventListener('beforeinstallprompt', event => {
+    event.preventDefault();
+    deferredPrompt = event;
+    announce();
+  });
+  global.addEventListener('appinstalled', () => {
+    deferredPrompt = null;
+    announce();
   });
 
-  function canInstall() {
-    return Boolean(deferredPrompt);
-  }
-
-  function isStandalone() {
-    return Boolean(
-      (global.matchMedia && global.matchMedia('(display-mode: standalone)').matches) ||
-      global.navigator.standalone === true
-    );
-  }
-
-  function isIOS() {
-    return /iphone|ipad|ipod/i.test(global.navigator.userAgent || '') && !global.MSStream;
-  }
-
-  function promptInstall() {
-    if (!deferredPrompt) return Promise.resolve(false);
-    deferredPrompt.prompt();
-    return deferredPrompt.userChoice.then((choice) => {
-      deferredPrompt = null;
-      return choice.outcome === 'accepted';
-    });
-  }
+  const isStandalone = () => Boolean(
+    (global.matchMedia && global.matchMedia('(display-mode: standalone)').matches) ||
+    global.navigator.standalone === true
+  );
+  const isIOS = () => /iphone|ipad|ipod/i.test(global.navigator.userAgent || '') && !global.MSStream;
 
   global.MicrPwa = {
-    canInstall: () => canInstall(),
-    promptInstall: () => promptInstall(),
-    isStandalone: () => isStandalone(),
-    isIOS: () => isIOS()
+    canInstall: () => Boolean(deferredPrompt) && !isStandalone(),
+    promptInstall: async () => {
+      if (!deferredPrompt || isStandalone()) return false;
+      const prompt = deferredPrompt;
+      deferredPrompt = null;
+      prompt.prompt();
+      const choice = await prompt.userChoice;
+      announce();
+      return choice && choice.outcome === 'accepted';
+    },
+    isStandalone,
+    isIOS
   };
 })(window);

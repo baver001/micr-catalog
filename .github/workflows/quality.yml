@@ -19,6 +19,8 @@ jobs:
         run: npm run check:static
       - name: Validate registry and Micr Shell surfaces
         run: npm run check:registry
+      - name: Validate committed previews
+        run: npm run check:previews
       - name: Validate i18n keys
         run: npm run check:i18n
       - name: Validate deployment configuration
@@ -30,5 +32,23 @@ jobs:
           while IFS= read -r -d '' file; do
             node --check "$file"
           done < <(find data server scripts -type f \( -name '*.js' -o -name '*.mjs' \) -print0)
+      - name: Install browser smoke tooling
+        run: npm install --global playwright@1.62.0
+      - name: Install Chromium
+        run: playwright install chromium
+      - name: Start static catalog
+        shell: bash
+        run: |
+          set -euo pipefail
+          nohup npx --yes serve . -l 4174 --no-port-switching > /tmp/micr-serve.log 2>&1 &
+          for attempt in {1..20}; do
+            if curl --fail --silent http://127.0.0.1:4174/ > /dev/null; then break; fi
+            sleep 1
+          done
+          curl --fail --silent http://127.0.0.1:4174/ > /dev/null
+      - name: Generate browser previews
+        run: npm run previews
+      - name: Validate browser previews
+        run: npm run check:previews
 
 # This workflow validates the catalog only. It never deploys production.

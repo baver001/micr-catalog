@@ -57,7 +57,7 @@ chmod 644 "$TARGET"/*.html "$TARGET"/*.json "$TARGET"/*.js 2>/dev/null || true
 # Public URLs stay flat; categories exist only in the source tree.
 declare -A CELL_CATEGORIES=(
   [breathing]=tools [focus]=tools [palette]=tools
-  [dice]=games [reaction]=games [color-life]=games [life-3d]=games [mask-clock]=tools
+  [dice]=games [reaction]=games [color-life]=experiments [life-3d]=experiments [mask-clock]=tools
   [elon]=knowledge [habits]=knowledge [laziness]=knowledge
 )
 for slug in "${!CELL_CATEGORIES[@]}"; do
@@ -66,6 +66,17 @@ for slug in "${!CELL_CATEGORIES[@]}"; do
     rm -rf "$link"
   fi
   ln -sfn "cells/${CELL_CATEGORIES[$slug]}/$slug" "$link"
+done
+
+declare -A CATEGORY_ROUTES=(
+  [games]=games [tools]=tools [experiments]=experiments [knowledge]=knowledge
+)
+for category in "${!CATEGORY_ROUTES[@]}"; do
+  link="$TARGET/$category"
+  if [ -e "$link" ] && [ ! -L "$link" ]; then
+    rm -rf "$link"
+  fi
+  ln -sfn "cells/$category" "$link"
 done
 
 echo -e "${BLUE}✅ Verifying deployed tree...${NC}"

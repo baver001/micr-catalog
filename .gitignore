@@ -32,3 +32,17 @@ npm-debug.log*
 .backup/
 test-output/
 .playwright-cli/
+
+# Generated public route links and local visual QA output
+/breathing/
+/color-life/
+/dice/
+/elon/
+/focus/
+/habits/
+/laziness/
+/life-3d/
+/mask-clock/
+/palette/
+/reaction/
+/output/

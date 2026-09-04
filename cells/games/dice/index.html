@@ -5,9 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title id="page-title">micr.fun</title>
 <link rel="stylesheet" href="/data/styles/cells.css">
+<link rel="stylesheet" href="/data/styles/mascot.css">
+<link rel="stylesheet" href="/data/styles/micr-shell.css">
+<link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 </head>
-<body>
+<body data-micr-surface="dice" data-hub-category="games">
 
 <header class="site-header">
   <div class="container">
@@ -63,7 +66,7 @@
   </div>
 </div>
 
-<script src="/data/js/mascot.js"></script>
+<script src="/data/js/mascot.js"></script><script src="/data/js/pwa-install.js"></script><script src="/data/js/micr-shell.js"></script><script src="/data/js/app-pwa.js"></script><script>MicrShell.mount({slug:'dice'});</script>
 <script src="/data/js/cells.js"></script>
 <script>
 (function(){
@@ -96,7 +99,7 @@
 
       const catLabel = (window.micrfun && window.micrfun.t) ?
         window.micrfun.t('categories.' + CAT) : CAT;
-      breadcrumbs.innerHTML = '<a href="/">' + (window.micrfun ? window.micrfun.t('catalog.back') : '← catalog') + '</a>' +
+      breadcrumbs.innerHTML = '<a href="/">' + (window.micrfun && typeof window.micrfun.t === 'function' ? window.micrfun.t('catalog.back') : '← catalog') + '</a>' +
         ' / <a href="/">' + catLabel + '</a>';
 
       // Load content

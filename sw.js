@@ -14,7 +14,7 @@ function isShellAsset(url) {
     url.pathname === '/favicon.svg' || url.pathname === '/icon.svg' ||
     url.pathname === '/manifest.json' || url.pathname === '/data/graph.json' ||
     url.pathname === '/data/surfaces.json' || url.pathname.startsWith('/data/js/') ||
-    url.pathname.startsWith('/data/styles/') || url.pathname.startsWith('/data/previews/');
+    url.pathname.startsWith('/data/styles/');
 }
 
 self.addEventListener('fetch', event => {

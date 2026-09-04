@@ -1,15 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
   <defs>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@800;900&amp;display=swap');
-      .t { font-family: 'Nunito', 'Arial Rounded MT Bold', 'Comic Sans MS', sans-serif; font-weight: 900; }
-    </style>
+    <linearGradient id="face" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#5b8def"/>
+      <stop offset="1" stop-color="#b98cff"/>
+    </linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="3"/></filter>
   </defs>
-  <rect width="100" height="100" rx="20" fill="#0d0c0a"/>
-  <text x="4" y="72" class="t" font-size="60" fill="#b8a9d4">m</text>
-  <text x="35" y="72" class="t" font-size="60" fill="#7fa9c4">i</text>
-  <circle cx="44" cy="14" r="11" fill="#d4c5a9"/>
-  <path d="M40 10 A7 7 0 1 0 40 22 A6 6 0 1 1 40 10Z" fill="#0d0c0a"/>
-  <text x="64" y="72" class="t" font-size="60" fill="#7fc4b8">c</text>
-  <text x="87" y="72" class="t" font-size="60" fill="#a8d4b8">r</text>
+  <rect width="100" height="100" rx="24" fill="#0b0d12"/>
+  <rect x="20" y="20" width="60" height="60" rx="20" fill="#7aa2ff" opacity=".22" filter="url(#glow)"/>
+  <rect x="18" y="15" width="64" height="64" rx="22" fill="url(#face)"/>
+  <rect x="34" y="32" width="10" height="26" rx="5" fill="#fff"/>
+  <rect x="56" y="32" width="10" height="26" rx="5" fill="#fff"/>
+  <circle cx="27" cy="72" r="4" fill="#c6ff3d"/>
 </svg>

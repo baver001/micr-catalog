@@ -8,6 +8,8 @@
     "dev": "npm run link-cells && npx --yes serve . -l 8080 --no-port-switching",
     "dev:api": "cd server/api && npm install && node index.js",
     "deploy": "./infra/deploy.sh",
+    "previews": "node ./scripts/generate-previews.mjs",
+    "check:previews": "node ./scripts/preview-check.mjs",
     "check:static": "node ./scripts/static-smoke.mjs",
     "check:registry": "node ./scripts/registry-check.mjs",
     "check:i18n": "node ./scripts/i18n-check-keys.mjs",
