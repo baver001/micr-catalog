@@ -68,6 +68,7 @@ jobs:
           set -euo pipefail
           test -n "$DEPLOY_USER"
           ssh -p "$DEPLOY_PORT" -o BatchMode=yes -o StrictHostKeyChecking=yes \
+            -o ServerAliveInterval=30 -o ServerAliveCountMax=10 \
             "$DEPLOY_USER@$DEPLOY_HOST" bash -s -- "$RELEASE_SHA" <<'REMOTE'
           set -euo pipefail
           release_sha="$1"
