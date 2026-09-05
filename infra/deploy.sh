@@ -55,10 +55,15 @@ done
 chmod 644 "$TARGET"/*.html "$TARGET"/*.json "$TARGET"/*.js 2>/dev/null || true
 
 # Public URLs stay flat; categories exist only in the source tree.
+# Remove routes retired from the catalog so an old symlink cannot survive a
+# release after its canonical cell has been removed from the source tree.
+for retired in breathing focus palette dice reaction habits elon; do
+  rm -rf "$TARGET/$retired"
+done
+
 declare -A CELL_CATEGORIES=(
-  [breathing]=tools [focus]=tools [palette]=tools
-  [dice]=games [reaction]=games [color-life]=experiments [life-3d]=experiments [mask-clock]=tools
-  [elon]=knowledge [habits]=knowledge [laziness]=knowledge
+  [color-life]=experiments [life-3d]=experiments [mask-clock]=tools
+  [laziness]=knowledge
 )
 for slug in "${!CELL_CATEGORIES[@]}"; do
   link="$TARGET/$slug"

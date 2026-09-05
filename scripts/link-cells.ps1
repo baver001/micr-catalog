@@ -3,17 +3,17 @@ $ErrorActionPreference = "Stop"
 $root = Resolve-Path (Join-Path $PSScriptRoot "..")
 
 $categoryBySlug = [ordered]@{
-  breathing = "tools"
-  focus     = "tools"
-  palette   = "tools"
-  dice      = "games"
-  reaction  = "games"
   'color-life' = "experiments"
   'life-3d'   = "experiments"
   'mask-clock' = "tools"
-  elon      = "knowledge"
-  habits    = "knowledge"
   laziness  = "knowledge"
+}
+
+foreach ($retired in @('breathing', 'focus', 'palette', 'dice', 'reaction', 'habits', 'elon')) {
+  $retiredLink = Join-Path $root $retired
+  if (Test-Path -LiteralPath $retiredLink) {
+    Remove-Item -LiteralPath $retiredLink -Force
+  }
 }
 
 foreach ($entry in $categoryBySlug.GetEnumerator()) {
