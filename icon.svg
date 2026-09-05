@@ -1,15 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
-    <linearGradient id="face" x1="0" y1="0" x2="1" y2="1">
-      <stop stop-color="#5b8def"/>
-      <stop offset="1" stop-color="#b98cff"/>
+    <linearGradient id="border" x1="64" y1="64" x2="448" y2="448" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#9da8ff"/>
+      <stop offset=".52" stop-color="#d9a5e8"/>
+      <stop offset="1" stop-color="#f2b8c9"/>
     </linearGradient>
-    <filter id="glow"><feGaussianBlur stdDeviation="14"/></filter>
+    <filter id="blur" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="32"/>
+    </filter>
   </defs>
-  <rect width="512" height="512" rx="112" fill="#0b0d12"/>
-  <rect x="98" y="98" width="316" height="316" rx="104" fill="#7aa2ff" opacity=".22" filter="url(#glow)"/>
-  <rect x="92" y="72" width="328" height="328" rx="112" fill="url(#face)"/>
-  <rect x="174" y="160" width="52" height="132" rx="26" fill="#fff"/>
-  <rect x="286" y="160" width="52" height="132" rx="26" fill="#fff"/>
-  <circle cx="138" cy="364" r="20" fill="#c6ff3d"/>
+  <rect width="512" height="512" rx="144" fill="#101117"/>
+  <rect x="56" y="56" width="400" height="400" rx="128" fill="#a89aff" opacity=".32" filter="url(#blur)"/>
+  <rect x="64" y="64" width="384" height="384" rx="120" fill="#181a25" stroke="url(#border)" stroke-width="12"/>
+  <circle cx="256" cy="112" r="24" fill="#efd08c"/>
+  <rect x="152" y="176" width="72" height="192" rx="36" fill="#fbf8ff"/>
+  <rect x="288" y="176" width="72" height="192" rx="36" fill="#fbf8ff"/>
+  <circle cx="120" cy="384" r="24" fill="#8ae2cf"/>
 </svg>
